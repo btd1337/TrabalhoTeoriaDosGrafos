@@ -5,16 +5,16 @@ Matrícula: 201465555A
 
 Análise do Grafo
 Número de Vértices: 125
-gr(1): 24
+gr(3): 25
 gr(G): 30
-Adjacência(2,5): NÃO
-Vértices Adjacentes ao Vértice 4:
-4 -> 29 59 106 42 47 86 89 47 60 11 45 92 49 22 39 
+Adjacência(1,91): NÃO
+Vértices Adjacentes ao Vértice 39:
+39 -> 25 68 83 47 117 58 80 74 3 10 111 8 44 55 49 31 16 118 1 3 114 122 74 85 96 24 91 4 
 
-Grafo Induzido do conjunto de Vértices(1, 5, 9)
+Grafo Induzido do conjunto de Vértices(1, 2, 3)
 1 -> 
-5 -> 
-9 -> 
+2 -> 
+3 -> 
 K-Regular: NÃO
 Grafo Completo: NÃO
 Grafo Conexo: SIM

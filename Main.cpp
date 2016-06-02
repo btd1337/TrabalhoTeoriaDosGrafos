@@ -192,12 +192,12 @@ int main(int argc, char** argv)
         outputFile.open(argv[3], ios::out); //Mudar para 2 quando for rodar no terminal
         //Verificar se arquivo de entrada foi aberto
         if(!inputFile){
-            cerr << "ERRO: Arquivo " << argv[1] << " não foi encontrado!" << endl;
+            cerr << "ERRO: Arquivo " << argv[2] << " não foi encontrado!" << endl; //voltar para 1 quando executar no terminal
             return -1;
         }
         //Verificar se arquivo de saída foi criado
         if(!outputFile){
-            cerr << "ERRO: Arquivo " << argv[2] << " não pode ser criado!" << endl;
+            cerr << "ERRO: Arquivo " << argv[3] << " não pode ser criado!" << endl; //voltar para 2 quando executar no terminal
             return -1;
         }
     }
@@ -213,7 +213,7 @@ int main(int argc, char** argv)
 
     //Converte char para string e depois string para long
     string sTamanhoGrafo = string(cTamanhoGrafo);
-    tamanhoGrafo = stol("125"); //voltar para sTamanhoGrafo
+    tamanhoGrafo = stol(sTamanhoGrafo); //voltar para sTamanhoGrafo
 
     cout << "Criando Grafo...\nOK\n" << endl;
     criarGrafo(tamanhoGrafo);
