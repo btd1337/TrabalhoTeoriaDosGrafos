@@ -14,15 +14,8 @@ Grafo grafo;	//cria grafo não direcionado
 
 
 void apresentacaoTrabalho();
-
-void criaCabecalho(long _tamanhoGrafo){
-    outputFile << "Trabalho 1 de Grafos" << endl;
-    outputFile << "Autor: Helder Linhares Bertoldo dos Reis" << endl;
-    outputFile << "Matrícula: 201465555A\n\n" << endl;
-
-    outputFile << "Análise do Grafo" << endl;
-    outputFile << "Número de Vértices: " << _tamanhoGrafo << endl;
-}
+void criaCabecalho(long _tamanhoGrafo);
+void verificaConexo();
 
 void criarGrafo(long _tamanhoGrafo){
     while(--_tamanhoGrafo>0)
@@ -67,6 +60,21 @@ void lerAdjcencias(bool isContainPeso){
     }
 }
 
+void verificaGrauVertice(){
+    int idVertice, op;
+    do {
+        cout << "Digite o id do Vértice que deseja consultar seu Grau: ";
+        cin >> idVertice;
+        if(idVertice<0 || idVertice>=tamanhoGrafo){
+            cout << "Erro: Vértice Inválido!\n" << endl;
+        }else{
+            cout << "Verificando Grau do Vértice " << idVertice << "...\nOK\n" << endl;
+            outputFile << "gr(" << idVertice << "): " << grafo.verificaGrauVertice(idVertice) << endl;
+        }
+        cout << "0- Encerrar Função    1-Escolher Outro Vértice" << endl;
+        cin >> op;
+    }while(op!=0);
+}
 
 void geraGrafoComplementar(){
     Grafo grafoComplementar;
@@ -177,11 +185,56 @@ void geraGrafoInduzido(){
     cout << "Ok\n" << endl;
 }
 
+int exibeMenu(){
+    int opMenu;
+    cout << " 1- Verificar se Grafo é conexo" << endl;
+    cout << " 2- Verificar se o Grafo é bipartido" << endl;
+    cout << " 3- Verificar o Grau de um vértice" << endl;
+    cout << " 4- Verificar o Grau de G" << endl;
+    cout << " 5- Verificar adjacência entre vértices" << endl;
+    cout << " 6- Listar os adjacentes de um nó" << endl;
+    cout << " 7- Dado um conjunto x de vértices, retornar o grafo induzido por x" << endl;
+    cout << " 8- Verificar se o Grafo é K-Regular" << endl;
+    cout << " 9- Retornar o Grafo Complementar G" << endl;
+    cout << "10- Verificar se o Grafo é Completo" << endl;
+    cout << "11- Verificar se o Grafo é Bipartido" << endl;
+    cout << "12- Verificar se o Grafo é conexo" << endl;
+    cout << "13- Verificar se um dado Vértice é de Articulação" << endl;
+    cout << "14- Verificar se uma dada Aresta é Ponte" << endl;
+    cout << " 0- Sair" << endl;
+    cout << "\nOpção: ";
+    cin >> opMenu;
+    return opMenu;
+}
+
+void verificaGrauGrafo() {
+    outputFile << "gr(G): " << grafo.verificaGrauGrafo() << endl;
+    cout << "Verificando Grau do Grafo...\nOK\n" << endl;
+}
+
+void chamaFuncaoEscolhida(int opMenu){
+    switch(opMenu){
+        case 0: {
+            cout << "Algoritmo Encerrado. Os dados foram armazenados em arquivo." << endl;
+            break;
+        }
+        case 1:{
+            verificaConexo();
+        }
+        case 2:{
+            verificaGrauGrafo();
+        }
+        case 3: {
+            verificaGrauVertice();
+        }
+    }
+}
+
 int main(int argc, char** argv)
 {
     bool conexo, bipartido;
     long idVertice, idVerticeOrigem, idVerticeDestino, kRegular;
-    int op;
+    int op, opMenu;
 
     apresentacaoTrabalho();
 
@@ -223,23 +276,11 @@ int main(int argc, char** argv)
 
     criaCabecalho(tamanhoGrafo);
 
-    //1- Verifica Grau de um Vértice
-    do {
-        cout << "Digite o id do Vértice que deseja consultar seu Grau: ";
-        cin >> idVertice;
-        if(idVertice<0 || idVertice>=tamanhoGrafo){
-            cout << "Erro: Vértice Inválido!\n" << endl;
-        }else{
-            cout << "Verificando Grau do Vértice " << idVertice << "...\nOK\n" << endl;
-            outputFile << "gr(" << idVertice << "): " << grafo.verificaGrauVertice(idVertice) << endl;
-        }
-        cout << "0- Encerrar Função    1-Escolher Outro Vértice" << endl;
-        cin >> op;
-    }while(op!=0);
+    do{
+        opMenu = exibeMenu();
+        chamaFuncaoEscolhida(opMenu);
+    }while(opMenu!=0);
 
-    //2- Verifica Grau do Grafo
-    outputFile << "gr(G): " << grafo.verificaGrauGrafo() << endl;
-    cout << "Verificando Grau do Grafo...\nOK\n" << endl;
 
     //3- Verificar Adjacência de 2 Vértices
     do{
@@ -293,11 +334,7 @@ int main(int argc, char** argv)
     //8- Verifica se G é completo
     cout << "Verificando se Grafo é Completo...\nOK\n" << endl;
     outputFile << (grafo.isCompleto() ? "Grafo Completo: SIM" : "Grafo Completo: NÃO") << endl;
-
-    //10- Verifica se é conexo
-    cout << "Verificando se Grafo é Conexo...\nOK\n" << endl;
     conexo = grafo.isConexo();
-    outputFile << (conexo ? "Grafo Conexo: SIM" : "Grafo Conexo: NÃO") << endl;
 
     //9- Verifica se é bipartido
     cout << "Verificando se Grafo é Bipartido...\nOK\n" << endl;
@@ -331,6 +368,23 @@ void apresentacaoTrabalho() {
     cout << "Digite 1 + <Enter> para iniciar o algoritmo...";
     cin >> trash;
     cout << "\n\n";
+}
+
+void criaCabecalho(long _tamanhoGrafo){
+    outputFile << "Trabalho 1 de Grafos" << endl;
+    outputFile << "Autor: Helder Linhares Bertoldo dos Reis" << endl;
+    outputFile << "Matrícula: 201465555A\n\n" << endl;
+
+    outputFile << "Análise do Grafo" << endl;
+    outputFile << "Número de Vértices: " << _tamanhoGrafo << endl;
+}
+
+void verificaConexo() {
+    bool conexo;
+    cout << "Verificando se Grafo é Conexo...\nOK\n" << endl;
+    conexo = grafo.isConexo();
+    outputFile << (conexo ? "Grafo Conexo: SIM" : "Grafo Conexo: NÃO") << endl;
+
 }
 
 
