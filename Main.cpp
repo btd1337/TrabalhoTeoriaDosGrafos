@@ -23,9 +23,9 @@ void criarGrafo(long _tamanhoGrafo);
 
 void lerAdjcencias(bool isContainPeso);
 
-void verificaConexo();
+void verificaGrauVertice();
 
-//verificaBipartido
+void verificaGrauGrafo();
 
 void verificaAdjacenciaVertices();
 
@@ -37,80 +37,16 @@ void verificaKRegularidade();
 
 void geraGrafoComplemetar();
 
-void verificaGrauVertice(){
-    int idVertice, op;
-    do {
-        cout << "Digite o id do Vértice que deseja consultar seu Grau: ";
-        cin >> idVertice;
-        if(idVertice<0 || idVertice>=tamanhoGrafo){
-            cout << "Erro: Vértice Inválido!\n" << endl;
-        }else{
-            cout << "Verificando Grau do Vértice " << idVertice << "...\nOK\n" << endl;
-            outputFile << "gr(" << idVertice << "): " << grafo.verificaGrauVertice(idVertice) << endl;
-        }
-        cout << "0- Encerrar Função    1-Escolher Outro Vértice" << endl;
-        cin >> op;
-    }while(op!=0);
-}
+void verificaGrafoCompleto();
 
-void geraGrafoComplementar(){
+void verificaConexo();
 
-}
+//verificaBipartido
+
+void chamaFuncaoEscolhida(int opMenu);
 
 
-
-
-
-
-void verificaGrauGrafo() {
-    outputFile << "gr(G): " << grafo.verificaGrauGrafo() << endl;
-    cout << "Verificando Grau do Grafo...\nOK\n" << endl;
-}
-
-void chamaFuncaoEscolhida(int opMenu){
-    switch(opMenu){
-        case 0: {
-            cout << "Algoritmo Encerrado. Os dados foram armazenados em arquivo." << endl;
-            break;
-        }
-        case 1:{
-            verificaConexo();
-            break;
-        }
-        case 2:{
-            //Verificar se é bipartido
-            break;
-        }
-        case 3: {
-            verificaGrauVertice();
-            break;
-        }
-        case 4: {
-            verificaGrauGrafo();
-            break;
-        }
-        case 5: {
-            verificaAdjacenciaVertices();
-            break;
-        }
-        case 6: {
-            listaAdjacentesVertice();
-            break;
-        }
-        case 7: {
-            geraGrafoInduzido();
-            break;
-        }
-        case 8: {
-            verificaKRegularidade();
-            break;
-        }
-        case 9: {
-            geraGrafoComplemetar();
-            break;
-        }
-    }
-}
+void verificaBipartido();
 
 int main(int argc, char** argv)
 {
@@ -165,28 +101,6 @@ int main(int argc, char** argv)
 
 
 
-
-
-
-
-
-
-    //8- Verifica se G é completo
-    cout << "Verificando se Grafo é Completo...\nOK\n" << endl;
-    outputFile << (grafo.isCompleto() ? "Grafo Completo: SIM" : "Grafo Completo: NÃO") << endl;
-    conexo = grafo.isConexo();
-
-    //9- Verifica se é bipartido
-    cout << "Verificando se Grafo é Bipartido...\nOK\n" << endl;
-    if(!conexo){
-        outputFile << "Grafo Bipartido: NÃO\n" << endl;
-    }
-    else{
-        bipartido = grafo.isBipartido();
-        outputFile << (bipartido ? "Grafo Bipartido: SIM" : "Grafo Bipartido: NÃO") << endl;
-    }
-
-
     cout << "\nOs dados de análise foram salvos no arquivo de saída" << endl;
 
 
@@ -196,11 +110,6 @@ int main(int argc, char** argv)
 
     return 0;
 }
-
-
-
-
-
 
 
 void apresentacaoTrabalho() {
@@ -224,24 +133,72 @@ void criaCabecalho(long _tamanhoGrafo){
 
 int exibeMenu(){
     int opMenu;
-    cout << " 1- Verificar se Grafo é conexo" << endl;
-    cout << " 2- Verificar se o Grafo é bipartido" << endl;
-    cout << " 3- Verificar o Grau de um vértice" << endl;
-    cout << " 4- Verificar o Grau de G" << endl;
-    cout << " 5- Verificar adjacência entre vértices" << endl;
-    cout << " 6- Listar os adjacentes de um nó" << endl;
-    cout << " 7- Dado um conjunto x de vértices, retornar o grafo induzido por x" << endl;
-    cout << " 8- Verificar se o Grafo é K-Regular" << endl;
-    cout << " 9- Retornar o Grafo Complementar G" << endl;
-    cout << "10- Verificar se o Grafo é Completo" << endl;
-    cout << "11- Verificar se o Grafo é Bipartido" << endl;
-    cout << "12- Verificar se o Grafo é conexo" << endl;
-    cout << "13- Verificar se um dado Vértice é de Articulação" << endl;
-    cout << "14- Verificar se uma dada Aresta é Ponte" << endl;
+
+    cout << " 1- Verificar o Grau de um vértice" << endl;
+    cout << " 2- Verificar o Grau de G" << endl;
+    cout << " 3- Verificar adjacência entre vértices" << endl;
+    cout << " 4- Listar os adjacentes de um nó" << endl;
+    cout << " 5- Dado um conjunto x de vértices, retornar o grafo induzido por x" << endl;
+    cout << " 6- Verificar se o Grafo é K-Regular" << endl;
+    cout << " 7- Retornar o Grafo Complementar G" << endl;
+    cout << " 8- Verificar se o Grafo é Completo" << endl;
+    cout << " 9- Verificar se o Grafo é Bipartido" << endl;
+    cout << "10- Verificar se o Grafo é conexo" << endl;
+    cout << "11- Verificar se um dado Vértice é de Articulação" << endl;
+    cout << "12- Verificar se uma dada Aresta é Ponte" << endl;
     cout << " 0- Sair" << endl;
     cout << "\nOpção: ";
     cin >> opMenu;
     return opMenu;
+}
+
+void chamaFuncaoEscolhida(int opMenu){
+    switch(opMenu){
+        case 0: {
+            cout << "Algoritmo Encerrado. Os dados foram armazenados em arquivo." << endl;
+            break;
+        }
+        case 1: {
+            verificaGrauVertice();
+            break;
+        }
+        case 2: {
+            verificaGrauGrafo();
+            break;
+        }
+        case 3: {
+            verificaAdjacenciaVertices();
+            break;
+        }
+        case 4: {
+            listaAdjacentesVertice();
+            break;
+        }
+        case 5: {
+            geraGrafoInduzido();
+            break;
+        }
+        case 6: {
+            verificaKRegularidade();
+            break;
+        }
+        case 7: {
+            geraGrafoComplemetar();
+            break;
+        }
+        case 8: {
+            verificaGrafoCompleto();
+            break;
+        }
+        case 9:{
+            verificaConexo();
+            break;
+        }
+        case 10:{
+            verificaBipartido();
+            break;
+        }
+    }
 }
 
 void criarGrafo(long _tamanhoGrafo){
@@ -287,12 +244,25 @@ void lerAdjcencias(bool isContainPeso){
     }
 }
 
-void verificaConexo() {
-    bool conexo;
-    cout << "Verificando se Grafo é Conexo...\nOK\n" << endl;
-    conexo = grafo.isConexo();
-    outputFile << (conexo ? "Grafo Conexo: SIM" : "Grafo Conexo: NÃO") << endl;
+void verificaGrauVertice(){
+    int idVertice, op;
+    do {
+        cout << "Digite o id do Vértice que deseja consultar seu Grau: ";
+        cin >> idVertice;
+        if(idVertice<0 || idVertice>=tamanhoGrafo){
+            cout << "Erro: Vértice Inválido!\n" << endl;
+        }else{
+            cout << "Verificando Grau do Vértice " << idVertice << "...\nOK\n" << endl;
+            outputFile << "gr(" << idVertice << "): " << grafo.verificaGrauVertice(idVertice) << endl;
+        }
+        cout << "0- Encerrar Função    1-Escolher Outro Vértice" << endl;
+        cin >> op;
+    }while(op!=0);
+}
 
+void verificaGrauGrafo() {
+    outputFile << "gr(G): " << grafo.verificaGrauGrafo() << endl;
+    cout << "Verificando Grau do Grafo...\nOK\n" << endl;
 }
 
 void verificaAdjacenciaVertices() {
@@ -457,3 +427,23 @@ void geraGrafoComplemetar() {//7 - Retorna o Grafo Complementar
     }
 }
 
+void verificaGrafoCompleto() {//8- Verifica se G é completo
+    cout << "Verificando se Grafo é Completo...\nOK\n" << endl;
+    outputFile << (grafo.isCompleto() ? "Grafo Completo: SIM" : "Grafo Completo: NÃO") << endl;
+}
+
+void verificaConexo() {
+    bool conexo;
+    cout << "Verificando se Grafo é Conexo...\nOK\n" << endl;
+    conexo = grafo.isConexo();
+    outputFile << (conexo ? "Grafo Conexo: SIM" : "Grafo Conexo: NÃO") << endl;
+
+}
+
+void verificaBipartido() {
+
+    cout << "Verificando se Grafo é Bipartido...";
+    outputFile << (grafo.isBipartido() ? "Grafo Bipartido: SIM" : "Grafo Bipartido: NÃO") << endl;
+
+    cout << "\nOK\n\n" << endl;
+}
