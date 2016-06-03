@@ -106,16 +106,17 @@ bool Grafo::auxIsBipartido(int _vertice, int _numPasso, bool isOk){
 }
 
 bool Grafo::isBipartido(){
-    //seta os vértices como não visitados
-    for(int i=0; i< vertices.size(); i++){
-        getVertice(i)->setVisitado(-1);
+    vector<int> verticesNaoVisitados;
+    int passo=0;
+
+    //cria um vetor com os vertices do grafo
+    for(int i=0; i < vertices.size(); i++){
+        verticesNaoVisitados.push_back(vertices[i].getIdVertice());
     }
 
-    if(!auxIsBipartido(0,1,true)){
-        return false;
-    }
+    while(verticesNaoVisitados.size()>0){
 
-    return true;
+    }
 }
 
 long Grafo::verificaGrauVertice(long _idVertice){
