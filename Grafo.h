@@ -40,6 +40,8 @@ public:
     bool verificaAdjacencia(long _idVerticeOrigem, long _idVerticeDestino);
     bool verificaKRegular(long *kRegular);
     bool isCompleto();
+    bool removeVertice(int _idVertice);
+    bool removeAresta(int _idVerticeOrigem, int _idVerticeDestino);
 };
 
 

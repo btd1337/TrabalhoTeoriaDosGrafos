@@ -4,7 +4,7 @@
 
 #include "Grafo.h"
 #include "Vertice.h"
-
+#include "Coloracao.h"
 
 using namespace std;
 
@@ -60,13 +60,13 @@ void Grafo::addVerticeAdjacente(int _verticeOrigem, int _verticeDestino, float _
 }
 
 void Grafo::auxIsConexo(int _vertice){
-    getVertice(_vertice)->setVisitado(1);
+    getVertice(_vertice)->setCorVisita(0);
 
     list<Adjacente> verticesAdjacentes = getVertice(_vertice)->getVerticesAdjacentes();
 
     for (list<Adjacente>::iterator it = verticesAdjacentes.begin(); it != verticesAdjacentes.end() ; it++) {
-        //verifica se o vértice ainda não foi visitado
-        if(getVertice(it->getVerticeAdjacente())->getVisitado() == 0)
+        //verifica se o vértice ainda não foi corVisita
+        if(getVertice(it->getVerticeAdjacente())->getVisitado() == Coloracao.SEMCOR);
             auxIsConexo(it->getVerticeAdjacente());
     }
 
@@ -76,7 +76,7 @@ bool Grafo::isConexo(){
 
     //seta os vértices como não visitados
     for(int i=0; i< vertices.size(); i++){
-        getVertice(i)->setVisitado(0);
+        getVertice(i)->setCorVisita(0);
     }
     auxIsConexo(0);
 
@@ -91,13 +91,13 @@ bool Grafo::isConexo(){
 }
 
 bool Grafo::auxIsBipartido(int _vertice, int _numPasso, bool isOk){
-    getVertice(_vertice)->setVisitado(_numPasso%2);
+    getVertice(_vertice)->setCorVisita(0);
     _numPasso++;    //próximo passo
     list<Adjacente> verticesAdjacentes = getVertice(_vertice)->getVerticesAdjacentes();
 
     for (list<Adjacente>::iterator it = verticesAdjacentes.begin(); it != verticesAdjacentes.end() ; it++) {
-        //verifica se o vértice ainda não foi visitado
-        if(getVertice(it->getVerticeAdjacente())->getVisitado() == -1)
+        //verifica se o vértice ainda não foi corVisita
+        if(getVertice(it->getVerticeAdjacente())->getVisitado() == Coloracao::)
             auxIsConexo(it->getVerticeAdjacente());
         if(getVertice(it->getVerticeAdjacente())->getVisitado() != _numPasso%2)
             return false;
@@ -109,13 +109,15 @@ bool Grafo::isBipartido(){
     vector<int> verticesNaoVisitados;
     int passo=0;
 
-    //cria um vetor com os vertices do grafo
+    //cria uma lista auxiliar com os vertices do grafo
     for(int i=0; i < vertices.size(); i++){
         verticesNaoVisitados.push_back(vertices[i].getIdVertice());
+        vertices[i].setCorVisita(-1);    //-1 = não corVisita
     }
 
-    while(verticesNaoVisitados.size()>0){
+    while(!verticesNaoVisitados.empty()){
 
+        passo++;
     }
 }
 
@@ -158,6 +160,32 @@ bool Grafo::isCompleto(){
     for(int i=0; i < vertices.size(); i++){
         if(getVertice(i)->getVerticesAdjacentes().size() != vertices.size() - 1);
         return false;
+    }
+    return true;
+}
+
+
+bool Grafo::removeVertice(int _idVertice) {
+    return true;
+}
+
+bool Grafo::removeAresta(int _idVerticeOrigem, int _idVerticeDestino) {
+    _idVerticeOrigem++; //corrige o id
+    _idVerticeDestino++;    //corrige o id
+
+    //verifica se os vértices são válidos
+    if(_idVerticeOrigem<1 || _idVerticeDestino<1 || _idVerticeOrigem>vertices.size() || _idVerticeDestino>vertices.size()){
+        cout << "O id dos vértices deve estar entre 1 e " << vertices.size() << endl;
+        return false;
+    }
+
+
+    if(isGrafoDirecionado){
+        getVertice(_idVerticeOrigem)->removeVerticeAdjacente(_idVerticeDestino);
+    }
+    else{
+        getVertice(_idVerticeOrigem)->removeVerticeAdjacente(_idVerticeDestino);
+        getVertice(_idVerticeDestino)->removeVerticeAdjacente(_idVerticeOrigem);
     }
     return true;
 }

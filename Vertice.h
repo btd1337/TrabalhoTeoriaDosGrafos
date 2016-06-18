@@ -9,6 +9,8 @@
 #include <string>
 #include <list>
 #include "Adjacente.h"
+#include "Coloracao.h"
+
 
 using namespace std;
 
@@ -20,7 +22,7 @@ private:
     long idVertice;
     list<Adjacente> verticesAdjacentes;
     static long contVertice;
-    int visitado;
+    Coloracao corVisita;
 
 public:
     Vertice();
@@ -31,8 +33,8 @@ public:
     void addVerticeAdjacente(long _idVerticeAdjacente, float _pesoAresta);
     void removeVerticeAdjacente(long _idVertice);
     string listarAdjacentes();
-    int getVisitado();
-    void setVisitado(int _visitado);
+    Coloracao getVisitado();
+    void setCorVisita(Coloracao _corVisita);
 };
 
 

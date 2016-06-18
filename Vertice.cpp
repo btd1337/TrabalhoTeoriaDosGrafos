@@ -11,7 +11,7 @@ long Vertice::contVertice = 0;
 Vertice::Vertice() {
     idVertice = contVertice;
     contVertice++;
-    visitado = false;
+    corVisita = Coloracao::SEMCOR;  //inicia o vértice sem cor
 }
 
 Vertice::~Vertice() {
@@ -63,11 +63,11 @@ string Vertice::listarAdjacentes()
     return listaDeAdjacentes;
 }
 
-int Vertice::getVisitado(){
-    return visitado;
+Coloracao Vertice::getVisitado(){
+    return corVisita;
 }
 
-void Vertice::setVisitado(int _visitado){
-    visitado = _visitado;
+void Vertice::setCorVisita(Coloracao _corVisita) {
+    corVisita = _corVisita;
 }
 
