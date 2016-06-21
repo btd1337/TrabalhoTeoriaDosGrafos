@@ -8,8 +8,8 @@
       <sourceFolder url="file://$MODULE_DIR$/Vertice.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Vertice.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Grafo.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Adjacente.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Grafo.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Adjacente.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Adjacente.cpp" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />

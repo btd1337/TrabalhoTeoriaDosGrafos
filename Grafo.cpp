@@ -66,7 +66,7 @@ void Grafo::auxIsConexo(int _vertice){
 
     for (list<Adjacente>::iterator it = verticesAdjacentes.begin(); it != verticesAdjacentes.end() ; it++) {
         //verifica se o vértice ainda não foi corVisita
-        if(getVertice(it->getVerticeAdjacente())->getVisitado() == Coloracao.SEMCOR);
+        if(getVertice(it->getVerticeAdjacente())->getVisitado() == Coloracao::SEMCOR);
             auxIsConexo(it->getVerticeAdjacente());
     }
 
@@ -76,12 +76,12 @@ bool Grafo::isConexo(){
 
     //seta os vértices como não visitados
     for(int i=0; i< vertices.size(); i++){
-        getVertice(i)->setCorVisita(0);
+        getVertice(i)->setCorVisita(Coloracao::SEMCOR);
     }
     auxIsConexo(0);
 
     for(int i=0; i< vertices.size(); i++){
-        if(getVertice(0)->getVisitado() == 0){
+        if(getVertice(i)->getVisitado() == Coloracao::SEMCOR){
             return false;
         }
 
