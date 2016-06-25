@@ -22,6 +22,9 @@ class Grafo {
 private:
     vector<Vertice> vertices;
     bool isGrafoDirecionado;
+    bool isBipartido;
+    void atualizaNumeracaoAdjacentes(int _idVertice, int _idVerticeRemovido);
+    bool isVerticesVisitados();
 
 public:
     Grafo();
@@ -33,8 +36,8 @@ public:
     void setIsGrafoDirecionado(bool _isDirecionado);
     void auxIsConexo(int _vertice);
     bool isConexo();
-    bool auxIsBipartido(int _vertice, int _numPasso, bool isOk);
-    bool isBipartido();
+    bool auxIsBipartido(int _vertice, int _numPasso);
+    bool isGrafoBipartido();
     long verificaGrauGrafo();
     long verificaGrauVertice(long _idVertice);
     bool verificaAdjacencia(long _idVerticeOrigem, long _idVerticeDestino);

@@ -9,7 +9,7 @@
 using namespace std;
 
 fstream inputFile, outputFile;
-long tamanhoGrafo=1;
+long tamanhoGrafo=1, kRegular;
 Grafo grafo;	//cria grafo não direcionado
 
 
@@ -48,10 +48,18 @@ void chamaFuncaoEscolhida(int opMenu);
 
 void verificaBipartido();
 
+bool isVerticeArticulacao();
+
+bool isArestaPonte();
+
+void removeAresta();
+
+void removeVertice();
+
 int main(int argc, char** argv)
 {
     bool conexo, bipartido;
-    long idVertice, idVerticeOrigem, idVerticeDestino, kRegular;
+    long idVertice, idVerticeOrigem, idVerticeDestino;
     int op, opMenu;
 
     apresentacaoTrabalho();
@@ -146,6 +154,8 @@ int exibeMenu(){
     cout << "10- Verificar se o Grafo é conexo" << endl;
     cout << "11- Verificar se um dado Vértice é de Articulação" << endl;
     cout << "12- Verificar se uma dada Aresta é Ponte" << endl;
+    cout << "13- Remover Vértice" << endl;
+    cout << "14- Remover Aresta" << endl;
     cout << " 0- Sair" << endl;
     cout << "\nOpção: ";
     cin >> opMenu;
@@ -198,7 +208,50 @@ void chamaFuncaoEscolhida(int opMenu){
             verificaBipartido();
             break;
         }
+        case 11:{
+            isVerticeArticulacao();
+            break;
+        }
+        case 12:{
+            isArestaPonte();
+            break;
+        }
+        case 13:{
+            removeAresta();
+            break;
+        }
+        case 14:{
+            removeVertice();
+            break;
+        }
+        default:{
+            cout << "ERRO: Opção Inválida!" << endl;
+        }
     }
+}
+
+void removeVertice() {
+    long idVertice;
+    cout << "Qual vértice remover? ";
+    cin >> idVertice;
+    grafo.removeVertice(idVertice);
+}
+
+void removeAresta() {
+    long idOrigem, idDestino;
+    cout << "Informe o Vértice de Origem: ";
+    cin >> idOrigem;
+    cout << "\nInforme o Vértice de Destino: ";
+    cin >> idDestino;
+    grafo.removeAresta(idOrigem,idDestino);
+}
+
+bool isArestaPonte() {
+
+}
+
+bool isVerticeArticulacao() {
+
 }
 
 void criarGrafo(long _tamanhoGrafo){
@@ -358,7 +411,7 @@ void geraGrafoInduzido(){
         for(list<Adjacente>::iterator it = verticesAdjacentes.begin(); it != verticesAdjacentes.end() ; it++){
 
             for(int j=0; j<numVertices; j++) {
-                if (it->getVerticeAdjacente() == verticesGrafoInduzido[j])
+                if (it->getIdVertice() == verticesGrafoInduzido[j])
                     outputFile << verticesGrafoInduzido[j] << " ";
             }
         }
@@ -407,7 +460,7 @@ void geraGrafoComplemetar() {//7 - Retorna o Grafo Complementar
 
         //Marca todos adjacentes como true no vetor auxiliar
         for(list<Adjacente>::iterator it = verticesAdjacentes.begin(); it != verticesAdjacentes.end(); ++it){
-            pos = it->getVerticeAdjacente();
+            pos = it->getIdVertice();
             idVerticesAdjacentes[pos] = true;
         }
 
@@ -443,7 +496,7 @@ void verificaConexo() {
 void verificaBipartido() {
 
     cout << "Verificando se Grafo é Bipartido...";
-    outputFile << (grafo.isBipartido() ? "Grafo Bipartido: SIM" : "Grafo Bipartido: NÃO") << endl;
+    outputFile << (grafo.isGrafoBipartido() ? "Grafo Bipartido: SIM" : "Grafo Bipartido: NÃO") << endl;
 
     cout << "\nOK\n\n" << endl;
 }

@@ -60,14 +60,15 @@ void Grafo::addVerticeAdjacente(int _verticeOrigem, int _verticeDestino, float _
 }
 
 void Grafo::auxIsConexo(int _vertice){
-    getVertice(_vertice)->setCorVisita(0);
+    //Seta vértice atual como visitado
+    getVertice(_vertice)->setCorVisita(Coloracao::AZUL);
 
     list<Adjacente> verticesAdjacentes = getVertice(_vertice)->getVerticesAdjacentes();
 
     for (list<Adjacente>::iterator it = verticesAdjacentes.begin(); it != verticesAdjacentes.end() ; it++) {
         //verifica se o vértice ainda não foi corVisita
-        if(getVertice(it->getVerticeAdjacente())->getVisitado() == Coloracao::SEMCOR);
-            auxIsConexo(it->getVerticeAdjacente());
+        if(getVertice(it->getIdVertice())->getVisitado() == Coloracao::SEMCOR);
+            auxIsConexo(it->getIdVertice());
     }
 
 }
@@ -90,35 +91,55 @@ bool Grafo::isConexo(){
     return true;
 }
 
-bool Grafo::auxIsBipartido(int _vertice, int _numPasso, bool isOk){
-    getVertice(_vertice)->setCorVisita(0);
-    _numPasso++;    //próximo passo
-    list<Adjacente> verticesAdjacentes = getVertice(_vertice)->getVerticesAdjacentes();
 
-    for (list<Adjacente>::iterator it = verticesAdjacentes.begin(); it != verticesAdjacentes.end() ; it++) {
-        //verifica se o vértice ainda não foi corVisita
-        if(getVertice(it->getVerticeAdjacente())->getVisitado() == Coloracao::)
-            auxIsConexo(it->getVerticeAdjacente());
-        if(getVertice(it->getVerticeAdjacente())->getVisitado() != _numPasso%2)
+bool Grafo::isVerticesVisitados() {
+
+    for(int i=0; i<vertices.size(); i++){
+        if(vertices[i].getVisitado() == Coloracao::SEMCOR){
             return false;
+        }
     }
     return true;
 }
 
-bool Grafo::isBipartido(){
-    vector<int> verticesNaoVisitados;
+
+bool Grafo::auxIsBipartido(int _vertice, int _numPasso){
+    if(vertices[_vertice].getVisitado() == Coloracao::SEMCOR){
+        //atribui cor
+        _numPasso%2==0? vertices[_vertice].setCorVisita(Coloracao::AZUL) : vertices[_vertice].setCorVisita(Coloracao::VERDE);
+        //chama o método para os adjacentes deste vértice
+        for(list<Adjacente>::iterator it = vertices[_vertice].getVerticesAdjacentes().begin(); it != vertices[_vertice].getVerticesAdjacentes().end(); it++){
+            auxIsBipartido(it->getIdVertice(), _numPasso++);
+        }
+    }
+    else{
+        Coloracao corCorreta;
+        //Verifica qual a cor correta atual
+        _numPasso%2==0? (corCorreta = Coloracao::AZUL) : (corCorreta = Coloracao::VERDE);
+        if(vertices[_vertice].getVisitado() != corCorreta){
+            isBipartido = false;
+        }
+    }
+
+    return true;
+}
+
+bool Grafo::isGrafoBipartido(){
+    vector<bool> verticesVisitados;
     int passo=0;
+    int j=0;
+    isBipartido = true; //seta o grafo como bipartido, caso provado que não seja, a variável é setada com false
 
-    //cria uma lista auxiliar com os vertices do grafo
+    //cria um vetor auxiliar e determina que todos não foram visitados.
     for(int i=0; i < vertices.size(); i++){
-        verticesNaoVisitados.push_back(vertices[i].getIdVertice());
-        vertices[i].setCorVisita(-1);    //-1 = não corVisita
+        verticesVisitados.push_back(false);
+        vertices[i].setCorVisita(Coloracao::SEMCOR);    //marca vértice como não visitado
     }
 
-    while(!verticesNaoVisitados.empty()){
-
-        passo++;
+    while(!isVerticesVisitados()){
+        auxIsBipartido(vertices[j].getIdVertice(),passo);
     }
+    return true;
 }
 
 long Grafo::verificaGrauVertice(long _idVertice){
@@ -140,7 +161,7 @@ bool Grafo::verificaAdjacencia(long _idVerticeOrigem, long _idVerticeDestino){
     list<Adjacente> verticesAdjacentes = getVertice(_idVerticeOrigem)->getVerticesAdjacentes();
 
     for(list<Adjacente>::iterator it = verticesAdjacentes.begin(); it != verticesAdjacentes.end() ; it++){
-        if(it->getVerticeAdjacente() == _idVerticeDestino)
+        if(it->getIdVertice() == _idVerticeDestino)
             return true;
     }
     return false;
@@ -165,7 +186,39 @@ bool Grafo::isCompleto(){
 }
 
 
+void Grafo::atualizaNumeracaoAdjacentes(int _idVertice, int _idVerticeRemovido){
+    //Percorre adjacentes do vértice
+    for (list<Adjacente>::iterator it = vertices[_idVertice].getVerticesAdjacentes().begin(); it != vertices[_idVertice].getVerticesAdjacentes().end() ; it++) {
+        //verifica se id de algum adjacente está acima do valor do vértice removido
+        if(it->getIdVertice() >= _idVerticeRemovido)
+            it->updateIdVertice();
+    }
+}
+
 bool Grafo::removeVertice(int _idVertice) {
+    int idVerticeRemovido = _idVertice;
+    if(_idVertice<1 || _idVertice>vertices.size()){
+        cout << "Vértice inválido!" << endl;
+        return false;
+    }
+    for(int i=0; i< vertices[_idVertice].getVerticesAdjacentes().size();i++){
+
+        //Percorre adjacentes do vértice
+        for (list<Adjacente>::iterator it = vertices[_idVertice].getVerticesAdjacentes().begin(); it != vertices[_idVertice].getVerticesAdjacentes().end() ; it++) {
+            removeAresta(_idVertice, it->getIdVertice());
+        }
+
+        //Atualiza ids dos vértices
+        for(int i=0; i<vertices.size();i++){
+            atualizaNumeracaoAdjacentes(i, idVerticeRemovido);
+
+            //caso o vértice atual esteja acima do vértice removido atualiza a numeração dele.
+            if(i>_idVertice){
+                vertices[i].setIdVertice(i-1);
+            }
+        }
+
+    }
     return true;
 }
 

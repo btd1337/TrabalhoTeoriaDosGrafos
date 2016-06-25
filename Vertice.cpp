@@ -40,7 +40,7 @@ void Vertice::removeVerticeAdjacente(long _idVertice) {
 
     for (list<Adjacente>::iterator it = verticesAdjacentes.begin(); it != verticesAdjacentes.end() ; ++it) {
         //Percorre a lista de adjacentes e verifica se o rótulo é o procurado
-        if(it->getVerticeAdjacente() == _idVertice){
+        if(it->getIdVertice() == _idVertice){
             verticesAdjacentes.erase(it);
             cout << "Vértice removido!" << endl;
             isContainVertice = true;
@@ -57,7 +57,7 @@ string Vertice::listarAdjacentes()
 {
     string listaDeAdjacentes = "";
     for (list<Adjacente>::iterator it = verticesAdjacentes.begin(); it != verticesAdjacentes.end() ; ++it) {
-        listaDeAdjacentes += to_string(it->getVerticeAdjacente());
+        listaDeAdjacentes += to_string(it->getIdVertice());
         listaDeAdjacentes += " ";
     }
     return listaDeAdjacentes;

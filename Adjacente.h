@@ -14,15 +14,16 @@ class Vertice;
 class Adjacente {
 
 private:
-    long idVerticeAdjacente;
+    long idVertice;
     float pesoAresta;
 
 public:
     Adjacente(long _idVerticeAdjacente);
     Adjacente(long _idVerticeAdjacente, float _pesoAresta);
-    long getVerticeAdjacente();
+    long getIdVertice();
     float getPesoDaAresta();
     void setPesoDaAresta(float _pesoAresta);
+    void updateIdVertice(); //usado quando um vértice é removido
     virtual ~Adjacente();
 };
 
