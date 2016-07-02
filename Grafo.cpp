@@ -288,7 +288,8 @@ void Grafo::auxFechoTransitivo(long _idVertice, set<int> *percorridos) {
 }
 
 
-void Grafo::fechoTransitivo(long _idVertice) {
+string Grafo::fechoTransitivo(long _idVertice) {
+    string sFechoTransitivo = "";
     set<int> verticesPercorridos;
 
     //Seta todos como não-visitados
@@ -300,15 +301,93 @@ void Grafo::fechoTransitivo(long _idVertice) {
 
     cout << _idVertice << "-> ";
     for(auto percorridoAtual : verticesPercorridos) {
-        if(percorridoAtual != _idVertice)   //Não inclui o próprio vértice
-            cout << percorridoAtual << " " ;
+        if(percorridoAtual != _idVertice) {   //Não inclui o próprio vértice
+            cout << percorridoAtual << " ";
+            sFechoTransitivo += to_string(percorridoAtual);
+            sFechoTransitivo += " ";
+        }
     }
 
     cout << "\n\n" << endl;
+    return sFechoTransitivo;
 }
 
 
-void Grafo::fechoIntransitivo(long _idVertice) {
+void Grafo::auxFechoIntransitivo(Grafo *grafoAux, long _idVertice, set<int> *percorridos) {
+
+    //Percorre apenas se o vértice já não tiver sido verificado
+
+    percorridos->insert(_idVertice); //insere à lista de vértices percorridos
+
+    grafoAux->getVertice(_idVertice)->setCorVisita(Coloracao::AZUL); //define como visitado
+
+
+    Adjacente it(0);    //Cria um elemento pra iterar ele na lista de adjacentes
+
+    for(it : grafoAux->getVertice(_idVertice)->getVerticesAdjacentes()){
+
+        long adj = it.getIdVertice();
+
+        if(grafoAux->getVertice(adj)->getVisitado() == Coloracao::SEMCOR) {
+
+            auxFechoIntransitivo(grafoAux, adj, percorridos);  //chama recursivamente a função passando os vértices adjacentes
+        }
+    }
+}
+
+
+string Grafo::fechoIntransitivo(long _idVertice) {
+    string sFechoIntransitivo = "";
+    set<int> verticesPercorridos;
+
+    //Seta todos como não-visitados
+    for(int i=0; i<vertices.size();i++){
+        vertices[i].setCorVisita(Coloracao::SEMCOR);
+    }
+
+
+    if(!isGrafoDirecionado) {   //Grafo não-direcionado o caminho de ida é o mesmo de volta
+        auxFechoTransitivo(_idVertice, &verticesPercorridos);
+    }else{
+        //Cria grafo auxiliar, invertendo o sentido de ligação das arestas
+        long i=1;
+        long tamanhoGrafo = vertices.size();
+
+        Grafo grafoAux;
+
+        //O primeiro vértice é criado automaticamente
+        grafoAux.getVertice(0)->setIdVertice(0);
+
+        while(i < tamanhoGrafo){
+            grafoAux.addVertice(i);
+            i++;
+        }
+        grafoAux.setIsGrafoDirecionado(true);
+
+        //Cria Arestas
+        Adjacente adj(0);
+        for(i=0; i<tamanhoGrafo; i++){
+            for(adj : vertices[i].getVerticesAdjacentes()){
+                grafoAux.getVertice(adj.getIdVertice())->addVerticeAdjacente(i,adj.getPesoDaAresta());
+            }
+        }
+
+        auxFechoIntransitivo(&grafoAux,_idVertice,&verticesPercorridos);
+
+    }
+
+
+    cout << _idVertice << "-> ";
+    for(auto percorridoAtual : verticesPercorridos) {
+        if(percorridoAtual != _idVertice) {   //Não inclui o próprio vértice
+            cout << percorridoAtual << " ";
+            sFechoIntransitivo += to_string(percorridoAtual);
+            sFechoIntransitivo += " ";
+        }
+    }
+
+    cout << "\n\n" << endl;
+    return sFechoIntransitivo;
 
 }
 

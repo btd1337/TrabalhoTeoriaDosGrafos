@@ -56,9 +56,9 @@ void removeAresta();
 
 void removeVertice();
 
-void verificaFeixoTransitivo();
+void verificaFechoTransitivo();
 
-void verificaFeixoIntransitivo();
+void verificaFechoIntransitivo();
 
 int main(int argc, char** argv)
 {
@@ -162,8 +162,8 @@ int exibeMenu(){
     cout << "12- Verificar se uma dada Aresta é Ponte" << endl;
     cout << "13- Remover Vértice" << endl;
     cout << "14- Remover Aresta" << endl;
-    cout << "15- Feixo Transitivo" << endl;
-    cout << "16- Feixo Intransitivo" << endl;
+    cout << "15- Fecho Transitivo" << endl;
+    cout << "16- Fecho Intransitivo" << endl;
     cout << " 0- Sair" << endl;
     cout << "\nOpção: ";
     cin >> opMenu;
@@ -233,11 +233,11 @@ void chamaFuncaoEscolhida(int opMenu){
             break;
         }
         case 15:{
-            verificaFeixoTransitivo();
+            verificaFechoTransitivo();
             break;
         }
         case 16:{
-            verificaFeixoIntransitivo();
+            verificaFechoIntransitivo();
             break;
         }
         default:{
@@ -246,9 +246,10 @@ void chamaFuncaoEscolhida(int opMenu){
     }
 }
 
-void verificaFeixoTransitivo() {
+void verificaFechoTransitivo() {
 
     long idVertice;
+    string sFechoTransitivo;
 
     do {
         cout << "Informe o id do Vértice que deseja visitar: ";
@@ -258,13 +259,32 @@ void verificaFeixoTransitivo() {
             cout << "Vertice inválido!\n " << endl;
         }
         else{
-            grafo.fechoTransitivo(idVertice);
+            sFechoTransitivo = grafo.fechoTransitivo(idVertice);
+
+            outputFile << "Fecho Transitivo do Vértice " << idVertice << " -> " ;
+            outputFile << sFechoTransitivo << endl;
         }
     }while (idVertice < 0 || idVertice >= tamanhoGrafo);
 }
 
-void verificaFeixoIntransitivo() {
+void verificaFechoIntransitivo() {
+    long idVertice;
+    string sFechoIntransitivo;
 
+    do {
+        cout << "Informe o id do Vértice que deseja visitar: ";
+        cin >> idVertice;
+
+        if (idVertice < 0 || idVertice >= tamanhoGrafo) {
+            cout << "Vertice inválido!\n " << endl;
+        }
+        else{
+            sFechoIntransitivo = grafo.fechoIntransitivo(idVertice);
+
+            outputFile << "Fecho Intransitivo do Vértice " << idVertice << " -> " ;
+            outputFile << sFechoIntransitivo << endl;
+        }
+    }while (idVertice < 0 || idVertice >= tamanhoGrafo);
 }
 
 void removeVertice() {

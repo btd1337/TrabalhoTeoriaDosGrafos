@@ -31,6 +31,7 @@ private:
     bool isVerticesVisitados();
     bool auxRemoveAresta(int _idVerticeOrigem, int _idVerticeDestino);
     void auxFechoTransitivo(long _idVertice, set<int> *percorridos);
+    void auxFechoIntransitivo(Grafo *grafoAux, long _idVertice, set<int> *percorridos);
 
 public:
     Grafo();
@@ -51,8 +52,8 @@ public:
     bool isCompleto();
     bool removeVertice(int _idVertice);
     bool removeAresta(int _idVerticeOrigem, int _idVerticeDestino);
-    void fechoTransitivo(long _idVertice);
-    void fechoIntransitivo(long _idVertice);
+    string fechoTransitivo(long _idVertice);
+    string fechoIntransitivo(long _idVertice);
 };
 
 
