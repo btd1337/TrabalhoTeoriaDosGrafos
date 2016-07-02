@@ -56,6 +56,10 @@ void removeAresta();
 
 void removeVertice();
 
+void verificaFeixoTransitivo();
+
+void verificaFeixoIntransitivo();
+
 int main(int argc, char** argv)
 {
     bool conexo, bipartido;
@@ -66,7 +70,6 @@ int main(int argc, char** argv)
 
     //Usado 4 para rodar com o Cmake, atualizar para 3 quando for rodar no terminal
     if(argc == 4){
-        cout << argc << endl;
         inputFile.open(argv[2], ios::in);   //Mudar para 1 quando for rodar no terminal
         outputFile.open(argv[3], ios::out); //Mudar para 2 quando for rodar no terminal
         //Verificar se arquivo de entrada foi aberto
@@ -122,8 +125,11 @@ int main(int argc, char** argv)
 
 void apresentacaoTrabalho() {
     char trash;
-    cout << "Trabalho 1 de Teoria dos Grafos\n" << endl;
-    cout << "Obs: Os dados serão gerados automaticamente para o arquivo de saída informado por parâmetro.\n" << endl;
+    cout << "\n\n";
+    cout << "#############################################" << endl;
+    cout << "\tTrabalho de Teoria dos Grafos" << endl;
+    cout << "#############################################" << endl;
+    cout << "\nObs: Os dados serão gerados automaticamente para o arquivo de saída informado por parâmetro.\n" << endl;
 
     cout << "Digite 1 + <Enter> para iniciar o algoritmo...";
     cin >> trash;
@@ -156,6 +162,8 @@ int exibeMenu(){
     cout << "12- Verificar se uma dada Aresta é Ponte" << endl;
     cout << "13- Remover Vértice" << endl;
     cout << "14- Remover Aresta" << endl;
+    cout << "15- Feixo Transitivo" << endl;
+    cout << "16- Feixo Intransitivo" << endl;
     cout << " 0- Sair" << endl;
     cout << "\nOpção: ";
     cin >> opMenu;
@@ -217,17 +225,46 @@ void chamaFuncaoEscolhida(int opMenu){
             break;
         }
         case 13:{
-            removeAresta();
+            removeVertice();
             break;
         }
         case 14:{
-            removeVertice();
+            removeAresta();
+            break;
+        }
+        case 15:{
+            verificaFeixoTransitivo();
+            break;
+        }
+        case 16:{
+            verificaFeixoIntransitivo();
             break;
         }
         default:{
             cout << "ERRO: Opção Inválida!" << endl;
         }
     }
+}
+
+void verificaFeixoTransitivo() {
+
+    long idVertice;
+
+    do {
+        cout << "Informe o id do Vértice que deseja visitar: ";
+        cin >> idVertice;
+
+        if (idVertice < 0 || idVertice >= tamanhoGrafo) {
+            cout << "Vertice inválido!\n " << endl;
+        }
+        else{
+            grafo.fechoTransitivo(idVertice);
+        }
+    }while (idVertice < 0 || idVertice >= tamanhoGrafo);
+}
+
+void verificaFeixoIntransitivo() {
+
 }
 
 void removeVertice() {
@@ -255,10 +292,30 @@ bool isVerticeArticulacao() {
 }
 
 void criarGrafo(long _tamanhoGrafo){
-    while(--_tamanhoGrafo>0)
-        grafo.addVertice();
+    long i=1;
+    int op;
 
-    grafo.setIsGrafoDirecionado(false);	//informa se o grafo é direcionado
+    //O primeiro vértice é criado automaticamente
+    grafo.getVertice(0)->setIdVertice(0);
+
+
+    while(i < _tamanhoGrafo) {
+        grafo.addVertice(i);
+        i++;
+    }
+
+    //Verifica se o grafo é direcionado
+    do{
+        cout << "O Gráfico é direcionado? " << endl;
+        cout << "0-Não\t 1-Sim" << endl;
+        cin >> op;
+        if(op<0 || op>1){
+            cout << "ERRO: Opção Inválida!" << endl;
+        }else{
+            op == 0 ? grafo.setIsGrafoDirecionado(false): grafo.setIsGrafoDirecionado(true);
+        }
+
+    }while(op<0 || op>1);
 }
 
 void lerAdjcencias(bool isContainPeso){
@@ -275,7 +332,6 @@ void lerAdjcencias(bool isContainPeso){
             verticeOrigem = stol(sVerticeOrigem);
             verticeDestino = stol(sVerticeDestino);
 
-            //acrescenta 1 para os vértices iniciados por 0
             grafo.addVerticeAdjacente(verticeOrigem, verticeDestino, 0.0);
         }
     }
@@ -448,7 +504,7 @@ void geraGrafoComplemetar() {//7 - Retorna o Grafo Complementar
 
     //Cria Grafo
     while(--tamanhoGrafoAux>=0) {
-        grafoComplementar.addVertice();
+        grafoComplementar.addVertice(0);
     }
     grafoComplementar.setIsGrafoDirecionado(false);	//informa se o grafo é direcionado
 

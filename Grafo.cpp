@@ -34,9 +34,10 @@ Vertice* Grafo::getVertice(int idVertice)
     return &vertices[idVertice];
 }
 
-void Grafo::addVertice()
+void Grafo::addVertice(long _idVertice)
 {
     Vertice vertice;
+    vertice.setIdVertice(_idVertice);
     vertices.push_back(vertice);
 }
 
@@ -44,10 +45,10 @@ void Grafo::addVertice()
 void Grafo::addVerticeAdjacente(int _verticeOrigem, int _verticeDestino, float _pesoAresta)
 {
     //verifica existência dos vértices
-    if(_verticeOrigem<0 || _verticeOrigem>vertices.size()){
+    if(_verticeOrigem<0 || _verticeOrigem>=vertices.size()){
         cout << "Vértice de Origem " << _verticeOrigem << " é inválido!" << endl;
     }
-    else if(_verticeDestino<0 || _verticeDestino>vertices.size()){
+    else if(_verticeDestino<0 || _verticeDestino>=vertices.size()){
         cout << "Vértice de Destino " << _verticeDestino << " é inválido!" << endl;
     }
     else{
@@ -196,8 +197,9 @@ void Grafo::atualizaNumeracaoAdjacentes(int _idVertice, int _idVerticeRemovido){
 }
 
 bool Grafo::removeVertice(int _idVertice) {
+    _idVertice--;   //Grafo inicia no vértice 0 (Faz conversão)
     int idVerticeRemovido = _idVertice;
-    if(_idVertice<1 || _idVertice>vertices.size()){
+    if(_idVertice<0 || _idVertice>=vertices.size()){
         cout << "Vértice inválido!" << endl;
         return false;
     }
@@ -205,7 +207,7 @@ bool Grafo::removeVertice(int _idVertice) {
 
         //Percorre adjacentes do vértice
         for (list<Adjacente>::iterator it = vertices[_idVertice].getVerticesAdjacentes().begin(); it != vertices[_idVertice].getVerticesAdjacentes().end() ; it++) {
-            removeAresta(_idVertice, it->getIdVertice());
+            auxRemoveAresta(_idVertice, it->getIdVertice());
         }
 
         //Atualiza ids dos vértices
@@ -222,12 +224,25 @@ bool Grafo::removeVertice(int _idVertice) {
     return true;
 }
 
+
+bool Grafo::auxRemoveAresta(int _idVerticeOrigem, int _idVerticeDestino) {
+    if(isGrafoDirecionado){
+        getVertice(_idVerticeOrigem)->removeVerticeAdjacente(_idVerticeDestino);
+    }
+    else{
+        getVertice(_idVerticeOrigem)->removeVerticeAdjacente(_idVerticeDestino);
+        getVertice(_idVerticeDestino)->removeVerticeAdjacente(_idVerticeOrigem);
+    }
+    return true;
+}
+
+
 bool Grafo::removeAresta(int _idVerticeOrigem, int _idVerticeDestino) {
-    _idVerticeOrigem++; //corrige o id
-    _idVerticeDestino++;    //corrige o id
+    _idVerticeOrigem--; //corrige o id
+    _idVerticeDestino--;    //corrige o id
 
     //verifica se os vértices são válidos
-    if(_idVerticeOrigem<1 || _idVerticeDestino<1 || _idVerticeOrigem>vertices.size() || _idVerticeDestino>vertices.size()){
+    if(_idVerticeOrigem<0 || _idVerticeDestino<0 || _idVerticeOrigem>=vertices.size() || _idVerticeDestino>=vertices.size()){
         cout << "O id dos vértices deve estar entre 1 e " << vertices.size() << endl;
         return false;
     }
@@ -242,5 +257,61 @@ bool Grafo::removeAresta(int _idVerticeOrigem, int _idVerticeDestino) {
     }
     return true;
 }
+
+
+void Grafo::auxFechoTransitivo(long _idVertice, set<int> *percorridos) {
+
+    if(_idVertice<0 || _idVertice >= vertices.size()){
+        cout << "Vertice inválido" << endl;
+    }
+    else {
+        //Percorre apenas se o vértice já não tiver sido verificado
+
+        percorridos->insert(_idVertice); //insere à lista de vértices percorridos
+
+        vertices[_idVertice].setCorVisita(Coloracao::AZUL); //define como visitado
+
+
+        Adjacente it(0);    //Cria um elemento pra iterar ele na lista de adjacentes
+
+        for(it : vertices[_idVertice].getVerticesAdjacentes()){
+
+            long adj = it.getIdVertice();
+
+            if(vertices[adj].getVisitado() == Coloracao::SEMCOR) {
+
+                auxFechoTransitivo(adj, percorridos);  //chama recursivamente a função passando os vértices adjacentes
+            }
+        }
+    }
+
+}
+
+
+void Grafo::fechoTransitivo(long _idVertice) {
+    set<int> verticesPercorridos;
+
+    //Seta todos como não-visitados
+    for(int i=0; i<vertices.size();i++){
+        vertices[i].setCorVisita(Coloracao::SEMCOR);
+    }
+
+    auxFechoTransitivo(_idVertice, &verticesPercorridos);
+
+    cout << _idVertice << "-> ";
+    for(auto percorridoAtual : verticesPercorridos) {
+        if(percorridoAtual != _idVertice)   //Não inclui o próprio vértice
+            cout << percorridoAtual << " " ;
+    }
+
+    cout << "\n\n" << endl;
+}
+
+
+void Grafo::fechoIntransitivo(long _idVertice) {
+
+}
+
+
 
 

@@ -11,6 +11,10 @@
 
 #include <vector>
 #include <string>
+#include <list>
+#include <set>
+
+#include "Adjacente.h"
 
 
 using namespace std;
@@ -25,12 +29,14 @@ private:
     bool isBipartido;
     void atualizaNumeracaoAdjacentes(int _idVertice, int _idVerticeRemovido);
     bool isVerticesVisitados();
+    bool auxRemoveAresta(int _idVerticeOrigem, int _idVerticeDestino);
+    void auxFechoTransitivo(long _idVertice, set<int> *percorridos);
 
 public:
     Grafo();
     virtual ~Grafo();
     Vertice *getVertice(int _idVertice);
-    void addVertice();
+    void addVertice(long _idVertice);
     void addVerticeAdjacente(int _verticeOrigem, int _verticeDestino, float _pesoAresta);
     void imprimeVertices();
     void setIsGrafoDirecionado(bool _isDirecionado);
@@ -45,6 +51,8 @@ public:
     bool isCompleto();
     bool removeVertice(int _idVertice);
     bool removeAresta(int _idVerticeOrigem, int _idVerticeDestino);
+    void fechoTransitivo(long _idVertice);
+    void fechoIntransitivo(long _idVertice);
 };
 
 
