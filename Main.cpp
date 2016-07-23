@@ -211,11 +211,11 @@ void chamaFuncaoEscolhida(int opMenu){
             break;
         }
         case 9:{
-            verificaConexo();
+            verificaBipartido();
             break;
         }
         case 10:{
-            verificaBipartido();
+            verificaConexo();
             break;
         }
         case 11:{
