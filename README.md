@@ -4,21 +4,21 @@ Trabalho da disciplina Teoria dos Grafos 2016.1 da Universidade Federal de Juiz 
 
 ###Especificações do Trabalho
 
- 1. - [x] Grau de um vértice
- 2. - [x] Grau de G
- 3. - [x] Dados dois vértices dizer se são adjacentes
- 4. - [x] Listar os adjacentes de um vértice
- 5. - [x] Dado um conjunto x de vértices, retornar o grafo induzido por x
- 6. - [x] Verificar se G é K-Regular
- 7. - [x] Retornar o grafo complementar G
- 8. - [x] Verificar se G é completo
- 9. - [x] Verificar se G é bipartido
-10. - [x] Verificar se G é conexo
-11. - [ ] Verificar se um dado vértice é de articulação
-12. - [ ] Verificar se uma dada aresta é ponte
-13. - [ ] Verificar o menor conjunto de vértices (ponderados) que cobre um grafo
-14. - [ ] Desenvolver documentação
-15. - [ ] Desenvolver relatório
+- [x] Grau de um vértice
+- [x] Grau de G
+- [x] Dados dois vértices dizer se são adjacentes
+- [x] Listar os adjacentes de um vértice
+- [x] Dado um conjunto x de vértices, retornar o grafo induzido por x
+- [x] Verificar se G é K-Regular
+- [x] Retornar o grafo complementar G
+- [x] Verificar se G é completo
+- [x] Verificar se G é bipartido
+- [x] Verificar se G é conexo
+- [ ] Verificar se um dado vértice é de articulação
+- [ ] Verificar se uma dada aresta é ponte
+- [ ] Verificar o menor conjunto de vértices (ponderados) que cobre um grafo
+- [ ] Desenvolver documentação
+- [ ] Desenvolver relatório
 
 
 #####Compilar pelo terminal:
