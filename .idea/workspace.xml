@@ -12,10 +12,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="998a094e-5df7-4d1a-9f88-247ca89f68b0" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/TrabalhoGrafos.iml" afterPath="$PROJECT_DIR$/.idea/TrabalhoGrafos.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/btd1337.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/btd1337.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/helder.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/helder.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Adjacente.cpp" afterPath="$PROJECT_DIR$/Adjacente.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Adjacente.h" afterPath="$PROJECT_DIR$/Adjacente.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Coloracao.h" afterPath="$PROJECT_DIR$/Coloracao.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Grafo.cpp" afterPath="$PROJECT_DIR$/Grafo.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Grafo.h" afterPath="$PROJECT_DIR$/Grafo.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LICENSE" afterPath="$PROJECT_DIR$/LICENSE" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main.cpp" afterPath="$PROJECT_DIR$/Main.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Vertice.cpp" afterPath="$PROJECT_DIR$/Vertice.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Vertice.h" afterPath="$PROJECT_DIR$/Vertice.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/input.txt" afterPath="$PROJECT_DIR$/input.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output.txt" afterPath="$PROJECT_DIR$/output.txt" />
     </list>
@@ -41,8 +57,8 @@
       <file leaf-file-name="Grafo.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Grafo.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="323" column="0" selection-start-line="323" selection-start-column="0" selection-end-line="323" selection-end-column="0" />
+            <state relative-caret-position="148">
+              <caret line="366" column="0" selection-start-line="366" selection-start-column="0" selection-end-line="366" selection-end-column="0" />
               <folding>
                 <element signature="e#41#59#0" expanded="true" />
               </folding>
@@ -53,18 +69,30 @@
       <file leaf-file-name="Grafo.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Grafo.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="47">
-              <caret line="33" column="37" selection-start-line="33" selection-start-column="37" selection-end-line="33" selection-end-column="37" />
+            <state relative-caret-position="197">
+              <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+              <folding>
+                <element signature="e#138#155#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Adjacente.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Adjacente.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="322">
+              <caret line="20" column="16" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Main.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Main.cpp">
+      <file leaf-file-name="Adjacente.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Adjacente.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="229">
-              <caret line="324" column="5" selection-start-line="317" selection-start-column="4" selection-end-line="324" selection-end-column="5" />
+            <state relative-caret-position="162">
+              <caret line="9" column="51" selection-start-line="9" selection-start-column="51" selection-end-line="9" selection-end-column="51" />
               <folding />
             </state>
           </provider>
@@ -80,13 +108,13 @@
       <list>
         <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/Coloracao.h" />
+        <option value="$PROJECT_DIR$/Main.cpp" />
         <option value="$PROJECT_DIR$/Vertice.h" />
         <option value="$PROJECT_DIR$/Vertice.cpp" />
-        <option value="$PROJECT_DIR$/Coloracao.h" />
+        <option value="$PROJECT_DIR$/Grafo.h" />
         <option value="$PROJECT_DIR$/Adjacente.h" />
         <option value="$PROJECT_DIR$/Adjacente.cpp" />
-        <option value="$PROJECT_DIR$/Main.cpp" />
-        <option value="$PROJECT_DIR$/Grafo.h" />
         <option value="$PROJECT_DIR$/Grafo.cpp" />
       </list>
     </option>
@@ -98,10 +126,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="61" />
-    <option name="y" value="24" />
-    <option name="width" value="1305" />
-    <option name="height" value="744" />
+    <option name="y" value="27" />
+    <option name="width" value="1366" />
+    <option name="height" value="741" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -175,6 +202,7 @@
     <property name="last_opened_file_path" value="$USER_HOME$/Downloads/scantailor-master" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="full.screen.before.presentation.mode" value="false" />
+    <property name="js-jscs-nodeInterpreter" value="/usr/bin/node" />
   </component>
   <component name="RunManager" selected="Application.TrabalhoGrafos">
     <configuration default="true" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" PASS_PARENT_ENVS_2="true" PROJECT_NAME="TrabalhoGrafos" TARGET_NAME="TrabalhoGrafos" CONFIG_NAME="Debug" TEST_MODE="SUITE_TEST">
@@ -369,17 +397,17 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="61" y="24" width="1305" height="744" extended-state="6" />
+    <frame x="0" y="27" width="1366" height="741" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15172414" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14494875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3233979" sideWeight="0.46987033" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31993568" sideWeight="0.46987033" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32786885" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3457526" sideWeight="0.5026697" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3457526" sideWeight="0.47292143" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16704981" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34565917" sideWeight="0.47292143" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15959005" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32786885" sideWeight="0.49733028" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39344263" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -407,22 +435,22 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Grafo.cpp</url>
-          <line>209</line>
-          <option name="timeStamp" value="21" />
+          <url>file://$PROJECT_DIR$/Main.cpp</url>
+          <line>304</line>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/Main.cpp</url>
+          <line>295</line>
+          <option name="timeStamp" value="57" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/Grafo.cpp</url>
-          <line>214</line>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Grafo.cpp</url>
-          <line>218</line>
-          <option name="timeStamp" value="24" />
+          <line>143</line>
+          <option name="timeStamp" value="58" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="56" />
+      <option name="time" value="60" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -606,13 +634,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/include/c++/5/ext/string_conversions.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file:///usr/include/c++/5/ext/string_conversions.h" />
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
@@ -634,135 +656,71 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/include/c++/5/ext/alloc_traits.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="139" column="0" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/c++/5/bits/alloc_traits.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="529" column="0" selection-start-line="529" selection-start-column="0" selection-end-line="529" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/c++/5/bits/stl_set.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="326" column="0" selection-start-line="326" selection-start-column="0" selection-end-line="326" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/c++/5/bits/stl_tree.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="274" column="0" selection-start-line="274" selection-start-column="0" selection-end-line="274" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/c++/5/ext/aligned_buffer.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/c++/5/bits/stl_vector.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="14022">
-          <caret line="779" column="0" selection-start-line="779" selection-start-column="0" selection-end-line="779" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/c++/5/bits/allocator.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2070">
-          <caret line="115" column="0" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file:///usr/include/c++/5/ext/alloc_traits.h" />
+    <entry file="file:///usr/include/c++/5/bits/alloc_traits.h" />
+    <entry file="file:///usr/include/c++/5/bits/stl_set.h" />
+    <entry file="file:///usr/include/c++/5/bits/stl_tree.h" />
+    <entry file="file:///usr/include/c++/5/ext/aligned_buffer.h" />
+    <entry file="file:///usr/include/c++/5/bits/allocator.h" />
+    <entry file="file:///usr/include/c++/5/new" />
+    <entry file="file:///usr/include/c++/5/ext/new_allocator.h" />
+    <entry file="file:///usr/include/c++/5/bits/stl_list.h" />
+    <entry file="file:///usr/include/c++/5/bits/move.h" />
+    <entry file="file:///usr/include/c++/5/bits/stl_vector.h" />
     <entry file="file://$PROJECT_DIR$/Vertice.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+        <state relative-caret-position="594">
+          <caret line="33" column="26" selection-start-line="33" selection-start-column="26" selection-end-line="33" selection-end-column="26" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/c++/5/bits/stl_list.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11808">
-          <caret line="656" column="0" selection-start-line="656" selection-start-column="0" selection-end-line="656" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/c++/5/bits/move.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1368">
-          <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/c++/5/new">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2322">
-          <caret line="129" column="0" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/c++/5/ext/new_allocator.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2142">
-          <caret line="119" column="0" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Vertice.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1188">
-          <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Adjacente.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="34" column="1" selection-start-line="34" selection-start-column="1" selection-end-line="34" selection-end-column="1" />
+        <state relative-caret-position="774">
+          <caret line="43" column="41" selection-start-line="43" selection-start-column="41" selection-end-line="43" selection-end-column="41" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="324" column="5" selection-start-line="317" selection-start-column="4" selection-end-line="324" selection-end-column="5" />
+        <state relative-caret-position="4356">
+          <caret line="304" column="0" selection-start-line="304" selection-start-column="0" selection-end-line="304" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Grafo.h">
+    <entry file="file://$PROJECT_DIR$/Adjacente.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="47">
-          <caret line="33" column="37" selection-start-line="33" selection-start-column="37" selection-end-line="33" selection-end-column="37" />
+        <state relative-caret-position="162">
+          <caret line="9" column="51" selection-start-line="9" selection-start-column="51" selection-end-line="9" selection-end-column="51" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Adjacente.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="30" column="19" selection-start-line="30" selection-start-column="19" selection-end-line="30" selection-end-column="19" />
+        <state relative-caret-position="322">
+          <caret line="20" column="16" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Grafo.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding>
+            <element signature="e#138#155#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Grafo.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="323" column="0" selection-start-line="323" selection-start-column="0" selection-end-line="323" selection-end-column="0" />
+        <state relative-caret-position="148">
+          <caret line="366" column="0" selection-start-line="366" selection-start-column="0" selection-end-line="366" selection-end-column="0" />
           <folding>
             <element signature="e#41#59#0" expanded="true" />
           </folding>

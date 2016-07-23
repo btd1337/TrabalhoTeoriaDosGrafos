@@ -31,7 +31,7 @@ public:
     void setIdVertice(long _idVertice);
     list<Adjacente> getVerticesAdjacentes();
     void addVerticeAdjacente(long _idVerticeAdjacente, float _pesoAresta);
-    void removeVerticeAdjacente(long _idVertice);
+    bool removeVerticeAdjacente(long _idVertice);
     string listarAdjacentes();
     Coloracao getVisitado();
     void setCorVisita(Coloracao _corVisita);

@@ -32,6 +32,8 @@ private:
     bool auxRemoveAresta(int _idVerticeOrigem, int _idVerticeDestino);
     void auxFechoTransitivo(long _idVertice, set<int> *percorridos);
     void auxFechoIntransitivo(Grafo *grafoAux, long _idVertice, set<int> *percorridos);
+    void atualizaIDs(int _idVerticeRemovido);
+    bool auxIsBipartido(long _vertice, long _numPasso);
 
 public:
     Grafo();
@@ -43,7 +45,6 @@ public:
     void setIsGrafoDirecionado(bool _isDirecionado);
     void auxIsConexo(int _vertice);
     bool isConexo();
-    bool auxIsBipartido(int _vertice, int _numPasso);
     bool isGrafoBipartido();
     long verificaGrauGrafo();
     long verificaGrauVertice(long _idVertice);

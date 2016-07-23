@@ -107,7 +107,9 @@ int main(int argc, char** argv)
 
     do{
         opMenu = exibeMenu();
-        chamaFuncaoEscolhida(opMenu);
+        if(opMenu!=0) {
+            chamaFuncaoEscolhida(opMenu);
+        }
     }while(opMenu!=0);
 
 

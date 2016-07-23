@@ -103,44 +103,46 @@ bool Grafo::isVerticesVisitados() {
     return true;
 }
 
+//Auxiliar para verificar se grafo é bipartido
+bool Grafo::auxIsBipartido(long _vertice, long _numPasso){
+    bool coloriuCorretamente = false;
+    Coloracao corDePreenchimento = Coloracao::SEMCOR;
+    _numPasso%2==0 ? corDePreenchimento=Coloracao::AZUL : corDePreenchimento=Coloracao::VERDE;
 
-bool Grafo::auxIsBipartido(int _vertice, int _numPasso){
     if(vertices[_vertice].getVisitado() == Coloracao::SEMCOR){
-        //atribui cor
-        _numPasso%2==0? vertices[_vertice].setCorVisita(Coloracao::AZUL) : vertices[_vertice].setCorVisita(Coloracao::VERDE);
-        //chama o método para os adjacentes deste vértice
-        for(list<Adjacente>::iterator it = vertices[_vertice].getVerticesAdjacentes().begin(); it != vertices[_vertice].getVerticesAdjacentes().end(); it++){
-            auxIsBipartido(it->getIdVertice(), _numPasso++);
+        vertices[_vertice].setCorVisita(corDePreenchimento);
+
+        //Adjacente auxAdj(0);
+        //percorre a lista dos adjacentes do vértice atual
+        //for(auxAdj : vertices[_vertice].getVerticesAdjacentes()){
+        //Cria Arestas
+        for(Adjacente adj : vertices[_vertice].getVerticesAdjacentes()){
+            coloriuCorretamente = auxIsBipartido(adj.getIdVertice(),_numPasso+1);
+            if(!coloriuCorretamente){
+                break;
+            }
         }
     }
     else{
-        Coloracao corCorreta;
-        //Verifica qual a cor correta atual
-        _numPasso%2==0? (corCorreta = Coloracao::AZUL) : (corCorreta = Coloracao::VERDE);
-        if(vertices[_vertice].getVisitado() != corCorreta){
-            isBipartido = false;
+        if(vertices[_vertice].getVisitado() != corDePreenchimento){
+            return false;
         }
     }
-
     return true;
 }
 
 bool Grafo::isGrafoBipartido(){
-    vector<bool> verticesVisitados;
     int passo=0;
     int j=0;
     isBipartido = true; //seta o grafo como bipartido, caso provado que não seja, a variável é setada com false
 
-    //cria um vetor auxiliar e determina que todos não foram visitados.
+    //determina que todos vértices não foram visitados.
     for(int i=0; i < vertices.size(); i++){
-        verticesVisitados.push_back(false);
         vertices[i].setCorVisita(Coloracao::SEMCOR);    //marca vértice como não visitado
     }
 
-    while(!isVerticesVisitados()){
-        auxIsBipartido(vertices[j].getIdVertice(),passo);
-    }
-    return true;
+    isBipartido = auxIsBipartido(0,passo);
+
 }
 
 long Grafo::verificaGrauVertice(long _idVertice){
@@ -197,31 +199,54 @@ void Grafo::atualizaNumeracaoAdjacentes(int _idVertice, int _idVerticeRemovido){
 }
 
 bool Grafo::removeVertice(int _idVertice) {
-    _idVertice--;   //Grafo inicia no vértice 0 (Faz conversão)
+    _idVertice;
     int idVerticeRemovido = _idVertice;
     if(_idVertice<0 || _idVertice>=vertices.size()){
         cout << "Vértice inválido!" << endl;
         return false;
     }
-    for(int i=0; i< vertices[_idVertice].getVerticesAdjacentes().size();i++){
+    if(!isGrafoDirecionado) {
+        for (int i = 0; i < vertices[_idVertice].getVerticesAdjacentes().size(); i++) {
 
-        //Percorre adjacentes do vértice
-        for (list<Adjacente>::iterator it = vertices[_idVertice].getVerticesAdjacentes().begin(); it != vertices[_idVertice].getVerticesAdjacentes().end() ; it++) {
-            auxRemoveAresta(_idVertice, it->getIdVertice());
+            //Percorre adjacentes do vértice
+            for (list<Adjacente>::iterator it = vertices[_idVertice].getVerticesAdjacentes().begin();
+                 it != vertices[_idVertice].getVerticesAdjacentes().end(); it++) {
+                auxRemoveAresta(it->getIdVertice(), _idVertice);
+            }
+
+            //Remove o vértice desejado
+            vertices.erase(vertices.begin() + _idVertice);
+
+            //Chama função para atualizar os IDs maiores do que o removido
+            atualizaIDs(_idVertice);
+
         }
+    }else{
+        //Remove o vértice desejado
+        vertices.erase(vertices.begin() + _idVertice);
 
-        //Atualiza ids dos vértices
-        for(int i=0; i<vertices.size();i++){
-            atualizaNumeracaoAdjacentes(i, idVerticeRemovido);
-
-            //caso o vértice atual esteja acima do vértice removido atualiza a numeração dele.
-            if(i>_idVertice){
-                vertices[i].setIdVertice(i-1);
+        for(int i=0; i<vertices.size(); i++){
+            for(Adjacente adj : vertices[i].getVerticesAdjacentes()){
+                //verifica se é um adjacente do vértice removido
+                if(adj.getIdVertice()== _idVertice){
+                    removeAresta(i,adj.getIdVertice());
+                }
             }
         }
-
+        atualizaIDs(_idVertice);
     }
     return true;
+}
+
+void Grafo::atualizaIDs(int _idVerticeRemovido) {//Atualiza ids dos demais vértices
+    for (int i = 0; i < vertices.size(); i++) {
+        atualizaNumeracaoAdjacentes(i, _idVerticeRemovido);
+
+        //caso o vértice atual tenha id acima do vértice removido atualiza a numeração dele.
+        if (i > _idVerticeRemovido) {
+            vertices[i].setIdVertice(i - 1);
+        }
+    }
 }
 
 
@@ -238,22 +263,31 @@ bool Grafo::auxRemoveAresta(int _idVerticeOrigem, int _idVerticeDestino) {
 
 
 bool Grafo::removeAresta(int _idVerticeOrigem, int _idVerticeDestino) {
-    _idVerticeOrigem--; //corrige o id
-    _idVerticeDestino--;    //corrige o id
 
     //verifica se os vértices são válidos
     if(_idVerticeOrigem<0 || _idVerticeDestino<0 || _idVerticeOrigem>=vertices.size() || _idVerticeDestino>=vertices.size()){
-        cout << "O id dos vértices deve estar entre 1 e " << vertices.size() << endl;
+        cout << "Erro: Pelo menos um dos IDs informados é inválido!\n" << endl;
         return false;
     }
 
+    bool isRemovido;
 
     if(isGrafoDirecionado){
-        getVertice(_idVerticeOrigem)->removeVerticeAdjacente(_idVerticeDestino);
+        //Verifica se existe a aresta
+        if(getVertice(_idVerticeOrigem)->removeVerticeAdjacente(_idVerticeDestino)){
+            cout << "Aresta Removida!\n" << endl;
+        }else{
+          cout << "ERRO: Aresta Não Existente!\n" << endl;
+        }
     }
     else{
-        getVertice(_idVerticeOrigem)->removeVerticeAdjacente(_idVerticeDestino);
-        getVertice(_idVerticeDestino)->removeVerticeAdjacente(_idVerticeOrigem);
+        //Verifica se existe a aresta
+        if(getVertice(_idVerticeOrigem)->removeVerticeAdjacente(_idVerticeDestino)) {
+            getVertice(_idVerticeDestino)->removeVerticeAdjacente(_idVerticeOrigem);
+            cout << "Aresta Removida!\n" << endl;
+        }else{
+            cout << "ERRO: Aresta Não Existente!\n" << endl;
+        }
     }
     return true;
 }
@@ -272,9 +306,7 @@ void Grafo::auxFechoTransitivo(long _idVertice, set<int> *percorridos) {
         vertices[_idVertice].setCorVisita(Coloracao::AZUL); //define como visitado
 
 
-        Adjacente it(0);    //Cria um elemento pra iterar ele na lista de adjacentes
-
-        for(it : vertices[_idVertice].getVerticesAdjacentes()){
+        for(Adjacente it : vertices[_idVertice].getVerticesAdjacentes()){
 
             long adj = it.getIdVertice();
 
@@ -321,10 +353,7 @@ void Grafo::auxFechoIntransitivo(Grafo *grafoAux, long _idVertice, set<int> *per
 
     grafoAux->getVertice(_idVertice)->setCorVisita(Coloracao::AZUL); //define como visitado
 
-
-    Adjacente it(0);    //Cria um elemento pra iterar ele na lista de adjacentes
-
-    for(it : grafoAux->getVertice(_idVertice)->getVerticesAdjacentes()){
+    for(Adjacente it : grafoAux->getVertice(_idVertice)->getVerticesAdjacentes()){
 
         long adj = it.getIdVertice();
 
@@ -365,9 +394,8 @@ string Grafo::fechoIntransitivo(long _idVertice) {
         grafoAux.setIsGrafoDirecionado(true);
 
         //Cria Arestas
-        Adjacente adj(0);
         for(i=0; i<tamanhoGrafo; i++){
-            for(adj : vertices[i].getVerticesAdjacentes()){
+            for(Adjacente adj : vertices[i].getVerticesAdjacentes()){
                 grafoAux.getVertice(adj.getIdVertice())->addVerticeAdjacente(i,adj.getPesoDaAresta());
             }
         }

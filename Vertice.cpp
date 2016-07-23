@@ -35,21 +35,21 @@ void Vertice::addVerticeAdjacente(long _idVerticeAdjacente, float _pesoAresta) {
     verticesAdjacentes.push_back(verticeAdjacente);
 }
 
-void Vertice::removeVerticeAdjacente(long _idVertice) {
+bool Vertice::removeVerticeAdjacente(long _idVertice) {
     bool isContainVertice = false;
 
     for (list<Adjacente>::iterator it = verticesAdjacentes.begin(); it != verticesAdjacentes.end() ; ++it) {
         //Percorre a lista de adjacentes e verifica se o rótulo é o procurado
         if(it->getIdVertice() == _idVertice){
             verticesAdjacentes.erase(it);
-            cout << "Vértice removido!" << endl;
             isContainVertice = true;
             break;
         }
     }
     if(!isContainVertice){
-        cout << "ERRO: Vértice não encontrado!" << endl;
+        return false;
     }
+    return true;
 }
 
 

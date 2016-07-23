@@ -18,6 +18,7 @@ private:
     float pesoAresta;
 
 public:
+    Adjacente();
     Adjacente(long _idVerticeAdjacente);
     Adjacente(long _idVerticeAdjacente, float _pesoAresta);
     long getIdVertice();
