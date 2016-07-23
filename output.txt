@@ -5,5 +5,4 @@ Matrícula: 201465555A
 
 Análise do Grafo
 Número de Vértices: 5
-Fecho Transitivo do Vértice 0 -> 
-Fecho Transitivo do Vértice 1 -> 2 
+Grafo Conexo: NÃO
