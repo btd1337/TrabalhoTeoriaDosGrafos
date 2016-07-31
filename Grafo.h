@@ -55,6 +55,8 @@ public:
     bool removeAresta(int _idVerticeOrigem, int _idVerticeDestino);
     string fechoTransitivo(long _idVertice);
     string fechoIntransitivo(long _idVertice);
+    long getNumVertices();
+    list<Vertice> getVertices();
 };
 
 

@@ -60,6 +60,8 @@ void verificaFechoTransitivo();
 
 void verificaFechoIntransitivo();
 
+void coberturaDeVerticesGuloso();
+
 int main(int argc, char** argv)
 {
     bool conexo, bipartido;
@@ -69,9 +71,9 @@ int main(int argc, char** argv)
     apresentacaoTrabalho();
 
     //Usado 4 para rodar com o Cmake, atualizar para 3 quando for rodar no terminal
-    if(argc == 4){
-        inputFile.open(argv[2], ios::in);   //Mudar para 1 quando for rodar no terminal
-        outputFile.open(argv[3], ios::out); //Mudar para 2 quando for rodar no terminal
+    if(argc == 3){
+        inputFile.open(argv[1], ios::in);   //Mudar para 1 quando for rodar no terminal
+        outputFile.open(argv[2], ios::out); //Mudar para 2 quando for rodar no terminal
         //Verificar se arquivo de entrada foi aberto
         if(!inputFile){
             cerr << "ERRO: Arquivo " << argv[2] << " não foi encontrado!" << endl; //voltar para 1 quando executar no terminal
@@ -153,7 +155,7 @@ int exibeMenu(){
     cout << " 1- Verificar o Grau de um vértice" << endl;
     cout << " 2- Verificar o Grau de G" << endl;
     cout << " 3- Verificar adjacência entre vértices" << endl;
-    cout << " 4- Listar os adjacentes de um nó" << endl;
+    cout << " 4- Listar os adjacentes de um vértice" << endl;
     cout << " 5- Dado um conjunto x de vértices, retornar o grafo induzido por x" << endl;
     cout << " 6- Verificar se o Grafo é K-Regular" << endl;
     cout << " 7- Retornar o Grafo Complementar G" << endl;
@@ -166,6 +168,9 @@ int exibeMenu(){
     cout << "14- Remover Aresta" << endl;
     cout << "15- Fecho Transitivo" << endl;
     cout << "16- Fecho Intransitivo" << endl;
+    cout << "17- Cobertura de Vértices Guloso" << endl;
+    cout << "18- Cobertura de Vértices Guloso Randomizado" << endl;
+    cout << "19- Cobertura de Vértices Guloso Randomizado Reativo" << endl;
     cout << " 0- Sair" << endl;
     cout << "\nOpção: ";
     cin >> opMenu;
@@ -242,10 +247,75 @@ void chamaFuncaoEscolhida(int opMenu){
             verificaFechoIntransitivo();
             break;
         }
+        case 17:{
+            coberturaDeVerticesGuloso();
+            break;
+        }
+        case 18:{
+            //coberturaDeVerticesGulosoRandomizado();
+            break;
+        }
+        case 19:{
+            //coberturaDeVerticesGulosoRandomizadoReativo();
+            break;
+        }
         default:{
             cout << "ERRO: Opção Inválida!" << endl;
         }
     }
+}
+
+void coberturaDeVerticesGuloso() {
+    vector<long> verticesUtilizados;
+    Grafo grafoAux;
+    grafoAux = grafo;
+    multiset< pair<double,int>> rankeamentoDeVertices;
+    pair<double,int> infoRankeamento; //pesoParaRankeamento, idVertice
+    double pesoParaRankeamento;
+    bool coberto = false;   //setar para true quando todas as arestas forem cobertas
+    long idVerticeMenorCusto;
+
+    while(!coberto){
+        for(int i=0; i<grafoAux.getNumVertices();i++){
+            if(grafoAux.getVertice(i)->getGrau()!=0) {
+                pesoParaRankeamento = grafoAux.getVertice(i)->getPeso() / (grafoAux.getVertice(i)->getGrau() * 1.0);
+                infoRankeamento = make_pair(pesoParaRankeamento, grafoAux.getVertice(i)->getIdVertice());
+                rankeamentoDeVertices.insert(infoRankeamento);
+            }else{
+                //Evita q peso 0 seja escolhido
+                pesoParaRankeamento = 999999;
+                infoRankeamento = make_pair(pesoParaRankeamento,grafo.getVertice(i)->getIdVertice());
+            }
+        }
+        idVerticeMenorCusto = rankeamentoDeVertices.begin()->second;
+
+        verticesUtilizados.push_back(idVerticeMenorCusto);    //utiliza vértice de menor custo
+
+        //Remove as arestas que o vértice cobre
+        for(auto adj : grafoAux.getVertice(idVerticeMenorCusto)->getVerticesAdjacentes()){
+            long teste = adj.getIdVertice();
+            grafoAux.removeAresta(idVerticeMenorCusto,adj.getIdVertice());
+        }
+
+        //Verifica se a cobertura está completa
+        coberto = true;
+        for(int i=0;i<grafoAux.getNumVertices();i++){
+            if(grafoAux.getVertice(i)->getGrau()>0){
+                coberto = false;
+                rankeamentoDeVertices.clear();  //limpa o vetor de rankeamento
+                break;
+            }
+        }
+    }
+
+    outputFile << "\nCobertura Mínima: " << verticesUtilizados.size() << " vértice(s)" << endl;
+    for(int i=0; i<verticesUtilizados.size();i++){
+        outputFile << verticesUtilizados[i];
+        if(i<verticesUtilizados.size()-1){
+            outputFile << ", ";
+        }
+    }
+
 }
 
 void verificaFechoTransitivo() {
@@ -328,7 +398,7 @@ void criarGrafo(long _tamanhoGrafo){
 
     //Verifica se o grafo é direcionado
     do{
-        cout << "O Gráfico é direcionado? " << endl;
+        cout << "O Grafo é direcionado? " << endl;
         cout << "0-Não\t 1-Sim" << endl;
         cin >> op;
         if(op<0 || op>1){
