@@ -146,7 +146,8 @@ bool Grafo::isGrafoBipartido(){
 }
 
 long Grafo::verificaGrauVertice(long _idVertice){
-    return getVertice(_idVertice)->getVerticesAdjacentes().size();
+    //return getVertice(_idVertice)->getVerticesAdjacentes().size();
+    return getVertice(_idVertice)->getGrau();
 }
 
 long Grafo::verificaGrauGrafo(){
@@ -417,6 +418,10 @@ string Grafo::fechoIntransitivo(long _idVertice) {
     cout << "\n\n" << endl;
     return sFechoIntransitivo;
 
+}
+
+long Grafo::getNumVertices() {
+    return vertices.size();
 }
 
 

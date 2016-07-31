@@ -20,6 +20,8 @@ class Vertice {
 
 private:
     long idVertice;
+    long grau;
+    double peso;
     list<Adjacente> verticesAdjacentes;
     static long contVertice;
     Coloracao corVisita;
@@ -35,6 +37,10 @@ public:
     string listarAdjacentes();
     Coloracao getVisitado();
     void setCorVisita(Coloracao _corVisita);
+    double getPeso() const;
+    void setPeso(double peso);
+    long getGrau() const;
+    void reduzGrau();
 };
 
 
