@@ -375,7 +375,7 @@ void coberturaDeVerticesGulosoRandomizado(){
     if(op==1){
         imprime = true;
     }
-
+    outputFile << endl;
     outputFile << "\n--- Descrição da Cobertura Minimal de Vértices Ponderados ---\n" << endl;
     outputFile << "Alfa: " << alfa1 << endl;
     outputFile << "Menor Cobertura: " << minCobertura1 << endl;
@@ -600,7 +600,8 @@ void lerAdjcencias(bool isContainPeso){
             verticeOrigem = stol(sVerticeOrigem);
             verticeDestino = stol(sVerticeDestino);
 
-            grafo.addVerticeAdjacente(verticeOrigem, verticeDestino, 0.0);
+            //Faz conversão para inputs iniciando por 1
+            grafo.addVerticeAdjacente(verticeOrigem-1, verticeDestino-1, 0.0);
         }
     }
     else{

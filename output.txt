@@ -4,19 +4,10 @@ Matrícula: 201465555A
 
 
 Análise do Grafo
-Número de Vértices: 125
-
---- Descrição da Cobertura Minimal de Vértices Ponderados ---
-
-Alfa: 0.1
-Menor Cobertura: 108
-Melhor Semente: 7
-
-Alfa: 0.2
-Menor Cobertura: 107
-Melhor Semente: 26
-
-Alfa: 0.3
-Menor Cobertura: 109
-Melhor Semente: 2
-
+Número de Vértices: 1534
+gr(G): 277
+gr(50): 158
+Adjacência(1,49): NÃO
+K-Regular: NÃO
+Grafo Completo: NÃO
+Grafo Bipartido: SIM
