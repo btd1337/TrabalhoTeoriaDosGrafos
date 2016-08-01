@@ -148,10 +148,10 @@ void apresentacaoTrabalho() {
 }
 
 void criaCabecalho(long _tamanhoGrafo){
-    outputFile << "Trabalho 1 de Grafos" << endl;
+    outputFile << "Trabalho de Grafos" << endl;
     outputFile << "Autor: Helder Linhares Bertoldo dos Reis" << endl;
-    outputFile << "Matrícula: 201465555A\n\n" << endl;
-
+    outputFile << "Matrícula: 201465555A" << endl;
+    outputFile << endl;
     outputFile << "Análise do Grafo" << endl;
     outputFile << "Número de Vértices: " << _tamanhoGrafo << endl;
 }

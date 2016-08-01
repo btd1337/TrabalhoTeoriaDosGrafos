@@ -2,12 +2,6 @@ Trabalho 1 de Grafos
 Autor: Helder Linhares Bertoldo dos Reis
 Matrícula: 201465555A
 
-
 Análise do Grafo
 Número de Vértices: 1534
-gr(G): 277
-gr(50): 158
-Adjacência(1,49): NÃO
-K-Regular: NÃO
-Grafo Completo: NÃO
-Grafo Bipartido: SIM
+Grafo Conexo: SIM

@@ -61,15 +61,19 @@ void Grafo::addVerticeAdjacente(int _verticeOrigem, int _verticeDestino, float _
 }
 
 void Grafo::auxIsConexo(int _vertice){
-    //Seta vértice atual como visitado
-    getVertice(_vertice)->setCorVisita(Coloracao::AZUL);
 
-    list<Adjacente> verticesAdjacentes = getVertice(_vertice)->getVerticesAdjacentes();
+    if(getVertice(_vertice)->getVisitado() != Coloracao::AZUL) {
+        //Seta vértice atual como visitado
+        getVertice(_vertice)->setCorVisita(Coloracao::AZUL);
 
-    for (list<Adjacente>::iterator it = verticesAdjacentes.begin(); it != verticesAdjacentes.end() ; it++) {
-        //verifica se o vértice ainda não foi corVisita
-        if(getVertice(it->getIdVertice())->getVisitado() == Coloracao::SEMCOR);
-            auxIsConexo(it->getIdVertice());
+        list <Adjacente> verticesAdjacentes = getVertice(_vertice)->getVerticesAdjacentes();
+
+        for (auto it : verticesAdjacentes) {
+            //verifica se o vértice ainda não foi corVisita
+            if (getVertice(it.getIdVertice())->getVisitado() == Coloracao::SEMCOR) {
+                auxIsConexo(it.getIdVertice());
+            }
+        }
     }
 
 }
