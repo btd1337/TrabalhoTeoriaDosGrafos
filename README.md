@@ -16,12 +16,14 @@ Trabalho da disciplina Teoria dos Grafos 2016.1 da Universidade Federal de Juiz 
 - [x] Verificar se G é conexo
 - [ ] Verificar se um dado vértice é de articulação
 - [ ] Verificar se uma dada aresta é ponte
+- [x] Verificar Fecho Transitivo de um vértice
+- [x] Verificar Fecho Intransitivo de um vértice
+
 Verificar o menor conjunto de vértices (ponderados) que cobre um grafo
-- [x] Guloso
-- [ ] Guloso Randômico
-- [ ] Guloso Randômico Reativo
-- [ ] Desenvolver documentação
-- [ ] Desenvolver relatório
+- [x] Algoritmo Guloso
+- [x] Algoritmo Guloso Randômico
+- [ ] Algoritmo Guloso Randômico Reativo
+- [ ] Desenvolver Relatório
 
 
 #####Compilar pelo terminal:

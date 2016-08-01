@@ -110,7 +110,7 @@ int main(int argc, char** argv)
     criarGrafo(tamanhoGrafo);
 
     cout << "Gerando Adjacências do Grafo...\nOK\n" << endl;
-    lerAdjcencias(true);
+    lerAdjcencias(false);   //false = não contém peso
 
     criaCabecalho(tamanhoGrafo);
 
