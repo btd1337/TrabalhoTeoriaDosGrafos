@@ -19,7 +19,7 @@ Trabalho da disciplina Teoria dos Grafos 2016.1 da Universidade Federal de Juiz 
 - [x] Verificar Fecho Transitivo de um vértice
 - [x] Verificar Fecho Intransitivo de um vértice
 
-Verificar o menor conjunto de vértices (ponderados) que cobre um grafo
+Dado um grafo G(V,E), definir a cobertura de vértices de menor custo
 - [x] Algoritmo Guloso
 - [x] Algoritmo Guloso Randômico
 - [ ] Algoritmo Guloso Randômico Reativo

@@ -78,17 +78,17 @@ int main(int argc, char** argv)
     apresentacaoTrabalho();
 
 
-    if(argc == 4){//4 para rodar com o Cmake, 3 quando for rodar no terminal
-        inputFile.open(argv[2], ios::in);   //2 para rodar com o Cmake, 1 quando for rodar no terminal
-        outputFile.open(argv[3], ios::out); //3 para rodar com o Cmake, 2 quando for rodar no terminal
+    if(argc == 3){//4 para rodar com o Cmake, 3 quando for rodar no terminal
+        inputFile.open(argv[1], ios::in);   //2 para rodar com o Cmake, 1 quando for rodar no terminal
+        outputFile.open(argv[2], ios::out); //3 para rodar com o Cmake, 2 quando for rodar no terminal
         //Verificar se arquivo de entrada foi aberto
         if(!inputFile){
-            cerr << "ERRO: Arquivo " << argv[2] << " não foi encontrado!" << endl; //voltar para 1 quando executar no terminal
+            cerr << "ERRO: Arquivo " << argv[1] << " não foi encontrado!" << endl; //voltar para 1 quando executar no terminal
             return -1;
         }
         //Verificar se arquivo de saída foi criado
         if(!outputFile){
-            cerr << "ERRO: Arquivo " << argv[3] << " não pode ser criado!" << endl; //voltar para 2 quando executar no terminal
+            cerr << "ERRO: Arquivo " << argv[2] << " não pode ser criado!" << endl; //voltar para 2 quando executar no terminal
             return -1;
         }
     }
@@ -376,7 +376,7 @@ void coberturaDeVerticesGulosoRandomizado(){
         imprime = true;
     }
     outputFile << endl;
-    outputFile << "\n--- Descrição da Cobertura Minimal de Vértices Ponderados ---\n" << endl;
+    outputFile << "--- Descrição da Cobertura Mínimal em Custo de Vértices Ponderados ---" << endl;
     outputFile << "Alfa: " << alfa1 << endl;
     outputFile << "Menor Cobertura: " << minCobertura1 << endl;
     outputFile << "Melhor Semente: " << melhorSementeAlfa1 << endl << endl;
