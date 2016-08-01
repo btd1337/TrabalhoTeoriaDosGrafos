@@ -16,7 +16,10 @@ Trabalho da disciplina Teoria dos Grafos 2016.1 da Universidade Federal de Juiz 
 - [x] Verificar se G é conexo
 - [ ] Verificar se um dado vértice é de articulação
 - [ ] Verificar se uma dada aresta é ponte
-- [ ] Verificar o menor conjunto de vértices (ponderados) que cobre um grafo
+Verificar o menor conjunto de vértices (ponderados) que cobre um grafo
+- [x] Guloso
+- [ ] Guloso Randômico
+- [ ] Guloso Randômico Reativo
 - [ ] Desenvolver documentação
 - [ ] Desenvolver relatório
 

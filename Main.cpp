@@ -1,10 +1,13 @@
 #include <iostream>
+#include <random>
 #include <fstream>
 #include <string>
 #include <algorithm>
+#include <stdlib.h>
 #include "Adjacente.h"
 #include "Grafo.h"
 #include "Vertice.h"
+
 
 using namespace std;
 
@@ -62,6 +65,10 @@ void verificaFechoIntransitivo();
 
 void coberturaDeVerticesGuloso();
 
+void coberturaDeVerticesGulosoRandomizado();
+
+int auxCVGR(double _alfa, bool imprime);
+
 int main(int argc, char** argv)
 {
     bool conexo, bipartido;
@@ -70,10 +77,10 @@ int main(int argc, char** argv)
 
     apresentacaoTrabalho();
 
-    //Usado 4 para rodar com o Cmake, atualizar para 3 quando for rodar no terminal
-    if(argc == 3){
-        inputFile.open(argv[1], ios::in);   //Mudar para 1 quando for rodar no terminal
-        outputFile.open(argv[2], ios::out); //Mudar para 2 quando for rodar no terminal
+
+    if(argc == 4){//4 para rodar com o Cmake, 3 quando for rodar no terminal
+        inputFile.open(argv[2], ios::in);   //2 para rodar com o Cmake, 1 quando for rodar no terminal
+        outputFile.open(argv[3], ios::out); //3 para rodar com o Cmake, 2 quando for rodar no terminal
         //Verificar se arquivo de entrada foi aberto
         if(!inputFile){
             cerr << "ERRO: Arquivo " << argv[2] << " não foi encontrado!" << endl; //voltar para 1 quando executar no terminal
@@ -252,7 +259,7 @@ void chamaFuncaoEscolhida(int opMenu){
             break;
         }
         case 18:{
-            //coberturaDeVerticesGulosoRandomizado();
+            coberturaDeVerticesGulosoRandomizado();
             break;
         }
         case 19:{
@@ -316,6 +323,175 @@ void coberturaDeVerticesGuloso() {
         }
     }
 
+}
+
+void coberturaDeVerticesGulosoRandomizado(){
+    int op;
+    bool imprime = false;   //verifica se os vértices da menor cobertura serão impressos
+    double alfa1 = 0.1;
+    double alfa2 = 0.2;
+    double alfa3 = 0.3;
+    double melhorAlfa;
+    int semente;
+    //define a primeira semente como melhor
+    int melhorSementeAlfa1 = 1;
+    int melhorSementeAlfa2 = 1;
+    int melhorSementeAlfa3 = 1;
+
+    srand(1);   //obtem a cobertura pra semente 1
+    int minCobertura1 = auxCVGR(alfa1, false);
+    int minCobertura2 = auxCVGR(alfa2, false);
+    int minCobertura3 = auxCVGR(alfa3, false);
+    int auxMinCobertura;
+
+
+    for(semente=2; semente<=30; semente++){
+
+        // inicializa o gerador de números randômicos
+        srand(semente); //semente varia de 1 a 30
+
+        auxMinCobertura = auxCVGR(alfa1,false);
+        if(auxMinCobertura < minCobertura1){
+            minCobertura1 = auxMinCobertura;
+            melhorSementeAlfa1 = semente;
+        }
+
+        auxMinCobertura = auxCVGR(alfa2,false);
+        if(auxMinCobertura < minCobertura2){
+            minCobertura2 = auxMinCobertura;
+            melhorSementeAlfa2 = semente;
+        }
+
+        auxMinCobertura = auxCVGR(alfa3,false);
+        if(auxMinCobertura < minCobertura3) {
+            minCobertura3 = auxMinCobertura;
+            melhorSementeAlfa3 = semente;
+        }
+    }
+
+    cout << "Deseja que os vértices da melhor cobertura sejam exibidos?" << endl;
+    cout << "1- Sim\t 0-Não" << endl;
+    cin >> op;
+    if(op==1){
+        imprime = true;
+    }
+
+    outputFile << "\n--- Descrição da Cobertura Minimal de Vértices Ponderados ---\n" << endl;
+    outputFile << "Alfa: " << alfa1 << endl;
+    outputFile << "Menor Cobertura: " << minCobertura1 << endl;
+    outputFile << "Melhor Semente: " << melhorSementeAlfa1 << endl << endl;
+    if(imprime){
+        srand(melhorSementeAlfa1);
+        auxCVGR(alfa1, false);
+        outputFile << endl;
+    }
+
+    outputFile << "Alfa: " << alfa2 << endl;
+    outputFile << "Menor Cobertura: " << minCobertura2 << endl;
+    outputFile << "Melhor Semente: " << melhorSementeAlfa2 << endl << endl;
+    if(imprime){
+        srand(melhorSementeAlfa2);
+        auxCVGR(alfa2, false);
+        outputFile << endl;
+    }
+
+    outputFile << "Alfa: " << alfa3 << endl;
+    outputFile << "Menor Cobertura: " << minCobertura3 << endl;
+    outputFile << "Melhor Semente: " << melhorSementeAlfa3 << endl << endl;
+    if(imprime){
+        srand(melhorSementeAlfa3);
+        auxCVGR(alfa3, false);
+        outputFile << endl;
+    }
+
+}
+
+int auxCVGR(double _alfa, bool imprime) {
+    long posicaoEscolhida;
+    vector<long> verticesUtilizados;
+    Grafo grafoAux;
+    grafoAux = grafo;
+    multiset< pair<double,int>> rankeamentoDeVertices;
+    multiset< pair<double,int>>::iterator itRakeamento;
+    pair<double,int> infoRankeamento; //pesoParaRankeamento, idVertice
+    double pesoParaRankeamento;
+    bool coberto = false;   //setar para true quando todas as arestas forem cobertas
+    long idVerticeMenorCusto;
+    long rangeMax;  //Vértice escolhido deve ser aleatório no intervalo de 0 a RageMax
+    int valRandomico;
+    int numVerticesGrauZero;
+
+    while(!coberto){
+
+        numVerticesGrauZero = 0;
+        for(int i=0; i<grafoAux.getNumVertices(); i++){
+            //Se o vértice não possui mais aresta, descartar ele
+            if(grafoAux.getVertice(i)->getGrau() == 0){
+                numVerticesGrauZero++;
+            }
+        }
+        //Encontrar qual vai ser o vértice escolhido
+        rangeMax = (grafoAux.getNumVertices()-numVerticesGrauZero) * _alfa;
+        if(rangeMax>0){ //evitar divisão por zero
+            valRandomico = rand();
+            posicaoEscolhida = valRandomico % rangeMax;
+        }
+        else{
+            posicaoEscolhida = 0;
+        }
+
+        for(int i=0; i<grafoAux.getNumVertices();i++){
+
+            if(grafoAux.getVertice(i)->getGrau()!=0) {
+                pesoParaRankeamento = grafoAux.getVertice(i)->getPeso() / (grafoAux.getVertice(i)->getGrau() * 1.0);
+                infoRankeamento = make_pair(pesoParaRankeamento, grafoAux.getVertice(i)->getIdVertice());
+                rankeamentoDeVertices.insert(infoRankeamento);
+            }else{
+                //Evita q peso 0 seja escolhido
+                pesoParaRankeamento = 999999;
+                infoRankeamento = make_pair(pesoParaRankeamento,grafo.getVertice(i)->getIdVertice());
+                rankeamentoDeVertices.insert(infoRankeamento);
+            }
+        }
+
+        //Posiciona o iterador na posição do elemento escolhido
+        itRakeamento = rankeamentoDeVertices.begin();
+        for(int i=1; i<=posicaoEscolhida;i++){
+            itRakeamento++;
+        }
+
+        //idVerticeMenorCusto = rankeamentoDeVertices.begin()->second;
+        idVerticeMenorCusto = itRakeamento->second;
+        verticesUtilizados.push_back(idVerticeMenorCusto);    //utiliza vértice de menor custo
+
+        //Remove as arestas que o vértice cobre
+        for(auto adj : grafoAux.getVertice(idVerticeMenorCusto)->getVerticesAdjacentes()){
+            long teste = adj.getIdVertice();
+            grafoAux.removeAresta(idVerticeMenorCusto,adj.getIdVertice());
+        }
+
+        //Verifica se a cobertura está completa
+        coberto = true;
+        for(int i=0;i<grafoAux.getNumVertices();i++){
+            if(grafoAux.getVertice(i)->getGrau()>0){
+                coberto = false;
+                rankeamentoDeVertices.clear();  //limpa o vetor de rankeamento
+                break;
+            }
+        }
+    }
+
+    if(imprime) {
+        for (int i = 0; i < verticesUtilizados.size(); i++) {
+            outputFile << verticesUtilizados[i];
+            if (i < verticesUtilizados.size() - 1) {
+                outputFile << ", ";
+            }
+        }
+        outputFile << "\n" << endl;
+    }
+
+    return verticesUtilizados.size();
 }
 
 void verificaFechoTransitivo() {
