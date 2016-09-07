@@ -1,0 +1,23 @@
+Trabalho de Grafos
+Autor: Helder Linhares Bertoldo dos Reis
+Matrícula: 201465555A
+
+Análise do Grafo
+Número de Vértices: 1534
+
+Cobertura Mínima: 1507 vértice(s)
+
+
+--- Descrição da Cobertura Mínimal em Custo de Vértices Ponderados ---
+Alfa: 0.1
+Menor Cobertura: 1504
+Melhor Semente: 23
+
+Alfa: 0.2
+Menor Cobertura: 1505
+Melhor Semente: 18
+
+Alfa: 0.3
+Menor Cobertura: 1507
+Melhor Semente: 1
+

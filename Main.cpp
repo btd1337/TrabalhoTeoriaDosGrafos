@@ -273,6 +273,8 @@ void chamaFuncaoEscolhida(int opMenu){
 }
 
 void coberturaDeVerticesGuloso() {
+    bool imprime = false;   //verifica se os vértices da menor cobertura serão impressos
+    int op;
     vector<long> verticesUtilizados;
     Grafo grafoAux;
     grafoAux = grafo;
@@ -316,10 +318,19 @@ void coberturaDeVerticesGuloso() {
     }
 
     outputFile << "\nCobertura Mínima: " << verticesUtilizados.size() << " vértice(s)" << endl;
-    for(int i=0; i<verticesUtilizados.size();i++){
-        outputFile << verticesUtilizados[i];
-        if(i<verticesUtilizados.size()-1){
-            outputFile << ", ";
+
+    cout << "Deseja que os vértices da melhor cobertura sejam exibidos?" << endl;
+    cout << "1- Sim\t 0-Não" << endl;
+    cin >> op;
+    if(op==1){
+        imprime = true;
+    }
+    if(imprime){
+        for(int i=0; i<verticesUtilizados.size();i++){
+            outputFile << verticesUtilizados[i];
+            if(i<verticesUtilizados.size()-1){
+                outputFile << ", ";
+            }
         }
     }
 
@@ -375,6 +386,7 @@ void coberturaDeVerticesGulosoRandomizado(){
     if(op==1){
         imprime = true;
     }
+    outputFile << endl;
     outputFile << endl;
     outputFile << "--- Descrição da Cobertura Mínimal em Custo de Vértices Ponderados ---" << endl;
     outputFile << "Alfa: " << alfa1 << endl;

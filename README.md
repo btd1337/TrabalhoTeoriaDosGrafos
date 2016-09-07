@@ -23,7 +23,7 @@ Dado um grafo G(V,E), definir a cobertura de vértices de menor custo
 - [x] Algoritmo Guloso
 - [x] Algoritmo Guloso Randômico
 - [ ] Algoritmo Guloso Randômico Reativo
-- [ ] Desenvolver Relatório
+- [x] Desenvolver Relatório
 
 
 #####Compilar pelo terminal:
