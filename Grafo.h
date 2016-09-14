@@ -24,7 +24,7 @@ class Vertice;
 class Grafo {
 
 private:
-    vector<Vertice> vertices;
+    list<Vertice> vertices;
     bool isGrafoDirecionado;
     bool isBipartido;
     void atualizaNumeracaoAdjacentes(int _idVertice, int _idVerticeRemovido);
