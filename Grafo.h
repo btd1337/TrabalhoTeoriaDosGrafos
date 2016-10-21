@@ -24,21 +24,24 @@ class Vertice;
 class Grafo {
 
 private:
-    list<Vertice> vertices;
+    list<Vertice> *vertices;   //vetor de lista, usado pra tabela hash
     bool isGrafoDirecionado;
     bool isBipartido;
-    void atualizaNumeracaoAdjacentes(int _idVertice, int _idVerticeRemovido);
+    long tamTabelaHash;
+    long ordemGrafo;
+    long numArestas;
     bool isVerticesVisitados();
     bool auxRemoveAresta(int _idVerticeOrigem, int _idVerticeDestino);
     void auxFechoTransitivo(long _idVertice, set<int> *percorridos);
     void auxFechoIntransitivo(Grafo *grafoAux, long _idVertice, set<int> *percorridos);
     void atualizaIDs(int _idVerticeRemovido);
     bool auxIsBipartido(long _vertice, long _numPasso);
+    int calculaIndiceTabela(long _idVertice);
 
 public:
-    Grafo();
+    Grafo(long _ordemGrafo);
     virtual ~Grafo();
-    Vertice *getVertice(int _idVertice);
+    list<Vertice>::iterator getVertice(long _idVertice);
     void addVertice(long _idVertice);
     void addVerticeAdjacente(int _verticeOrigem, int _verticeDestino, float _pesoAresta);
     void imprimeVertices();
@@ -46,6 +49,7 @@ public:
     void auxIsConexo(int _vertice);
     bool isConexo();
     bool isGrafoBipartido();
+    bool isDirecionado();
     long verificaGrauGrafo();
     long verificaGrauVertice(long _idVertice);
     bool verificaAdjacencia(long _idVerticeOrigem, long _idVerticeDestino);
@@ -55,8 +59,11 @@ public:
     bool removeAresta(int _idVerticeOrigem, int _idVerticeDestino);
     string fechoTransitivo(long _idVertice);
     string fechoIntransitivo(long _idVertice);
-    long getNumVertices();
-    list<Vertice> getVertices();
+    long getOrdemGrafo();
+    list<Vertice> *getVertices();
+    list<Vertice>::iterator isContainVertice(long _idVertice);
+    long getTamTabelaHash();
+    list<Vertice>::iterator itUltimaPosicao(long _idVertice);
 };
 
 

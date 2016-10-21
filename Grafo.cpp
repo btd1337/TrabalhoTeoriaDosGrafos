@@ -8,9 +8,21 @@
 
 using namespace std;
 
-Grafo::Grafo() {
-    Vertice vertice;
-    vertices.push_back(vertice);
+Grafo::Grafo(long _ordemGrafo) {
+
+    //Caso a ordem do grafo seja 1 -> 1/2 = 0 , então é necessário alocar 1 posição pra tabela hash
+    _ordemGrafo == 1 ? (tamTabelaHash = 1) : (tamTabelaHash = _ordemGrafo/2);
+    ordemGrafo = 0; //inicializa variável que será incrementada em addVertice()
+    numArestas = 0;
+
+    list<Vertice> aux(tamTabelaHash);
+    vertices = new list<Vertice>[tamTabelaHash];
+
+    //inicialização da estrutura pra tabela hash
+    for(int i=0; i<_ordemGrafo/2; i++){
+        vertices[i].clear();
+    }
+
     isGrafoDirecionado = false;
 }
 
@@ -31,25 +43,29 @@ void Grafo::setIsGrafoDirecionado(bool _isDirecionado){
  */
 void Grafo::imprimeVertices()
 {
-    for(int i=0; i< vertices.size(); i++){
-        cout << getVertice(i)->getIdVertice() << endl;
+    for(int i=0; i< tamTabelaHash; i++){
+        for(int j=0; j< vertices[i].size(); j++) {
+            cout << getVertice(i)->getIdVertice() << endl;
+        }
     }
 }
 
 /**
  * Retorna um ponteiro de um vértice do grafo
- * @param idVertice - id do vértice que deseja obter a referência
+ * @param _idVertice - id do vértice que deseja obter a referência
  * @return referência pro vértice procurado no grafo
  */
-Vertice* Grafo::getVertice(int idVertice)
+list<Vertice>::iterator Grafo::getVertice(long _idVertice)
 {
-    for(Vertice v: vertices){
-        if(v.getIdVertice() == idVertice){
-            return &v;
-        }
+    long indice = calculaIndiceTabela(_idVertice);
 
+    for(list<Vertice>::iterator v = vertices[indice].begin(); v!= vertices[indice].end(); v++){
+        if(v->getIdVertice() == _idVertice){
+            return v;
+        }
     }
-    return NULL;
+    list<Vertice>::iterator v = vertices[indice].end(); //caso não seja encontrado
+    return v;
 }
 
 /**
@@ -58,31 +74,51 @@ Vertice* Grafo::getVertice(int idVertice)
  */
 void Grafo::addVertice(long _idVertice)
 {
-    Vertice vertice;
-    vertice.setIdVertice(_idVertice);
-    vertices.push_back(vertice);
+    auto it = isContainVertice(_idVertice);
+    if(it != itUltimaPosicao(_idVertice)){
+        cout << _idVertice << endl;
+        cout << "Esse vértice já existe! \n" << endl;
+    }else {
+        long indice = calculaIndiceTabela(_idVertice);
+        Vertice vertice;
+        vertice.setIdVertice(_idVertice);
+        vertices[indice].push_back(vertice);
+        ordemGrafo++;
+    }
 }
 
 /**
- * Define a adjacência entre dois vértices
+ * Define a adjacência entre dois vértices.
+ * Verificações: Se os vértices existem e se a aresta já existe.
  * @param _verticeOrigem
  * @param _verticeDestino
  * @param _pesoAresta
  */
 void Grafo::addVerticeAdjacente(int _verticeOrigem, int _verticeDestino, float _pesoAresta)
 {
-    //verifica existência dos vértices
-    if(_verticeOrigem<0 || _verticeOrigem>=vertices.size()){
-        cout << "Vértice de Origem " << _verticeOrigem << " é inválido!" << endl;
-    }
-    else if(_verticeDestino<0 || _verticeDestino>=vertices.size()){
-        cout << "Vértice de Destino " << _verticeDestino << " é inválido!" << endl;
-    }
-    else{
-        getVertice(_verticeOrigem)->addVerticeAdjacente(_verticeDestino,_pesoAresta);
 
-        if(!isGrafoDirecionado){
-            getVertice(_verticeDestino)->addVerticeAdjacente(_verticeOrigem,_pesoAresta);
+    //verifica existência dos vértices
+    auto it = isContainVertice(_verticeOrigem);
+    if(it==itUltimaPosicao(_verticeOrigem)){
+        cout << "Erro: Não existe vértice com id informado como origem.\n" << endl;
+    }
+    else {
+        it = isContainVertice(_verticeDestino);
+        if (it == itUltimaPosicao(_verticeDestino)) {
+            cout << "Erro: Não existe vértice com id informado como destino.\n" << endl;
+        } else {
+            //verifica se a aresta já existe
+            if(!verificaAdjacencia(_verticeOrigem, _verticeDestino)) {
+
+                getVertice(_verticeOrigem)->addVerticeAdjacente(_verticeDestino, _pesoAresta);
+                numArestas++;
+
+                if (!isGrafoDirecionado) {
+                    getVertice(_verticeDestino)->addVerticeAdjacente(_verticeOrigem, _pesoAresta);
+                }
+            }else{
+                cout << "A aresta já existe! \n" << endl;
+            }
         }
     }
 }
@@ -112,12 +148,12 @@ void Grafo::auxIsConexo(int _vertice){
 bool Grafo::isConexo(){
 
     //seta os vértices como não visitados
-    for(int i=0; i< vertices.size(); i++){
+    for(int i=0; i< ordemGrafo; i++){
         getVertice(i)->setCorVisita(Coloracao::SEMCOR);
     }
     auxIsConexo(0);
 
-    for(int i=0; i< vertices.size(); i++){
+    for(int i=0; i< ordemGrafo; i++){
         if(getVertice(i)->getVisitado() == Coloracao::SEMCOR){
             return false;
         }
@@ -166,7 +202,7 @@ bool Grafo::isGrafoBipartido(){
     isBipartido = true; //seta o grafo como bipartido, caso provado que não seja, a variável é setada com false
 
     //determina que todos vértices não foram visitados.
-    for(int i=0; i < vertices.size(); i++){
+    for(int i=0; i < ordemGrafo; i++){
         getVertice(i)->setCorVisita(Coloracao::SEMCOR);    //marca vértice como não visitado
     }
 
@@ -179,13 +215,21 @@ long Grafo::verificaGrauVertice(long _idVertice){
     return getVertice(_idVertice)->getGrau();
 }
 
+/**
+ * Identifica o grau de um grafo
+ * @return grau do vértice de maior grau
+ */
 long Grafo::verificaGrauGrafo(){
-    long grauMax=verificaGrauVertice(0);
+    //Associa grauMax ao primeiro vértice da tabela
+    long grauMax=verificaGrauVertice(vertices[0].begin()->getIdVertice());
     long grauVerticeAtual;
-    for(int i=1; i<vertices.size(); i++){
-        grauVerticeAtual = verificaGrauVertice(i);
-        if(grauVerticeAtual > grauMax)
-            grauMax = grauVerticeAtual;
+
+    for(int i=0; i<tamTabelaHash; i++){
+        for(list<Vertice>::iterator it = vertices[i].begin(); it != vertices[i].end(); it++) {
+            grauVerticeAtual = verificaGrauVertice(it->getIdVertice());
+            if (grauVerticeAtual > grauMax)
+                grauMax = grauVerticeAtual;
+        }
     }
     return grauMax;
 }
@@ -203,7 +247,7 @@ bool Grafo::verificaAdjacencia(long _idVerticeOrigem, long _idVerticeDestino){
 bool Grafo::verificaKRegular(long *kRegular){
     *kRegular = getVertice(0)->getVerticesAdjacentes().size();
 
-    for(int i=1; i < vertices.size(); i++){
+    for(int i=1; i < ordemGrafo; i++){
         if(getVertice(i)->getVerticesAdjacentes().size() != *kRegular)
             return false;
     }
@@ -211,76 +255,31 @@ bool Grafo::verificaKRegular(long *kRegular){
 }
 
 bool Grafo::isCompleto(){
-    for(int i=0; i < vertices.size(); i++){
-        if(getVertice(i)->getVerticesAdjacentes().size() != vertices.size() - 1);
+    for(int i=0; i < ordemGrafo; i++){
+        if(getVertice(i)->getVerticesAdjacentes().size() != ordemGrafo - 1);
         return false;
     }
     return true;
 }
 
-
-void Grafo::atualizaNumeracaoAdjacentes(int _idVertice, int _idVerticeRemovido){
-    //Percorre adjacentes do vértice
-    for (list<Adjacente>::iterator it = getVertice(_idVertice)->getVerticesAdjacentes().begin(); it != getVertice(_idVertice)->getVerticesAdjacentes().end() ; it++) {
-        //verifica se id de algum adjacente está acima do valor do vértice removido
-        if(it->getIdVertice() >= _idVerticeRemovido)
-            it->updateIdVertice();
-    }
-}
 
 bool Grafo::removeVertice(int _idVertice) {
-    _idVertice;
-    int idVerticeRemovido = _idVertice;
-    list<Vertice>::iterator it1;
 
-    if(_idVertice<0 || _idVertice>=vertices.size()){
-        cout << "Vértice inválido!" << endl;
-        return false;
-    }
-    if(!isGrafoDirecionado) {
-        for (int i = 0; i < getVertice(_idVertice)->getVerticesAdjacentes().size(); i++) {
+    //it recebe o iterador da posição onde está o vértice ou nullptr
+    list<Vertice>::iterator it = isContainVertice(_idVertice);
 
-            //Percorre adjacentes do vértice
-            for (list<Adjacente>::iterator it = getVertice(_idVertice)->getVerticesAdjacentes().begin();
-                 it != getVertice(_idVertice)->getVerticesAdjacentes().end(); it++) {
-                auxRemoveAresta(it->getIdVertice(), _idVertice);
-            }
+    if(it == itUltimaPosicao(_idVertice)){  //caso o método isContainVertice não encontrar o vértice
+        cout << "Erro: Não existe vértice com este id no Grafo.\n" << endl;
 
-            //Remove o vértice desejado
-            it1 = vertices.begin();
-            advance(it1, _idVertice); //faz o iterator apontar pro elemento a ser removido.
-            vertices.erase(it1);
-
-            //Chama função para atualizar os IDs maiores do que o removido
-            atualizaIDs(_idVertice);
-
-        }
     }else{
-        it1 = vertices.begin();
-        advance(it1, _idVertice); //faz o iterator apontar pro elemento a ser removido.
-        vertices.erase(it1);
-
-        for(int i=0; i<vertices.size(); i++){
-            for(Adjacente adj : getVertice(i)->getVerticesAdjacentes()){
-                //verifica se é um adjacente do vértice removido
-                if(adj.getIdVertice()== _idVertice){
-                    removeAresta(i,adj.getIdVertice());
-                }
-            }
+        //Remove as arestas do vértice
+        for(Adjacente adjacente : it->getVerticesAdjacentes()){
+            removeAresta(it->getIdVertice(),adjacente.getIdVertice());
         }
-        atualizaIDs(_idVertice);
-    }
-    return true;
-}
-
-void Grafo::atualizaIDs(int _idVerticeRemovido) {//Atualiza ids dos demais vértices
-    for (int i = 0; i < vertices.size(); i++) {
-        atualizaNumeracaoAdjacentes(i, _idVerticeRemovido);
-
-        //caso o vértice atual tenha id acima do vértice removido atualiza a numeração dele.
-        if (i > _idVerticeRemovido) {
-            getVertice(i)->setIdVertice(i - 1);
-        }
+        long indice = calculaIndiceTabela(_idVertice);
+        vertices[indice].erase(it);
+        cout << "Vértice removido com sucesso.\n" <<endl;
+        ordemGrafo--;
     }
 }
 
@@ -300,8 +299,14 @@ bool Grafo::auxRemoveAresta(int _idVerticeOrigem, int _idVerticeDestino) {
 bool Grafo::removeAresta(int _idVerticeOrigem, int _idVerticeDestino) {
 
     //verifica se os vértices são válidos
-    if(_idVerticeOrigem<0 || _idVerticeDestino<0 || _idVerticeOrigem>=vertices.size() || _idVerticeDestino>=vertices.size()){
-        cout << "Erro: Pelo menos um dos IDs informados é inválido!\n" << endl;
+    auto it = isContainVertice(_idVerticeOrigem);
+    if(it == itUltimaPosicao(_idVerticeOrigem)){
+        cout << "Erro: Não existe vértice com o id informado como Origem!\n" << endl;
+        return false;
+    }
+    it = isContainVertice(_idVerticeDestino);
+    if(it == itUltimaPosicao(_idVerticeDestino)){
+        cout << "Erro: Não existe vértice com o id informado como Destino!\n" << endl;
         return false;
     }
 
@@ -309,17 +314,14 @@ bool Grafo::removeAresta(int _idVerticeOrigem, int _idVerticeDestino) {
 
     if(isGrafoDirecionado){
         //Verifica se existe a aresta
-        if(getVertice(_idVerticeOrigem)->removeVerticeAdjacente(_idVerticeDestino)){
-            cout << "Aresta Removida!\n" << endl;
-        }else{
-          cout << "ERRO: Aresta Não Existente!\n" << endl;
+        if(!getVertice(_idVerticeOrigem)->removeVerticeAdjacente(_idVerticeDestino)){
+            cout << "ERRO: Aresta Não Existente!\n" << endl;
         }
     }
     else{
         //Verifica se existe a aresta
         if(getVertice(_idVerticeOrigem)->removeVerticeAdjacente(_idVerticeDestino)) {
             getVertice(_idVerticeDestino)->removeVerticeAdjacente(_idVerticeOrigem);
-            cout << "Aresta Removida!\n" << endl;
         }else{
             cout << "ERRO: Aresta Não Existente!\n" << endl;
         }
@@ -330,7 +332,7 @@ bool Grafo::removeAresta(int _idVerticeOrigem, int _idVerticeDestino) {
 
 void Grafo::auxFechoTransitivo(long _idVertice, set<int> *percorridos) {
 
-    if(_idVertice<0 || _idVertice >= vertices.size()){
+    if(_idVertice<0 || _idVertice >= ordemGrafo){
         cout << "Vertice inválido" << endl;
     }
     else {
@@ -360,7 +362,7 @@ string Grafo::fechoTransitivo(long _idVertice) {
     set<int> verticesPercorridos;
 
     //Seta todos como não-visitados
-    for(int i=0; i<vertices.size();i++){
+    for(int i=0; i<ordemGrafo;i++){
         getVertice(i)->setCorVisita(Coloracao::SEMCOR);
     }
 
@@ -405,7 +407,7 @@ string Grafo::fechoIntransitivo(long _idVertice) {
     set<int> verticesPercorridos;
 
     //Seta todos como não-visitados
-    for(int i=0; i<vertices.size();i++){
+    for(int i=0; i<ordemGrafo;i++){
         getVertice(i)->setCorVisita(Coloracao::SEMCOR);
     }
 
@@ -415,9 +417,9 @@ string Grafo::fechoIntransitivo(long _idVertice) {
     }else{
         //Cria grafo auxiliar, invertendo o sentido de ligação das arestas
         long i=1;
-        long tamanhoGrafo = vertices.size();
+        long tamanhoGrafo = ordemGrafo;
 
-        Grafo grafoAux;
+        Grafo grafoAux(ordemGrafo);
 
         //O primeiro vértice é criado automaticamente
         grafoAux.getVertice(0)->setIdVertice(0);
@@ -454,8 +456,72 @@ string Grafo::fechoIntransitivo(long _idVertice) {
 
 }
 
-long Grafo::getNumVertices() {
-    return vertices.size();
+long Grafo::getOrdemGrafo() {
+    return ordemGrafo;
+}
+
+/**
+ * Função hash pra determinar a posição que um vértice será inserido na tabela hash
+ * @param _idVertice
+ * @return indice para a posição
+ */
+
+int Grafo::calculaIndiceTabela(long _idVertice) {
+    return _idVertice % tamTabelaHash;
+}
+
+/**
+ * Método que verifica se um vértice pertence ao grafo. O retorno de um iterator evita que
+ * outra função tenha que percorrer o grafo novamente.
+ * @param _idVertice
+ * @return iterator para a posição do vértice buscado
+ */
+
+list<Vertice>::iterator Grafo::isContainVertice(long _idVertice) {
+
+    //identifica em qual posição da tabela hash o vértice deveria estar
+    long posicao = calculaIndiceTabela(_idVertice);
+    list<Vertice>::iterator it;
+
+    for(it = vertices[posicao].begin(); it != vertices[posicao].end(); it++){
+        //Se encontrar o vértice
+        if(it->getIdVertice() == _idVertice){
+            return it;
+        }
+    }
+    //Se vértice não estiver presente, vai retornar it apontando pro end do último elemento do vetor
+    it = vertices[posicao].end();
+    return it;
+}
+
+/**
+ * @return numero de elementos do vetor de posições para a tabela hash dos vértices
+ */
+long Grafo::getTamTabelaHash() {
+    return tamTabelaHash;
+}
+
+list <Vertice> *Grafo::getVertices() {
+    return vertices;
+}
+
+/**
+ * Retorna iterator apontando pra end() na lista da posicao em que deveria estar o vértice.
+ * Permite verificar se uma busca não encontrou elementos
+ * @return
+ */
+list<Vertice>::iterator Grafo::itUltimaPosicao(long _idVertice) {
+
+    long posicao = calculaIndiceTabela(_idVertice);
+    return vertices[posicao].end();
+}
+
+/**
+ *
+ * @return informação se o grafo é direcionado
+ */
+bool Grafo::isDirecionado() {
+    return isGrafoDirecionado;
 }
 
 

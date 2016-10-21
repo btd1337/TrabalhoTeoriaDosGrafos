@@ -38,23 +38,22 @@ void Vertice::addVerticeAdjacente(long _idVerticeAdjacente, float _pesoAresta) {
     grau++;
 }
 
+/**
+ * Remove a aresta de um vértice
+ * @param _idVertice
+ * @return true se a aresta foi encontra, false caso contrário
+ */
 bool Vertice::removeVerticeAdjacente(long _idVertice) {
-    bool isContainVertice = false;
 
-    for (list<Adjacente>::iterator it = verticesAdjacentes.begin(); it != verticesAdjacentes.end() ; ++it) {
+    for (auto it = verticesAdjacentes.begin(); it != verticesAdjacentes.end() ; ++it) {
         //Percorre a lista de adjacentes e verifica se o rótulo é o procurado
         if(it->getIdVertice() == _idVertice){
             verticesAdjacentes.erase(it);
             grau--;
-            isContainVertice = true;
-            break;
+            return true;
         }
-
     }
-    if(!isContainVertice){
-        return false;
-    }
-    return true;
+    return false;
 }
 
 
