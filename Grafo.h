@@ -27,7 +27,8 @@ private:
     list<Vertice> *vertices;   //vetor de lista, usado pra tabela hash
     bool isGrafoDirecionado;
     bool isBipartido;
-    long tamTabelaHash;
+    long tamTabHashVertices;
+    long tamTabHashAdjacentes;
     long ordemGrafo;
     long numArestas;
     bool isVerticesVisitados();
@@ -35,35 +36,40 @@ private:
     void auxFechoTransitivo(long _idVertice, set<int> *percorridos);
     void auxFechoIntransitivo(Grafo *grafoAux, long _idVertice, set<int> *percorridos);
     void atualizaIDs(int _idVerticeRemovido);
-    bool auxIsBipartido(long _vertice, long _numPasso);
-    int calculaIndiceTabela(long _idVertice);
+    long calculaIndiceTabela(long _idVertice);
 
 public:
-    Grafo(long _ordemGrafo);
+    Grafo(long _ordemGrafo, long _numArestas);
     virtual ~Grafo();
-    list<Vertice>::iterator getVertice(long _idVertice);
+
     void addVertice(long _idVertice);
-    void addVerticeAdjacente(int _verticeOrigem, int _verticeDestino, float _pesoAresta);
-    void imprimeVertices();
-    void setIsGrafoDirecionado(bool _isDirecionado);
-    void auxIsConexo(int _vertice);
-    bool isConexo();
-    bool isGrafoBipartido();
-    bool isDirecionado();
-    long verificaGrauGrafo();
-    long verificaGrauVertice(long _idVertice);
-    bool verificaAdjacencia(long _idVerticeOrigem, long _idVerticeDestino);
+    bool removeVertice(long _idVertice);
+    long addVerticeAdjacente(long _verticeOrigem, long _verticeDestino, float _pesoAresta);
+    bool removeVerticeAdjacente(int _idVerticeOrigem, int _idVerticeDestino);
+    long getGrauVertice(long _idVertice);
+    multiset<long, greater<long> > sequenciaGraus();
     bool verificaKRegular(long *kRegular);
     bool isCompleto();
-    bool removeVertice(int _idVertice);
-    bool removeAresta(int _idVerticeOrigem, int _idVerticeDestino);
+    bool verificaAdjacencia(long _idVerticeOrigem, long _idVerticeDestino);
+
+
+    void setTamTabHashAdjacentes(long _tam);
+    list<Vertice>::iterator getVertice(long _idVertice);
+    void imprimeVertices();
+    void setIsGrafoDirecionado(bool _isDirecionado);
+    void auxIsConexo(long _vertice);
+    bool isConexo();
+    bool isDirecionado();
+    long verificaGrauGrafo();
     string fechoTransitivo(long _idVertice);
     string fechoIntransitivo(long _idVertice);
     long getOrdemGrafo();
     list<Vertice> *getVertices();
     list<Vertice>::iterator isContainVertice(long _idVertice);
-    long getTamTabelaHash();
+    long getTamTabHashVertices();
+    long getTamTabHashAdj();
     list<Vertice>::iterator itUltimaPosicao(long _idVertice);
+
 };
 
 

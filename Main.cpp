@@ -7,9 +7,9 @@
 using namespace std;
 
 fstream inputFile, outputFile;
-long tamanhoGrafo = 1, kRegular;
+long ordemGrafo = 1, kRegular, numArestas;
 bool isContainPesoAresta = true;
-Grafo grafo(1);    //cria grafo não direcionado
+Grafo grafo(1,1);    //cria grafo não direcionado
 
 
 void apresentacaoTrabalho();
@@ -18,7 +18,7 @@ void criaCabecalho(long _tamanhoGrafo);
 
 int exibeMenu();
 
-void criarGrafo(long _tamanhoGrafo);
+void criarGrafo(long _ordemGrafo, long _numArestas);
 
 void lerAdjacencias(bool isContainPeso);
 
@@ -30,7 +30,7 @@ void verificaAdjacenciaVertices();
 
 void listaAdjacentesVertice();
 
-void geraGrafoInduzido();
+void geraSubGrafoInduzido();
 
 void verificaKRegularidade();
 
@@ -65,9 +65,12 @@ void adicionaVertice();
 
 void adicionaAresta();
 
+void sequenciaGraus();
+
 int main(int argc, char **argv) {
 
     int opMenu;
+    char cOrdemGrafo[15], cNumArestas[15];
 
     apresentacaoTrabalho();
 
@@ -92,22 +95,24 @@ int main(int argc, char **argv) {
         return 0;
     }
 
-    cout << "Lendo o Tamanho do Grafo...\nOK\n" << endl;
+    cout << "Lendo o Tamanho do grafo...\nOK\n" << endl;
     //Faz leitura do tamanho do Grafo
-    char cOrdemGrafo[15];
-    inputFile.getline(cOrdemGrafo, 80);
+    inputFile >> cOrdemGrafo >> cNumArestas;
 
     //Converte char para string e depois string para long
     string sOrdemGrafo = string(cOrdemGrafo);
-    tamanhoGrafo = stol(sOrdemGrafo); //voltar para sOrdemGrafo
+    string sNumArestas = string(cNumArestas);
+    ordemGrafo = stol(sOrdemGrafo); //voltar para sOrdemGrafo
+    numArestas = stol(sNumArestas);
 
-    cout << "Criando Grafo...\nOK\n" << endl;
-    criarGrafo(tamanhoGrafo);
 
-    cout << "Gerando Adjacências do Grafo...\nOK\n" << endl;
+    cout << "Criando grafo...\nOK\n" << endl;
+    criarGrafo(ordemGrafo, numArestas);
+
+    cout << "Gerando Adjacências do grafo...\nOK\n" << endl;
     lerAdjacencias(isContainPesoAresta);
 
-    criaCabecalho(tamanhoGrafo);
+    criaCabecalho(ordemGrafo);
 
     do {
         opMenu = exibeMenu();
@@ -153,27 +158,41 @@ void criaCabecalho(long _tamanhoGrafo) {
 int exibeMenu() {
     int opMenu;
 
-    cout << " 1- Verificar o Grau de um vértice" << endl;
-    cout << " 2- Verificar o Grau de G" << endl;
-    cout << " 3- Verificar adjacência entre vértices" << endl;
-    cout << " 4- Listar os adjacentes de um vértice" << endl;
-    cout << " 5- Dado um conjunto x de vértices, retornar o grafo induzido por x" << endl;
-    cout << " 6- Verificar se o Grafo é K-Regular" << endl;
-    cout << " 7- Retornar o Grafo Complementar G" << endl;
+
+    cout << " 1- Adicionar Vértice" << endl;
+    cout << " 2- Remover Vértice" << endl;
+    cout << " 3- Adicionar Aresta" << endl;
+    cout << " 4- Remover Aresta" << endl;
+    cout << " 5- Verificar o Grau de um vértice" << endl;
+    cout << " 6- Verificar sequência de graus" << endl;
+    cout << " 7- Verificar se o Grafo é K-Regular" << endl;
     cout << " 8- Verificar se o Grafo é Completo" << endl;
-    cout << " 9- Verificar se o Grafo é Bipartido" << endl;
-    cout << "10- Verificar se o Grafo é conexo" << endl;
-    cout << "11- Verificar se um dado Vértice é de Articulação" << endl;
-    cout << "12- Verificar se uma dada Aresta é Ponte" << endl;
-    cout << "13- Adicionar Vértice" << endl;
-    cout << "14- Remover Vértice" << endl;
-    cout << "15- Adicionar Aresta" << endl;
-    cout << "16- Remover Aresta" << endl;
+    cout << " 9- Verificar adjacência entre vértices" << endl;
+    cout << "10*- Realizar busca em largura" << endl;
+    cout << "11*- Realizar busca em profundidade" << endl;
+    cout << "12- Verificar se o Grafo é conexo" << endl;
+    cout << "13*- Verificar se vértices estão na mesma componente conexa" << endl;
+    cout << "14- Verificar se um dado Vértice é de Articulação" << endl;
+    cout << "15- Verificar se uma dada Aresta é Ponte" << endl;
+    cout << "16*- Verificar vizinhança de um vértice" << endl;
     cout << "17- Fecho Transitivo" << endl;
     cout << "18- Fecho Intransitivo" << endl;
-    cout << "19- Cobertura de Vértices Guloso" << endl;
-    cout << "20- Cobertura de Vértices Guloso Randomizado" << endl;
-    cout << "21- Cobertura de Vértices Guloso Randomizado Reativo" << endl;
+    cout << "19- Ordenação Topológica do DAG" << endl;
+    cout << "20*- Caminho Mínimo Dijkstra" << endl;
+    cout << "21*- Caminho Mínimo Floyd" << endl;
+    cout << "22- Verificar o subgrafo induzido por um dado subconjunto de vértices" << endl;
+    cout << "23*- Verificar Componentes Conexas" << endl;
+    cout << "24*- Verificar o grafo gerado pelo produto cartesiano entre o grafo e outro grafo" << endl;
+    cout << "24*- Árvore Geradora Mínima - Prim" << endl;
+    cout << "25*- Árvore Geradora Mínima - Kruskal" << endl;
+    cout << "26*- Verificar Grafo K-Conexo" << endl;
+    cout << "28*- Verificar se grafo é Euleriano" << endl;
+    cout << "29- Verificar o Grau de G" << endl;
+    cout << "30- Listar os adjacentes de um vértice" << endl;
+    cout << "31- Retornar o Grafo Complementar G" << endl;
+    cout << "32- Cobertura de Vértices Guloso" << endl;
+    cout << "33- Cobertura de Vértices Guloso Randomizado" << endl;
+    cout << "34- Cobertura de Vértices Guloso Randomizado Reativo" << endl;
     cout << " 0- Sair" << endl;
     cout << "\nOpção: ";
     cin >> opMenu;
@@ -187,31 +206,31 @@ void chamaFuncaoEscolhida(int opMenu) {
             break;
         }
         case 1: {
-            verificaGrauVertice();
+            adicionaVertice();
             break;
         }
         case 2: {
-            verificaGrauGrafo();
+            removeVertice();
             break;
         }
         case 3: {
-            verificaAdjacenciaVertices();
+            adicionaAresta();
             break;
         }
         case 4: {
-            listaAdjacentesVertice();
+            removeAresta();
             break;
         }
         case 5: {
-            geraGrafoInduzido();
+            verificaGrauVertice();
             break;
         }
         case 6: {
-            verificaKRegularidade();
+            sequenciaGraus();
             break;
         }
         case 7: {
-            geraGrafoComplemetar();
+            verificaKRegularidade();
             break;
         }
         case 8: {
@@ -219,35 +238,34 @@ void chamaFuncaoEscolhida(int opMenu) {
             break;
         }
         case 9: {
-            verificaBipartido();
+            verificaAdjacenciaVertices();
             break;
         }
         case 10: {
-            verificaConexo();
+            //realizaBuscaLargura();
             break;
         }
         case 11: {
-            isVerticeArticulacao();
-            break;
+            //realizaBuscaProfundidade();
         }
         case 12: {
-            isArestaPonte();
+            verificaConexo();
             break;
         }
         case 13: {
-            adicionaVertice();
+            //verificaNosComponentesConexa();
             break;
         }
         case 14: {
-            removeVertice();
+            isVerticeArticulacao();
             break;
         }
         case 15: {
-            adicionaAresta();
+            isArestaPonte();
             break;
         }
         case 16: {
-            removeAresta();
+            //mostraVizinhanca();
             break;
         }
         case 17: {
@@ -259,14 +277,66 @@ void chamaFuncaoEscolhida(int opMenu) {
             break;
         }
         case 19: {
-            coberturaDeVerticesGuloso();
+            //ordenacaoTopologicaDag();
             break;
         }
         case 20: {
-            //coberturaDeVerticesGulosoRandomizado();
+            //caminhoMinimoDijkstra();
             break;
         }
         case 21: {
+            //caminhoMinimoFloyd();
+            break;
+        }
+        case 22: {
+            geraSubGrafoInduzido();
+            break;
+        }
+        case 23:{
+            //verificarComponentesConexas();
+            break;
+        }
+        case 24: {
+            //produtoCartesianoGrafos();
+            break;
+        }
+        case 25: {
+            //arvoreGeradoraMinimaPrim();
+            break;
+        }
+        case 26: {
+            //arvoreGeradoraMinimaKruskal();
+            break;
+        }
+        case 27: {
+            //verificaGrafoKConexo();
+            break;
+        }
+        case 28: {
+            //verificaGrafoEuleriano();
+            break;
+        }
+        case 29: {
+            verificaGrauGrafo();
+            break;
+        }
+        case 30: {
+            listaAdjacentesVertice();
+            break;
+        }
+        case 31: {
+            geraGrafoComplemetar();
+            break;
+        }
+        case 32: {
+            //coberturaDeVerticesGuloso();
+            break;
+        }
+        case 33: {
+            //coberturaDeVerticesGulosoRandomizado();
+            break;
+        }
+        case 34: {
             //coberturaDeVerticesGulosoRandomizadoReativo();
             break;
         }
@@ -278,7 +348,6 @@ void chamaFuncaoEscolhida(int opMenu) {
 
 void adicionaAresta() {
     long idVerticeOrigem, idVerticeDestino, peso = 0;
-    bool arestaInvalida = false;
 
     cout << "Informe a aresta que deseja inserir: " << endl;
     cout << "Vértice de Origem: ";
@@ -307,7 +376,7 @@ void adicionaVertice() {
 void coberturaDeVerticesGuloso() {
     vector<long> verticesUtilizados;
 
-    Grafo grafoAux(1);
+    Grafo grafoAux(ordemGrafo,numArestas);
     grafoAux = grafo;
     multiset<pair<double, int>> rankeamentoDeVertices;
     pair<double, int> infoRankeamento; //pesoParaRankeamento, idVertice
@@ -330,11 +399,15 @@ void coberturaDeVerticesGuloso() {
         idVerticeMenorCusto = rankeamentoDeVertices.begin()->second;
 
         verticesUtilizados.push_back(idVerticeMenorCusto);    //utiliza vértice de menor custo
+        long teste;
 
         //Remove as arestas que o vértice cobre
-        for (auto adj : grafoAux.getVertice(idVerticeMenorCusto)->getVerticesAdjacentes()) {
-            long teste = adj.getIdVertice();
-            grafoAux.removeAresta(idVerticeMenorCusto, adj.getIdVertice());
+        auto it = grafoAux.getVertice(idVerticeMenorCusto)->getVerticesAdjacentes();
+        for (int i=0; i< grafo.getTamTabHashAdj(); i++) {
+            for(auto adj = it[i].begin(); adj != it[i].end(); adj++) {
+                teste = adj->getIdVertice();
+                grafoAux.removeVerticeAdjacente(idVerticeMenorCusto, adj->getIdVertice());
+            }
         }
 
         //Verifica se a cobertura está completa
@@ -367,7 +440,7 @@ void verificaFechoTransitivo() {
         cout << "Informe o id do Vértice que deseja visitar: ";
         cin >> idVertice;
 
-        if (idVertice < 0 || idVertice >= tamanhoGrafo) {
+        if (idVertice < 0 || idVertice >= ordemGrafo) {
             cout << "Vertice inválido!\n " << endl;
         } else {
             sFechoTransitivo = grafo.fechoTransitivo(idVertice);
@@ -375,7 +448,7 @@ void verificaFechoTransitivo() {
             outputFile << "Fecho Transitivo do Vértice " << idVertice << " -> ";
             outputFile << sFechoTransitivo << endl;
         }
-    } while (idVertice < 0 || idVertice >= tamanhoGrafo);
+    } while (idVertice < 0 || idVertice >= ordemGrafo);
 }
 
 void verificaFechoIntransitivo() {
@@ -386,7 +459,7 @@ void verificaFechoIntransitivo() {
         cout << "Informe o id do Vértice que deseja visitar: ";
         cin >> idVertice;
 
-        if (idVertice < 0 || idVertice >= tamanhoGrafo) {
+        if (idVertice < 0 || idVertice >= ordemGrafo) {
             cout << "Vertice inválido!\n " << endl;
         } else {
             sFechoIntransitivo = grafo.fechoIntransitivo(idVertice);
@@ -394,7 +467,7 @@ void verificaFechoIntransitivo() {
             outputFile << "Fecho Intransitivo do Vértice " << idVertice << " -> ";
             outputFile << sFechoIntransitivo << endl;
         }
-    } while (idVertice < 0 || idVertice >= tamanhoGrafo);
+    } while (idVertice < 0 || idVertice >= ordemGrafo);
 }
 
 void removeVertice() {
@@ -412,7 +485,7 @@ void removeAresta() {
     cout << "Informe o Vértice de Destino: ";
     cin >> idDestino;
 
-    if (grafo.removeAresta(idOrigem, idDestino)) {
+    if (grafo.removeVerticeAdjacente(idOrigem, idDestino)) {
         cout << "Aresta removida corretamente" << endl;
     }
     cout << endl;
@@ -426,15 +499,15 @@ bool isVerticeArticulacao() {
 
 }
 
-void criarGrafo(long _tamanhoGrafo) {
-    Grafo grafoAux(tamanhoGrafo);   //cria grafo auxiliar
+void criarGrafo(long _ordemGrafo, long _numArestas) {
+    Grafo grafoAux(_ordemGrafo,_numArestas);   //cria grafo auxiliar
 
     grafo = grafoAux;
+
     long i = 0;
     int op;
 
-
-    while (i < _tamanhoGrafo) {
+    while (i < _ordemGrafo) {
         grafo.addVertice(i);
         i++;
     }
@@ -493,13 +566,13 @@ void verificaGrauVertice() {
     do {
         cout << "Digite o id do Vértice que deseja consultar seu Grau: ";
         cin >> idVertice;
-        list<Vertice>::iterator it = grafo.isContainVertice(idVertice);
+        auto it = grafo.isContainVertice(idVertice);
 
         if (it == grafo.itUltimaPosicao(idVertice)) {  //it não encontrou o vértice
-            cout << "Erro: Vértice Inválido!\n" << endl;
+            cout << "Erro: O grafo não possui vértice com o id informado!\n" << endl;
         } else {
             cout << "Verificando Grau do Vértice " << idVertice << "...\nOK\n" << endl;
-            outputFile << "gr(" << idVertice << "): " << grafo.verificaGrauVertice(idVertice) << endl;
+            outputFile << "gr(" << idVertice << "): " << grafo.getGrauVertice(idVertice) << endl;
         }
         cout << "0- Encerrar Função    1-Escolher Outro Vértice" << endl;
         cin >> op;
@@ -508,7 +581,7 @@ void verificaGrauVertice() {
 
 void verificaGrauGrafo() {
     outputFile << "gr(G): " << grafo.verificaGrauGrafo() << endl;
-    cout << "Verificando Grau do Grafo...\nOK\n" << endl;
+    cout << "Verificando Grau do grafo...\nOK\n" << endl;
 }
 
 void verificaAdjacenciaVertices() {
@@ -520,9 +593,9 @@ void verificaAdjacenciaVertices() {
         cout << "Vértice de Destino: ";
         cin >> idVerticeDestino;
 
-        if (idVerticeOrigem < 0 || idVerticeDestino >= tamanhoGrafo) {
+        if (idVerticeOrigem < 0 || idVerticeDestino >= ordemGrafo) {
             cout << "ERRO: Vértice de Origem Inválido!" << endl;
-        } else if (idVerticeDestino < 0 || idVerticeDestino >= tamanhoGrafo) {
+        } else if (idVerticeDestino < 0 || idVerticeDestino >= ordemGrafo) {
             cout << "ERRO: Vértice de Destino Inválido!" << endl;
         } else {
             cout << "Verificando Adjacência(" << idVerticeOrigem << "," << idVerticeDestino << ")...\nOK\n" << endl;
@@ -558,10 +631,10 @@ void listaAdjacentesVertice() {//4- Lista os Adjacentes de um Vértice
     } while (op != 0);
 }
 
-void geraGrafoInduzido() {
+void geraSubGrafoInduzido() {
     long numVertices, idVertice;
     int i;
-    list <Adjacente> verticesAdjacentes;
+    list <Adjacente> *verticesAdjacentes;
 
     cout << "Gerar Grafo Induzido" << endl;
     cout << "Informe a quantidade de vértices do Grafo Induzido: ";
@@ -575,7 +648,7 @@ void geraGrafoInduzido() {
         cin >> idVertice;
 
         //verifica vertices informados
-        if (idVertice < 0 || idVertice >= tamanhoGrafo) {
+        if (idVertice < 0 || idVertice >= ordemGrafo) {
             cout << "Erro: Vértice Inválido!\n" << endl;
             i--;    //não atualiza contagem
         } else {
@@ -589,7 +662,7 @@ void geraGrafoInduzido() {
     cout << "Gerando Grafo Induzido...\n";
 
     outputFile << "\nGrafo Induzido do conjunto de Vértices(";
-    for (int i = 0; i < numVertices; i++) {
+    for (i = 0; i < numVertices; i++) {
         outputFile << verticesGrafoInduzido[i];
         //não mostrar vírgula pro último elemento
         if (i != numVertices - 1) {
@@ -605,11 +678,12 @@ void geraGrafoInduzido() {
         verticesAdjacentes = grafo.getVertice(verticesGrafoInduzido[i])->getVerticesAdjacentes();
 
         //verifica os não adjacentes
-        for (list<Adjacente>::iterator it = verticesAdjacentes.begin(); it != verticesAdjacentes.end(); it++) {
-
-            for (int j = 0; j < numVertices; j++) {
-                if (it->getIdVertice() == verticesGrafoInduzido[j])
-                    outputFile << verticesGrafoInduzido[j] << " ";
+        for(int j=0; j<grafo.getTamTabHashAdj(); j++){
+            for(auto it=verticesAdjacentes[j].begin(); it != verticesAdjacentes[j].end(); it++){
+                for (int k = 0; k < numVertices; k++) {
+                    if (it->getIdVertice() == verticesGrafoInduzido[k])
+                        outputFile << verticesGrafoInduzido[k] << " ";
+                }
             }
         }
 
@@ -618,52 +692,62 @@ void geraGrafoInduzido() {
     cout << "Ok\n" << endl;
 }
 
-void verificaKRegularidade() {//6- Verifica se Grafo é K-Regular
+void verificaKRegularidade() {
+    cout << "Verificando K-Regularidade...";
     if (grafo.verificaKRegular(&kRegular)) {
-        outputFile << "K-Regular: SIM - Grafo " << kRegular << "-Regular" << endl;
+        outputFile << "Grafo K-Regular? SIM, Grafo " << kRegular << "-Regular" << endl;
     } else {
-        outputFile << "K-Regular: NÃO" << endl;
+        outputFile << "Grafo K-Regular? NÃO" << endl;
     }
+    cout << "\nOk\n" << endl;
 }
 
-void geraGrafoComplemetar() {//7 - Retorna o Grafo Complementar
+/**
+ * Gera o grafo complementar a um grafo dado grafo
+ */
+void geraGrafoComplemetar() {
     cout << "Gerando Grafo Complementar...\nOK\n" << endl;
 
-    Grafo grafoComplementar(grafo.getOrdemGrafo());
+    //Cria a tabela hash dos adjacentes com base no numero de arestas que complementam as atuais
+    long numArestasComplementar = (grafo.getOrdemGrafo() * grafo.getOrdemGrafo()-1) - numArestas;
 
-    vector<bool> idVerticesAdjacentes(tamanhoGrafo);
-    list <Adjacente> verticesAdjacentes;
+    Grafo grafoComplementar(grafo.getOrdemGrafo(),numArestasComplementar);
+
+    vector<bool> idVerticesAdjacentes((unsigned long) ordemGrafo);
+    list <Adjacente> *verticesAdjacentes;
     long pos;
 
     outputFile << "\n\nGrafo Complementar:" << endl;
 
-    long tamanhoGrafoAux = tamanhoGrafo;
+    long tamanhoGrafoAux = ordemGrafo;
     //Zera vetor
-    for (int k = 0; k < tamanhoGrafo; k++) {
+    for (int k = 0; k < ordemGrafo; k++) {
         idVerticesAdjacentes[k] = false;
     }
 
     //Cria Grafo
     while (--tamanhoGrafoAux >= 0) {
-        grafoComplementar.addVertice(0);
+        grafoComplementar.addVertice(tamanhoGrafoAux);
     }
     grafoComplementar.setIsGrafoDirecionado(false);    //informa se o grafo é direcionado
 
 
-    for (long i = 0; i < tamanhoGrafo; i++) {
+    for (long i = 0; i < ordemGrafo; i++) {
 
         //obtem os adjacentes do vértice
         verticesAdjacentes = grafo.getVertice(i)->getVerticesAdjacentes();
 
         //Marca todos adjacentes como true no vetor auxiliar
-        for (list<Adjacente>::iterator it = verticesAdjacentes.begin(); it != verticesAdjacentes.end(); ++it) {
-            pos = it->getIdVertice();
-            idVerticesAdjacentes[pos] = true;
+        for(int j=0; j<grafo.getTamTabHashAdj(); j++){
+            for(auto it = verticesAdjacentes[j].begin(); it != verticesAdjacentes[j].end(); j++){
+                pos = it->getIdVertice();
+                idVerticesAdjacentes[pos] = true;
+            }
         }
 
         //escreve no arquivo os vértices que não são adjacentes
         outputFile << i << " -> ";
-        for (long j = 0; j < tamanhoGrafo; j++) {
+        for (long j = 0; j < ordemGrafo; j++) {
             if (i != j && idVerticesAdjacentes[j] == false) {
                 outputFile << j << " ";
             }
@@ -671,15 +755,16 @@ void geraGrafoComplemetar() {//7 - Retorna o Grafo Complementar
         outputFile << "\n" << endl;
 
         //Zera vetor
-        for (int k = 0; k < tamanhoGrafo; k++) {
+        for (int k = 0; k < ordemGrafo; k++) {
             idVerticesAdjacentes[k] = false;
         }
     }
 }
 
-void verificaGrafoCompleto() {//8- Verifica se G é completo
-    cout << "Verificando se Grafo é Completo...\nOK\n" << endl;
+void verificaGrafoCompleto() {
+    cout << "Verificando se Grafo é Completo...";
     outputFile << (grafo.isCompleto() ? "Grafo Completo: SIM" : "Grafo Completo: NÃO") << endl;
+    cout << "\nOk\n" << endl;
 }
 
 void verificaConexo() {
@@ -690,10 +775,25 @@ void verificaConexo() {
 
 }
 
-void verificaBipartido() {
 
-    cout << "Verificando se Grafo é Bipartido...";
-    outputFile << (grafo.isGrafoBipartido() ? "Grafo Bipartido: SIM" : "Grafo Bipartido: NÃO") << endl;
+/**
+ * Informa a sequência de graus do grafo
+ */
+void sequenciaGraus(){
+    multiset<long, greater<long> > sequencia = grafo.sequenciaGraus();  //ordenação decrescente
+    auto setIni = sequencia.begin();
+    auto setFim = sequencia.end();
 
-    cout << "\nOK\n\n" << endl;
+    outputFile << "Sequência de Graus do Grafo: <";
+
+    while(setIni != setFim){
+        outputFile << *setIni;
+        setIni++;
+
+        if(setIni != setFim){
+            outputFile << ", ";
+        }else{
+            outputFile << ">\n";
+        }
+    }
 }

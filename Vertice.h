@@ -22,16 +22,18 @@ private:
     long idVertice;
     long grau;
     double peso;
-    list<Adjacente> verticesAdjacentes;
-    static long contVertice;
+    list<Adjacente> *verticesAdjacentes;
+    long tamTabHashAdjacentes;
     Coloracao corVisita;
 
+    long calculaIndiceTabela(long _idVertice);
+
 public:
-    Vertice();
+    Vertice(long _tamTabHashAdjacentes, long _idVertice);
     virtual ~Vertice();
-    int getIdVertice();
+    long getIdVertice();
     void setIdVertice(long _idVertice);
-    list<Adjacente> getVerticesAdjacentes();
+    list<Adjacente> *getVerticesAdjacentes();
     void addVerticeAdjacente(long _idVerticeAdjacente, float _pesoAresta);
     bool removeVerticeAdjacente(long _idVertice);
     string listarAdjacentes();
@@ -41,6 +43,7 @@ public:
     void setPeso(double peso);
     long getGrau() const;
     void reduzGrau();
+    bool verificaAdjacencia(long _idAdjacente);
 };
 
 

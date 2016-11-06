@@ -4,7 +4,4 @@ Matrícula: 201465555A
 
 
 Análise do Grafo
-Número de Vértices: 5
-gr(1): 1
-gr(1): 2
-gr(1): 1
+Número de Vértices: 4

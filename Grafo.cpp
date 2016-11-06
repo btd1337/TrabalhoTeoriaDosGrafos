@@ -3,23 +3,30 @@
 //
 
 #include "Grafo.h"
-#include "Vertice.h"
-#include "Coloracao.h"
+
 
 using namespace std;
 
-Grafo::Grafo(long _ordemGrafo) {
+Grafo::Grafo(long _ordemGrafo, long _numArestas) {
 
     //Caso a ordem do grafo seja 1 -> 1/2 = 0 , então é necessário alocar 1 posição pra tabela hash
-    _ordemGrafo == 1 ? (tamTabelaHash = 1) : (tamTabelaHash = _ordemGrafo/2);
+    _ordemGrafo == 1 ? (tamTabHashVertices = 1) : (tamTabHashVertices = _ordemGrafo/2);
+
+
+    //usada pra saber o tamanho inicial da tab hash dos adjacentes de um vértice
+    if(_numArestas <= _ordemGrafo || ordemGrafo == 0){
+        tamTabHashAdjacentes = 1;
+    }else{
+        tamTabHashAdjacentes == _numArestas/ordemGrafo;
+    }
+
     ordemGrafo = 0; //inicializa variável que será incrementada em addVertice()
     numArestas = 0;
 
-    list<Vertice> aux(tamTabelaHash);
-    vertices = new list<Vertice>[tamTabelaHash];
+    vertices = new list<Vertice>[tamTabHashVertices];
 
     //inicialização da estrutura pra tabela hash
-    for(int i=0; i<_ordemGrafo/2; i++){
+    for(int i=0; i<tamTabHashVertices; i++){
         vertices[i].clear();
     }
 
@@ -43,7 +50,7 @@ void Grafo::setIsGrafoDirecionado(bool _isDirecionado){
  */
 void Grafo::imprimeVertices()
 {
-    for(int i=0; i< tamTabelaHash; i++){
+    for(int i=0; i< tamTabHashVertices; i++){
         for(int j=0; j< vertices[i].size(); j++) {
             cout << getVertice(i)->getIdVertice() << endl;
         }
@@ -51,7 +58,9 @@ void Grafo::imprimeVertices()
 }
 
 /**
- * Retorna um ponteiro de um vértice do grafo
+ * Retorna um ponteiro de um vértice do grafo, se a busca não obtiver
+ * resultado retonar end() apontando pra ultima posição da lista relacionada aquele indice
+ * da tabela hash
  * @param _idVertice - id do vértice que deseja obter a referência
  * @return referência pro vértice procurado no grafo
  */
@@ -59,12 +68,15 @@ list<Vertice>::iterator Grafo::getVertice(long _idVertice)
 {
     long indice = calculaIndiceTabela(_idVertice);
 
-    for(list<Vertice>::iterator v = vertices[indice].begin(); v!= vertices[indice].end(); v++){
-        if(v->getIdVertice() == _idVertice){
-            return v;
+    auto v = vertices[indice].begin();
+
+    while(v!= vertices[indice].end()){
+        if (v->getIdVertice() == _idVertice) {
+            break;
         }
+        v++;
     }
-    list<Vertice>::iterator v = vertices[indice].end(); //caso não seja encontrado
+
     return v;
 }
 
@@ -75,15 +87,15 @@ list<Vertice>::iterator Grafo::getVertice(long _idVertice)
 void Grafo::addVertice(long _idVertice)
 {
     auto it = isContainVertice(_idVertice);
-    if(it != itUltimaPosicao(_idVertice)){
-        cout << _idVertice << endl;
-        cout << "Esse vértice já existe! \n" << endl;
-    }else {
+    //Se não encontrar o vértice é porque ele não está presente e pode ser adicionado
+    if(it == itUltimaPosicao(_idVertice)){
         long indice = calculaIndiceTabela(_idVertice);
-        Vertice vertice;
-        vertice.setIdVertice(_idVertice);
+        Vertice vertice(tamTabHashAdjacentes, _idVertice);
         vertices[indice].push_back(vertice);
         ordemGrafo++;
+    }else {
+        cout << _idVertice << endl;
+        cout << "Esse vértice já existe! \n" << endl;
     }
 }
 
@@ -94,7 +106,7 @@ void Grafo::addVertice(long _idVertice)
  * @param _verticeDestino
  * @param _pesoAresta
  */
-void Grafo::addVerticeAdjacente(int _verticeOrigem, int _verticeDestino, float _pesoAresta)
+long Grafo::addVerticeAdjacente(long _verticeOrigem, long _verticeDestino, float _pesoAresta)
 {
 
     //verifica existência dos vértices
@@ -127,16 +139,18 @@ void Grafo::addVerticeAdjacente(int _verticeOrigem, int _verticeDestino, float _
  * Método auxiliar ao método isConexo.
  * @param _vertice: id do vértice onde vai ser feita a verificação
  */
-void Grafo::auxIsConexo(int _vertice){
+void Grafo::auxIsConexo(long _vertice){
     //Seta vértice atual como visitado
     getVertice(_vertice)->setCorVisita(Coloracao::AZUL);
 
-    list<Adjacente> verticesAdjacentes = getVertice(_vertice)->getVerticesAdjacentes();
+    list<Adjacente> *verticesAdjacentes = getVertice(_vertice)->getVerticesAdjacentes();
 
-    for (list<Adjacente>::iterator it = verticesAdjacentes.begin(); it != verticesAdjacentes.end() ; it++) {
-        //verifica se o vértice ainda não foi corVisita
-        if(getVertice(it->getIdVertice())->getVisitado() == Coloracao::SEMCOR);
+    for(int i=0; i<tamTabHashAdjacentes; i++){
+        for (auto it = verticesAdjacentes[i].begin(); it != verticesAdjacentes[i].end() ; it++) {
+            //verifica se o vértice ainda não foi corVisita
+            if(getVertice(it->getIdVertice())->getVisitado() == Coloracao::SEMCOR);
             auxIsConexo(it->getIdVertice());
+        }
     }
 
 }
@@ -164,69 +178,17 @@ bool Grafo::isConexo(){
 }
 
 /**
- * Método auxiliar ao método isBipartido
- * @param _vertice: id do Vértice atual
- * @param _numPasso: número de etapas até então
- * @return true caso o vértice atual tenha sido colorido corretamente, false caso contrário
- */
-bool Grafo::auxIsBipartido(long _vertice, long _numPasso){
-    bool coloriuCorretamente = false;
-    Coloracao corDePreenchimento = Coloracao::SEMCOR;
-    _numPasso%2==0 ? corDePreenchimento=Coloracao::AZUL : corDePreenchimento=Coloracao::VERDE;
-
-    if(getVertice(_vertice)->getVisitado() == Coloracao::SEMCOR){
-        getVertice(_vertice)->setCorVisita(corDePreenchimento);
-
-        //Adjacente auxAdj(0);
-        //percorre a lista dos adjacentes do vértice atual
-        //for(auxAdj : getVertice(_vertice)->getVerticesAdjacentes()){
-        //Cria Arestas
-        for(Adjacente adj : getVertice(_vertice)->getVerticesAdjacentes()){
-            coloriuCorretamente = auxIsBipartido(adj.getIdVertice(),_numPasso+1);
-            if(!coloriuCorretamente){
-                break;
-            }
-        }
-    }
-    else{
-        if(getVertice(_vertice)->getVisitado() != corDePreenchimento){
-            return false;
-        }
-    }
-    return true;
-}
-
-bool Grafo::isGrafoBipartido(){
-    int passo=0;
-    int j=0;
-    isBipartido = true; //seta o grafo como bipartido, caso provado que não seja, a variável é setada com false
-
-    //determina que todos vértices não foram visitados.
-    for(int i=0; i < ordemGrafo; i++){
-        getVertice(i)->setCorVisita(Coloracao::SEMCOR);    //marca vértice como não visitado
-    }
-
-    isBipartido = auxIsBipartido(0,passo);
-
-}
-
-long Grafo::verificaGrauVertice(long _idVertice){
-    //return getVertice(_idVertice)->getVerticesAdjacentes().size();
-    return getVertice(_idVertice)->getGrau();
-}
-
-/**
  * Identifica o grau de um grafo
  * @return grau do vértice de maior grau
  */
 long Grafo::verificaGrauGrafo(){
     //Associa grauMax ao primeiro vértice da tabela
-    long grauMax=verificaGrauVertice(vertices[0].begin()->getIdVertice());
+    long grauMax=getGrauVertice(vertices[0].begin()->getIdVertice());
     long grauVerticeAtual;
 
-    for(int i=0; i<tamTabelaHash; i++){
+    for(int i=0; i<tamTabHashVertices; i++){
         for(list<Vertice>::iterator it = vertices[i].begin(); it != vertices[i].end(); it++) {
-            grauVerticeAtual = verificaGrauVertice(it->getIdVertice());
+            grauVerticeAtual = getGrauVertice(it->getIdVertice());
             if (grauVerticeAtual > grauMax)
                 grauMax = grauVerticeAtual;
         }
@@ -234,53 +196,69 @@ long Grafo::verificaGrauGrafo(){
     return grauMax;
 }
 
+/**
+ * Verifica adjacencia entre 2 vértices
+ * @param _idVerticeOrigem
+ * @param _idVerticeDestino
+ * @return valor lógico
+ */
 bool Grafo::verificaAdjacencia(long _idVerticeOrigem, long _idVerticeDestino){
-    list<Adjacente> verticesAdjacentes = getVertice(_idVerticeOrigem)->getVerticesAdjacentes();
 
-    for(list<Adjacente>::iterator it = verticesAdjacentes.begin(); it != verticesAdjacentes.end() ; it++){
-        if(it->getIdVertice() == _idVerticeDestino)
-            return true;
-    }
-    return false;
+    return getVertice(_idVerticeOrigem)->verificaAdjacencia(_idVerticeDestino);
+
 }
 
+/**
+ * Verifica se o grafo é regular e caso seja, passa por ponteiro a k-regularidade
+ * @param kRegular
+ * @return valor lógico para a função
+ */
 bool Grafo::verificaKRegular(long *kRegular){
-    *kRegular = getVertice(0)->getVerticesAdjacentes().size();
+    *kRegular = vertices[0].begin()->getGrau();
 
-    for(int i=1; i < ordemGrafo; i++){
-        if(getVertice(i)->getVerticesAdjacentes().size() != *kRegular)
-            return false;
+    for(int i=0; i<tamTabHashVertices; i++){
+        for(auto it = vertices[i].begin(); it != vertices[i].end(); it++) {
+            if (it->getGrau() != *kRegular)
+                return false;
+        }
     }
     return true;
 }
 
+/**
+ * Verifica se o grafo é completo
+ * @return valor lógico para a função
+ */
 bool Grafo::isCompleto(){
-    for(int i=0; i < ordemGrafo; i++){
-        if(getVertice(i)->getVerticesAdjacentes().size() != ordemGrafo - 1);
-        return false;
-    }
-    return true;
+    long kregular;
+    //Condição: Grafo é k-regular e se a k-regularidade é ordem do Grafo - 1;
+    return verificaKRegular(&kregular) && kregular == ordemGrafo - 1;
+
 }
 
 
-bool Grafo::removeVertice(int _idVertice) {
+bool Grafo::removeVertice(long _idVertice) {
 
     //it recebe o iterador da posição onde está o vértice ou nullptr
     list<Vertice>::iterator it = isContainVertice(_idVertice);
 
     if(it == itUltimaPosicao(_idVertice)){  //caso o método isContainVertice não encontrar o vértice
         cout << "Erro: Não existe vértice com este id no Grafo.\n" << endl;
+        return false;
 
     }else{
         //Remove as arestas do vértice
-        for(Adjacente adjacente : it->getVerticesAdjacentes()){
-            removeAresta(it->getIdVertice(),adjacente.getIdVertice());
+        list<Adjacente> *adjacentes = it->getVerticesAdjacentes();
+
+        for(auto adj = adjacentes->begin(); adj != adjacentes->end(); adj++){
+            removeVerticeAdjacente(it->getIdVertice(), adj->getIdVertice());
         }
         long indice = calculaIndiceTabela(_idVertice);
         vertices[indice].erase(it);
         cout << "Vértice removido com sucesso.\n" <<endl;
         ordemGrafo--;
     }
+    return true;
 }
 
 
@@ -296,7 +274,7 @@ bool Grafo::auxRemoveAresta(int _idVerticeOrigem, int _idVerticeDestino) {
 }
 
 
-bool Grafo::removeAresta(int _idVerticeOrigem, int _idVerticeDestino) {
+bool Grafo::removeVerticeAdjacente(int _idVerticeOrigem, int _idVerticeDestino) {
 
     //verifica se os vértices são válidos
     auto it = isContainVertice(_idVerticeOrigem);
@@ -309,8 +287,6 @@ bool Grafo::removeAresta(int _idVerticeOrigem, int _idVerticeDestino) {
         cout << "Erro: Não existe vértice com o id informado como Destino!\n" << endl;
         return false;
     }
-
-    bool isRemovido;
 
     if(isGrafoDirecionado){
         //Verifica se existe a aresta
@@ -331,7 +307,7 @@ bool Grafo::removeAresta(int _idVerticeOrigem, int _idVerticeDestino) {
 
 
 void Grafo::auxFechoTransitivo(long _idVertice, set<int> *percorridos) {
-
+    /*
     if(_idVertice<0 || _idVertice >= ordemGrafo){
         cout << "Vertice inválido" << endl;
     }
@@ -353,7 +329,7 @@ void Grafo::auxFechoTransitivo(long _idVertice, set<int> *percorridos) {
             }
         }
     }
-
+    */
 }
 
 
@@ -383,7 +359,7 @@ string Grafo::fechoTransitivo(long _idVertice) {
 
 
 void Grafo::auxFechoIntransitivo(Grafo *grafoAux, long _idVertice, set<int> *percorridos) {
-
+    /*
     //Percorre apenas se o vértice já não tiver sido verificado
 
     percorridos->insert(_idVertice); //insere à lista de vértices percorridos
@@ -399,11 +375,13 @@ void Grafo::auxFechoIntransitivo(Grafo *grafoAux, long _idVertice, set<int> *per
             auxFechoIntransitivo(grafoAux, adj, percorridos);  //chama recursivamente a função passando os vértices adjacentes
         }
     }
+     */
 }
 
 
 string Grafo::fechoIntransitivo(long _idVertice) {
     string sFechoIntransitivo = "";
+    /*
     set<int> verticesPercorridos;
 
     //Seta todos como não-visitados
@@ -452,6 +430,7 @@ string Grafo::fechoIntransitivo(long _idVertice) {
     }
 
     cout << "\n\n" << endl;
+     */
     return sFechoIntransitivo;
 
 }
@@ -466,8 +445,8 @@ long Grafo::getOrdemGrafo() {
  * @return indice para a posição
  */
 
-int Grafo::calculaIndiceTabela(long _idVertice) {
-    return _idVertice % tamTabelaHash;
+long Grafo::calculaIndiceTabela(long _idVertice) {
+    return _idVertice % tamTabHashVertices;
 }
 
 /**
@@ -481,24 +460,25 @@ list<Vertice>::iterator Grafo::isContainVertice(long _idVertice) {
 
     //identifica em qual posição da tabela hash o vértice deveria estar
     long posicao = calculaIndiceTabela(_idVertice);
+    long idVerticeAtual;
     list<Vertice>::iterator it;
 
     for(it = vertices[posicao].begin(); it != vertices[posicao].end(); it++){
         //Se encontrar o vértice
-        if(it->getIdVertice() == _idVertice){
+        idVerticeAtual = it->getIdVertice();
+        if(idVerticeAtual == _idVertice){
             return it;
         }
     }
     //Se vértice não estiver presente, vai retornar it apontando pro end do último elemento do vetor
-    it = vertices[posicao].end();
     return it;
 }
 
 /**
  * @return numero de elementos do vetor de posições para a tabela hash dos vértices
  */
-long Grafo::getTamTabelaHash() {
-    return tamTabelaHash;
+long Grafo::getTamTabHashVertices() {
+    return tamTabHashVertices;
 }
 
 list <Vertice> *Grafo::getVertices() {
@@ -522,6 +502,33 @@ list<Vertice>::iterator Grafo::itUltimaPosicao(long _idVertice) {
  */
 bool Grafo::isDirecionado() {
     return isGrafoDirecionado;
+}
+
+long Grafo::getGrauVertice(long _idVertice) {
+    return getVertice(_idVertice)->getGrau();
+}
+
+multiset<long, greater<long> > Grafo::sequenciaGraus() {
+    multiset<long, greater<long> > listaGraus;
+
+    for(int i=0; i<tamTabHashVertices; i++){
+        for(auto it = vertices[i].begin(); it != vertices[i].end(); it++){
+            listaGraus.insert(it->getGrau());
+        }
+    }
+
+    return listaGraus;
+}
+
+void Grafo::setTamTabHashAdjacentes(long _tam) {
+    tamTabHashAdjacentes = _tam;
+}
+
+/**
+ * @return tamanho da tabela hash dos adjacentes de um vértice
+ */
+long Grafo::getTamTabHashAdj() {
+    return tamTabHashAdjacentes;
 }
 
 

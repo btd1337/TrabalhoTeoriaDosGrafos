@@ -3,14 +3,12 @@
 //
 
 #include "Vertice.h"
-#include "Adjacente.h"
-#include <list>
 
-long Vertice::contVertice = 0;
-
-Vertice::Vertice() {
-    idVertice = contVertice;
-    contVertice++;
+Vertice::Vertice(long _tamTabHashAdjacentes, long _idVertice) {
+    idVertice = _idVertice;
+    tamTabHashAdjacentes = _tamTabHashAdjacentes;
+    //cria tab hash na media numArestas/numVertices
+    verticesAdjacentes = new list<Adjacente>((unsigned long) tamTabHashAdjacentes);
     corVisita = Coloracao::SEMCOR;  //inicia o vértice sem cor
     grau = 0;
     peso = 1 + idVertice * 2;
@@ -20,7 +18,7 @@ Vertice::~Vertice() {
     // TODO Auto-generated destructor stub
 }
 
-int Vertice::getIdVertice() {
+long Vertice::getIdVertice() {
     return idVertice;
 }
 
@@ -28,13 +26,15 @@ void Vertice::setIdVertice(long _idVertice) {
     idVertice = _idVertice;
 }
 
-list<Adjacente> Vertice::getVerticesAdjacentes() {
+list<Adjacente> *Vertice::getVerticesAdjacentes() {
     return verticesAdjacentes;
 }
 
 void Vertice::addVerticeAdjacente(long _idVerticeAdjacente, float _pesoAresta) {
+    long indice = calculaIndiceTabela(_idVerticeAdjacente);
+
     Adjacente verticeAdjacente(_idVerticeAdjacente,_pesoAresta);
-    verticesAdjacentes.push_back(verticeAdjacente);
+    verticesAdjacentes[indice].push_back(verticeAdjacente);
     grau++;
 }
 
@@ -45,10 +45,11 @@ void Vertice::addVerticeAdjacente(long _idVerticeAdjacente, float _pesoAresta) {
  */
 bool Vertice::removeVerticeAdjacente(long _idVertice) {
 
-    for (auto it = verticesAdjacentes.begin(); it != verticesAdjacentes.end() ; ++it) {
+    long indice = calculaIndiceTabela(_idVertice);
+    for (auto it = verticesAdjacentes[indice].begin(); it != verticesAdjacentes[indice].end() ; ++it) {
         //Percorre a lista de adjacentes e verifica se o rótulo é o procurado
         if(it->getIdVertice() == _idVertice){
-            verticesAdjacentes.erase(it);
+            verticesAdjacentes[indice].erase(it);
             grau--;
             return true;
         }
@@ -60,9 +61,11 @@ bool Vertice::removeVerticeAdjacente(long _idVertice) {
 string Vertice::listarAdjacentes()
 {
     string listaDeAdjacentes = "";
-    for (list<Adjacente>::iterator it = verticesAdjacentes.begin(); it != verticesAdjacentes.end() ; ++it) {
-        listaDeAdjacentes += to_string(it->getIdVertice());
-        listaDeAdjacentes += " ";
+    for(int i=0; i<tamTabHashAdjacentes; i++){
+        for(auto it = verticesAdjacentes[i].begin(); it != verticesAdjacentes[i].end(); it++){
+            listaDeAdjacentes += to_string(it->getIdVertice());
+            listaDeAdjacentes += " ";
+        }
     }
     return listaDeAdjacentes;
 }
@@ -89,4 +92,19 @@ void Vertice::setPeso(double peso) {
 
 void Vertice::reduzGrau() {
     grau--;
+}
+
+long Vertice::calculaIndiceTabela(long _idVertice) {
+    return _idVertice % tamTabHashAdjacentes;
+}
+
+bool Vertice::verificaAdjacencia(long _idAdjacente) {
+    long indice = calculaIndiceTabela(_idAdjacente);
+
+    for(auto it = verticesAdjacentes[indice].begin(); it != verticesAdjacentes[indice].end(); it++){
+        if(it->getIdVertice() == _idAdjacente){
+            return true;
+        }
+    }
+    return false;
 }
