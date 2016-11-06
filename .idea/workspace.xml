@@ -11,15 +11,8 @@
     </ADDITIONAL_GENERATION_ENVIRONMENT>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="998a094e-5df7-4d1a-9f88-247ca89f68b0" name="Default" comment="&quot;TG 2.1&#10;Concluida refatoração para tabela hash, tanto pros vértices, quanto pras arestas,&#10;Refeita ordenação do menu de exibição&quot;">
+    <list default="true" id="998a094e-5df7-4d1a-9f88-247ca89f68b0" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Grafo.cpp" afterPath="$PROJECT_DIR$/Grafo.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Grafo.h" afterPath="$PROJECT_DIR$/Grafo.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main.cpp" afterPath="$PROJECT_DIR$/Main.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Vertice.cpp" afterPath="$PROJECT_DIR$/Vertice.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Vertice.h" afterPath="$PROJECT_DIR$/Vertice.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/input.txt" afterPath="$PROJECT_DIR$/input.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output.txt" afterPath="$PROJECT_DIR$/output.txt" />
     </list>
     <ignored path="TrabalhoGrafos.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -82,8 +75,8 @@
       <file leaf-file-name="Main.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="143">
-              <caret line="715" column="66" selection-start-line="715" selection-start-column="66" selection-end-line="715" selection-end-column="66" />
+            <state relative-caret-position="287">
+              <caret line="723" column="42" selection-start-line="723" selection-start-column="42" selection-end-line="723" selection-end-column="42" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -436,7 +429,7 @@
       <workItem from="1477629465104" duration="1166000" />
       <workItem from="1478007879538" duration="39000" />
       <workItem from="1478195390887" duration="299000" />
-      <workItem from="1478404943432" duration="7452000" />
+      <workItem from="1478404943432" duration="7506000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;TG 2.0 Beta&#10;Iniciada refatoração para tabela hash&quot;">
       <created>1477061235496</created>
@@ -445,11 +438,18 @@
       <option name="project" value="LOCAL" />
       <updated>1477061235496</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="&quot;TG 2.1&#10;Concluida refatoração para tabela hash, tanto pros vértices, quanto pras arestas,&#10;Refeita ordenação do menu de exibição&quot;">
+      <created>1478413250916</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1478413250916</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="146972000" />
+    <option name="totallyTimeSpent" value="147026000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1366" height="743" extended-state="6" />
@@ -457,7 +457,7 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14494875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3164179" sideWeight="0.4670571" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3164179" sideWeight="0.4670571" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32786885" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4084084" sideWeight="0.5329429" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283582" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -487,6 +487,7 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <MESSAGE value="&quot;TG 2.0 Beta&#10;Iniciada refatoração para tabela hash&quot;" />
     <MESSAGE value="&quot;TG 2.1&#10;Concluida refatoração para tabela hash, tanto pros vértices, quanto pras arestas,&#10;Refeita ordenação do menu de exibição&quot;" />
     <option name="LAST_COMMIT_MESSAGE" value="&quot;TG 2.1&#10;Concluida refatoração para tabela hash, tanto pros vértices, quanto pras arestas,&#10;Refeita ordenação do menu de exibição&quot;" />
@@ -781,8 +782,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="715" column="66" selection-start-line="715" selection-start-column="66" selection-end-line="715" selection-end-column="66" />
+        <state relative-caret-position="287">
+          <caret line="723" column="42" selection-start-line="723" selection-start-column="42" selection-end-line="723" selection-end-column="42" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
