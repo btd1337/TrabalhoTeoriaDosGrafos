@@ -14,10 +14,10 @@ Grafo::Grafo(long _ordemGrafo, long _numArestas) {
 
 
     //usada pra saber o tamanho inicial da tab hash dos adjacentes de um vértice
-    if(_numArestas <= _ordemGrafo || ordemGrafo == 0){
+    if(_numArestas <= _ordemGrafo || _ordemGrafo == 0){
         tamTabHashAdjacentes = 1;
     }else{
-        tamTabHashAdjacentes == _numArestas/ordemGrafo;
+        tamTabHashAdjacentes = _numArestas/_ordemGrafo;
     }
 
     ordemGrafo = 0; //inicializa variável que será incrementada em addVertice()
@@ -148,7 +148,7 @@ void Grafo::auxIsConexo(long _vertice){
     for(int i=0; i<tamTabHashAdjacentes; i++){
         for (auto it = verticesAdjacentes[i].begin(); it != verticesAdjacentes[i].end() ; it++) {
             //verifica se o vértice ainda não foi corVisita
-            if(getVertice(it->getIdVertice())->getVisitado() == Coloracao::SEMCOR);
+            if(getVertice(it->getIdVertice())->getColoracao() == Coloracao::SEMCOR);
             auxIsConexo(it->getIdVertice());
         }
     }
@@ -160,18 +160,16 @@ void Grafo::auxIsConexo(long _vertice){
  * @return valor lógico que informa se é o grafo é conexo
  */
 bool Grafo::isConexo(){
+    //função marca inicialmente os vértices de bco e finaliza pintando de pto
+    //-1 -> id que não existe, pra não parar a função
+    bool aux = verificaVerticesComponentesConexa(0,-1);
 
-    //seta os vértices como não visitados
-    for(int i=0; i< ordemGrafo; i++){
-        getVertice(i)->setCorVisita(Coloracao::SEMCOR);
-    }
-    auxIsConexo(0);
-
-    for(int i=0; i< ordemGrafo; i++){
-        if(getVertice(i)->getVisitado() == Coloracao::SEMCOR){
-            return false;
+    for(int i=0; i<tamTabHashVertices ;i++){
+        for(auto it = vertices[i].begin(); it != vertices[i].end(); it++){
+            if(it->getColoracao() == Coloracao::BRANCO){    //branco = vértice não visitado
+                return false;
+            }
         }
-
     }
 
     return true;
@@ -323,7 +321,7 @@ void Grafo::auxFechoTransitivo(long _idVertice, set<int> *percorridos) {
 
             long adj = it.getIdVertice();
 
-            if(getVertice(adj)->getVisitado() == Coloracao::SEMCOR) {
+            if(getVertice(adj)->getColoracao() == Coloracao::SEMCOR) {
 
                 auxFechoTransitivo(adj, percorridos);  //chama recursivamente a função passando os vértices adjacentes
             }
@@ -370,7 +368,7 @@ void Grafo::auxFechoIntransitivo(Grafo *grafoAux, long _idVertice, set<int> *per
 
         long adj = it.getIdVertice();
 
-        if(grafoAux->getVertice(adj)->getVisitado() == Coloracao::SEMCOR) {
+        if(grafoAux->getVertice(adj)->getColoracao() == Coloracao::SEMCOR) {
 
             auxFechoIntransitivo(grafoAux, adj, percorridos);  //chama recursivamente a função passando os vértices adjacentes
         }
@@ -530,6 +528,69 @@ void Grafo::setTamTabHashAdjacentes(long _tam) {
 long Grafo::getTamTabHashAdj() {
     return tamTabHashAdjacentes;
 }
+
+/**
+ * Verifica se 2 vértices estão numa mesma componente conexa
+ * @param _vertice1
+ * @param _idVertice2
+ * @return valor lógico da operação
+ */
+
+bool Grafo::auxVVCC(list<Vertice>::iterator _vertice1, long _idVertice2) {
+    list<Vertice>::iterator adjAtual;
+    _vertice1->setCorVisita(Coloracao::CINZA);
+    auto verticesAdj = _vertice1->getVerticesAdjacentes();
+    long idVerticeAtual;
+
+    for(int j=0; j<tamTabHashAdjacentes; j++){
+        for(auto it2 = verticesAdj[j].begin(); it2 != verticesAdj[j].end(); it2++){
+            idVerticeAtual = it2->getIdVertice();
+            adjAtual = getVertice(idVerticeAtual);   //Necessário obter o ponteiro pro vértice adjacente atual pra poder manipular ele
+
+            //Caso o vértice adjacente seja o vértice procurado retorna true
+            if(adjAtual->getIdVertice() == _idVertice2){
+                return true;
+            }
+            //Caso o vértice adj atual não tenha sido visitado, fazer busca nele
+            else if(adjAtual->getColoracao() == Coloracao::BRANCO){
+                auxVVCC(adjAtual,_idVertice2);
+            }
+        }
+    }
+
+    _vertice1->setCorVisita(Coloracao::PRETO);
+    return false;   //Verificar este retorno;
+}
+
+bool Grafo::verificaVerticesComponentesConexa(long _idVertice1, long _idVertice2) {
+
+    bool isMesmaComponenteConexa;
+
+    //Inicializa todos os vértices com cor branca
+    for(int i=0; i<tamTabHashVertices; i++){
+        for(auto it=vertices[i].begin(); it!= vertices[i].end(); it++){
+            it->setCorVisita(Coloracao::BRANCO);
+        }
+    }
+
+    auto vertice = getVertice(_idVertice1);
+
+    isMesmaComponenteConexa = auxVVCC(vertice, _idVertice2);
+
+    return isMesmaComponenteConexa;
+}
+
+/**
+ * Função utilizada para verificar se um vértice está contido na mesma componente conexa de outro
+ * @param _idVerticeOrigem
+ * @param _idVerticeDestino
+ * @return valor lógico
+ */
+bool Grafo::buscaProfundidade(long _idVerticeOrigem, long _idVerticeDestino) {
+    return false;
+}
+
+
 
 
 

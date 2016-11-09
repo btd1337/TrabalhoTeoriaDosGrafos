@@ -51,7 +51,10 @@ public:
     bool verificaKRegular(long *kRegular);
     bool isCompleto();
     bool verificaAdjacencia(long _idVerticeOrigem, long _idVerticeDestino);
-
+    bool buscaProfundidade(long _idVerticeOrigem);
+    bool buscaProfundidade(long _idVerticeOrigem, long _idVerticeDestino);
+    bool verificaVerticesComponentesConexa(long _idVertice1, long _idVertice2);
+    bool auxVVCC(list<Vertice>::iterator _vertice1, long _idVertice2);
 
     void setTamTabHashAdjacentes(long _tam);
     list<Vertice>::iterator getVertice(long _idVertice);

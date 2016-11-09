@@ -1,7 +1,10 @@
-Trabalho 1 de Grafos
+Trabalho de Grafos
 Autor: Helder Linhares Bertoldo dos Reis
 Matrícula: 201465555A
 
 
-Análise do Grafo
-Número de Vértices: 4
+- Análise do Grafo -
+
+Número de Vértices: 6
+Número de Arestas: 8
+

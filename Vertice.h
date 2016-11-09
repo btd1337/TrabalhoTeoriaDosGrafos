@@ -25,6 +25,14 @@ private:
     list<Adjacente> *verticesAdjacentes;
     long tamTabHashAdjacentes;
     Coloracao corVisita;
+    long pi;
+public:
+    long getPi() const;
+    void mostraIdAdjacentes();
+    void setPi(long pi);
+
+private:
+    //vértice predecessor em uma busca
 
     long calculaIndiceTabela(long _idVertice);
 
@@ -37,7 +45,7 @@ public:
     void addVerticeAdjacente(long _idVerticeAdjacente, float _pesoAresta);
     bool removeVerticeAdjacente(long _idVertice);
     string listarAdjacentes();
-    Coloracao getVisitado();
+    Coloracao getColoracao();
     void setCorVisita(Coloracao _corVisita);
     double getPeso() const;
     void setPeso(double peso);

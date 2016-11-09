@@ -12,6 +12,11 @@ Vertice::Vertice(long _tamTabHashAdjacentes, long _idVertice) {
     corVisita = Coloracao::SEMCOR;  //inicia o vértice sem cor
     grau = 0;
     peso = 1 + idVertice * 2;
+
+    //Limpa as listas de adjacentes
+    for(int i=0; i< _tamTabHashAdjacentes; i++){
+        verticesAdjacentes[i].clear();
+    }
 }
 
 Vertice::~Vertice() {
@@ -70,7 +75,7 @@ string Vertice::listarAdjacentes()
     return listaDeAdjacentes;
 }
 
-Coloracao Vertice::getVisitado(){
+Coloracao Vertice::getColoracao(){
     return corVisita;
 }
 
@@ -107,4 +112,31 @@ bool Vertice::verificaAdjacencia(long _idAdjacente) {
         }
     }
     return false;
+}
+
+/**
+ * Obtém o id do vértice antecessor numa busca
+ * @return pi
+ */
+long Vertice::getPi() const {
+    return pi;
+}
+
+/**
+ * Seta o id do vértice predecessor numa busca
+ * @param _idVertice
+ */
+void Vertice::setPi(long _idVertice) {
+    Vertice::pi = pi;
+}
+
+void Vertice::mostraIdAdjacentes() {
+
+    for(int i=0; i<tamTabHashAdjacentes; i++) {
+        for (auto it = verticesAdjacentes[i].begin(); it != verticesAdjacentes[i].end(); it++) {
+            //Percorre a lista de adjacentes e verifica se o rótulo é o procurado
+            cout << it->getIdVertice() << " ";
+        }
+    }
+    cout << "\n" << endl;
 }

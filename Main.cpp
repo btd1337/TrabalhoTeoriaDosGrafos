@@ -9,12 +9,13 @@ using namespace std;
 fstream inputFile, outputFile;
 long ordemGrafo = 1, kRegular, numArestas;
 bool isContainPesoAresta = true;
+bool imprimirEmArquivo;
 Grafo grafo(1,1);    //cria grafo não direcionado
 
 
 void apresentacaoTrabalho();
 
-void criaCabecalho(long _tamanhoGrafo);
+void criaCabecalho(long _ordemGrafo);
 
 int exibeMenu();
 
@@ -67,6 +68,12 @@ void adicionaAresta();
 
 void sequenciaGraus();
 
+void verificaVerticesComponentesConexa();
+
+void imprimeMensagem(string msg);
+
+void mostraIdVerticesAdjacentes();
+
 int main(int argc, char **argv) {
 
     int opMenu;
@@ -106,13 +113,17 @@ int main(int argc, char **argv) {
     numArestas = stol(sNumArestas);
 
 
-    cout << "Criando grafo...\nOK\n" << endl;
+    cout << "Criando grafo..." << endl;
     criarGrafo(ordemGrafo, numArestas);
 
     cout << "Gerando Adjacências do grafo...\nOK\n" << endl;
     lerAdjacencias(isContainPesoAresta);
 
     criaCabecalho(ordemGrafo);
+
+    cout << "Deseja salvar as informações de consulta em arquivo?" << endl;
+    cout << "0-Não\t 1-Sim" << endl;
+    cin >> imprimirEmArquivo;
 
     do {
         opMenu = exibeMenu();
@@ -138,21 +149,22 @@ void apresentacaoTrabalho() {
     cout << "\n\n";
     cout << "#############################################" << endl;
     cout << "\tTrabalho de Teoria dos Grafos" << endl;
-    cout << "#############################################" << endl;
-    cout << "\nObs: Os dados serão gerados automaticamente para o arquivo de saída informado por parâmetro.\n" << endl;
+    cout << "#############################################\n\n" << endl;
+    //cout << "\nObs: Os dados serão gerados automaticamente para o arquivo de saída informado por parâmetro.\n" << endl;
 
     cout << "Digite 1 + <Enter> para iniciar o algoritmo...";
     cin >> trash;
     cout << "\n\n";
 }
 
-void criaCabecalho(long _tamanhoGrafo) {
-    outputFile << "Trabalho 1 de Grafos" << endl;
+void criaCabecalho(long _ordemGrafo) {
+    outputFile << "Trabalho de Grafos" << endl;
     outputFile << "Autor: Helder Linhares Bertoldo dos Reis" << endl;
     outputFile << "Matrícula: 201465555A\n\n" << endl;
 
-    outputFile << "Análise do Grafo" << endl;
-    outputFile << "Número de Vértices: " << _tamanhoGrafo << endl;
+    outputFile << "- Análise do Grafo -\n" << endl;
+    outputFile << "Número de Vértices: " << _ordemGrafo << endl;
+    outputFile << "Número de Arestas: " << numArestas << "\n" << endl;
 }
 
 int exibeMenu() {
@@ -171,7 +183,7 @@ int exibeMenu() {
     cout << "10*- Realizar busca em largura" << endl;
     cout << "11*- Realizar busca em profundidade" << endl;
     cout << "12- Verificar se o Grafo é conexo" << endl;
-    cout << "13*- Verificar se vértices estão na mesma componente conexa" << endl;
+    cout << "13- Verificar se vértices estão na mesma componente conexa" << endl;
     cout << "14- Verificar se um dado Vértice é de Articulação" << endl;
     cout << "15- Verificar se uma dada Aresta é Ponte" << endl;
     cout << "16*- Verificar vizinhança de um vértice" << endl;
@@ -193,6 +205,7 @@ int exibeMenu() {
     cout << "32- Cobertura de Vértices Guloso" << endl;
     cout << "33- Cobertura de Vértices Guloso Randomizado" << endl;
     cout << "34- Cobertura de Vértices Guloso Randomizado Reativo" << endl;
+    cout << "35- Informar adjacentes de um vértice" << endl;
     cout << " 0- Sair" << endl;
     cout << "\nOpção: ";
     cin >> opMenu;
@@ -253,7 +266,7 @@ void chamaFuncaoEscolhida(int opMenu) {
             break;
         }
         case 13: {
-            //verificaNosComponentesConexa();
+            verificaVerticesComponentesConexa();
             break;
         }
         case 14: {
@@ -340,10 +353,66 @@ void chamaFuncaoEscolhida(int opMenu) {
             //coberturaDeVerticesGulosoRandomizadoReativo();
             break;
         }
+        case 35: {
+            mostraIdVerticesAdjacentes();
+        }
         default: {
             cout << "ERRO: Opção Inválida!" << endl;
         }
     }
+}
+
+void mostraIdVerticesAdjacentes() {
+    long _idVertice;
+    int op;
+    do {
+        cout << "\nId do vértice que deseja consultar os adjacentes: ";
+        cin >> _idVertice;
+        grafo.getVertice(_idVertice)->mostraIdAdjacentes();
+
+        cout << "0 - Sair\t 1- Verificar outro vértice" << endl;
+        cin >> op;
+
+    }while(op != 0);
+
+}
+
+/**
+ * Verifica se 2 vértices estão na mesma componente conexa
+ */
+void verificaVerticesComponentesConexa() {
+    long idVertice1, idVertice2;
+    bool isMesmaComponente;
+    string msg;
+    int op;
+
+    do {
+        cout << "Informe o id dos vértices: " << endl;
+        cin >> idVertice1 >> idVertice2;
+        isMesmaComponente = grafo.verificaVerticesComponentesConexa(idVertice1, idVertice2);
+
+        if (isMesmaComponente) {
+            msg = "Os vértices " + to_string(idVertice1) + " e " + to_string(idVertice2) +
+                  " estão na mesma componente conexa.\n";
+            cout << msg << endl;
+        } else {
+            msg = "Os vértices " + to_string(idVertice1) + " e " + to_string(idVertice2) +
+                  " não estão na mesma componente conexa.\n";
+            cout << msg << endl;
+        }
+
+        if(imprimirEmArquivo){
+            imprimeMensagem(msg);
+        }
+
+        cout << "0-Sair\t 1-Nova verificação" << endl;
+        cin >> op;
+
+    }while(op == 1);
+}
+
+void imprimeMensagem(string msg) {
+    outputFile << msg << endl;
 }
 
 void adicionaAresta() {
@@ -511,6 +580,8 @@ void criarGrafo(long _ordemGrafo, long _numArestas) {
         grafo.addVertice(i);
         i++;
     }
+
+    cout << "OK\n" << endl;
 
     //Verifica se o grafo é direcionado
     do {
@@ -769,10 +840,18 @@ void verificaGrafoCompleto() {
 
 void verificaConexo() {
     bool conexo;
-    cout << "Verificando se Grafo é Conexo...\nOK\n" << endl;
+    string msg;
+    cout << "Verificando se Grafo é Conexo..." << endl;
     conexo = grafo.isConexo();
-    outputFile << (conexo ? "Grafo Conexo: SIM" : "Grafo Conexo: NÃO") << endl;
+    cout << "\nOK\n" << endl;
 
+    msg = (conexo ? "Grafo Conexo: SIM\n" : "Grafo Conexo: NÃO\n");
+
+    cout << msg << endl;
+
+    if(imprimirEmArquivo){
+        imprimeMensagem(msg);
+    }
 }
 
 

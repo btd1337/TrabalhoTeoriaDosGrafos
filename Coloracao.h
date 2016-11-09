@@ -10,7 +10,10 @@ enum class Coloracao{
     AZUL = 0,
     VERDE = 1,
     AMARELO = 2,
-    VERMELHO = 3
+    VERMELHO = 3,
+    BRANCO = 4,
+    CINZA = 5,
+    PRETO = 6
 };
 
 #endif //TRABALHOGRAFOS_COLORACAO_H
