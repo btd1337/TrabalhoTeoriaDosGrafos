@@ -170,7 +170,7 @@ void criaCabecalho(long _ordemGrafo) {
 int exibeMenu() {
     int opMenu;
 
-
+    cout << endl;
     cout << " 1- Adicionar Vértice" << endl;
     cout << " 2- Remover Vértice" << endl;
     cout << " 3- Adicionar Aresta" << endl;
@@ -389,18 +389,21 @@ void verificaVerticesComponentesConexa() {
     do {
         cout << "Informe o id dos vértices: " << endl;
         cin >> idVertice1 >> idVertice2;
+
+        cout << "Analisando..." << endl;
         isMesmaComponente = grafo.verificaVerticesComponentesConexa(idVertice1, idVertice2);
+        cout << "Ok" << endl;
 
         if (isMesmaComponente) {
             msg = "Os vértices " + to_string(idVertice1) + " e " + to_string(idVertice2) +
                   " estão na mesma componente conexa.\n";
-            cout << msg << endl;
+
         } else {
             msg = "Os vértices " + to_string(idVertice1) + " e " + to_string(idVertice2) +
                   " não estão na mesma componente conexa.\n";
-            cout << msg << endl;
         }
 
+        cout << msg << endl;
         if(imprimirEmArquivo){
             imprimeMensagem(msg);
         }
@@ -633,6 +636,7 @@ void lerAdjacencias(bool isContainPeso) {
 
 void verificaGrauVertice() {
 
+    string msg;
     int idVertice, op;
     do {
         cout << "Digite o id do Vértice que deseja consultar seu Grau: ";
@@ -642,9 +646,16 @@ void verificaGrauVertice() {
         if (it == grafo.itUltimaPosicao(idVertice)) {  //it não encontrou o vértice
             cout << "Erro: O grafo não possui vértice com o id informado!\n" << endl;
         } else {
-            cout << "Verificando Grau do Vértice " << idVertice << "...\nOK\n" << endl;
-            outputFile << "gr(" << idVertice << "): " << grafo.getGrauVertice(idVertice) << endl;
+            cout << "Verificando Grau do Vértice " << idVertice << "..." << endl;
+            cout << "OK" << endl;
+            msg = "gr(" + to_string(idVertice) + "): " + to_string(grafo.getGrauVertice(idVertice)) + "\n";
         }
+        cout << msg << endl;
+
+        if(imprimirEmArquivo){
+            imprimeMensagem(msg);
+        }
+
         cout << "0- Encerrar Função    1-Escolher Outro Vértice" << endl;
         cin >> op;
     } while (op != 0);
@@ -656,6 +667,7 @@ void verificaGrauGrafo() {
 }
 
 void verificaAdjacenciaVertices() {
+    string msg;
     int idVerticeOrigem, idVerticeDestino, op;
     do {
         cout << "Digite o id dos vértices que deseja verificar adjacência: \n";
@@ -671,10 +683,14 @@ void verificaAdjacenciaVertices() {
         } else {
             cout << "Verificando Adjacência(" << idVerticeOrigem << "," << idVerticeDestino << ")...\nOK\n" << endl;
             if (grafo.verificaAdjacencia(idVerticeOrigem, idVerticeDestino)) {
-                outputFile << "Adjacência(" << idVerticeOrigem << "," << idVerticeDestino << "): SIM" << endl;
+                msg = "Adjacência(" + to_string(idVerticeOrigem) + "," + to_string(idVerticeDestino) + "): SIM\n";
             } else {
-                outputFile << "Adjacência(" << idVerticeOrigem << "," << idVerticeDestino << "): NÃO" << endl;
+                msg = "Adjacência(" + to_string(idVerticeOrigem) + "," + to_string(idVerticeDestino) + "): NÃO\n";
             }
+        }
+        cout << msg << endl;
+        if(imprimirEmArquivo){
+            imprimeMensagem(msg);
         }
         cout << "0- Encerrar Função    1-Escolher Outros Vértices" << endl;
         cin >> op;
@@ -763,14 +779,22 @@ void geraSubGrafoInduzido() {
     cout << "Ok\n" << endl;
 }
 
+/**
+ * Função que verifica se um grafo é k-regular
+ */
 void verificaKRegularidade() {
-    cout << "Verificando K-Regularidade...";
+    string msg;
+    cout << "Verificando K-Regularidade...\n";
     if (grafo.verificaKRegular(&kRegular)) {
-        outputFile << "Grafo K-Regular? SIM, Grafo " << kRegular << "-Regular" << endl;
+        msg = "Grafo K-Regular? SIM, Grafo " + to_string(kRegular) + "-Regular\n";
     } else {
-        outputFile << "Grafo K-Regular? NÃO" << endl;
+        msg = "Grafo K-Regular? NÃO\n";
     }
-    cout << "\nOk\n" << endl;
+    cout << "Ok" << endl;
+    cout << msg << endl;
+    if(imprimirEmArquivo){
+        imprimeMensagem(msg);
+    }
 }
 
 /**
@@ -833,9 +857,15 @@ void geraGrafoComplemetar() {
 }
 
 void verificaGrafoCompleto() {
+    string msg;
     cout << "Verificando se Grafo é Completo...";
-    outputFile << (grafo.isCompleto() ? "Grafo Completo: SIM" : "Grafo Completo: NÃO") << endl;
+    msg = (grafo.isCompleto() ? "Grafo Completo: SIM\n" : "Grafo Completo: NÃO\n");
     cout << "\nOk\n" << endl;
+
+    cout << msg << endl;
+    if(imprimirEmArquivo){
+        imprimeMensagem(msg);
+    }
 }
 
 void verificaConexo() {
@@ -843,7 +873,7 @@ void verificaConexo() {
     string msg;
     cout << "Verificando se Grafo é Conexo..." << endl;
     conexo = grafo.isConexo();
-    cout << "\nOK\n" << endl;
+    cout << "OK" << endl;
 
     msg = (conexo ? "Grafo Conexo: SIM\n" : "Grafo Conexo: NÃO\n");
 
@@ -859,20 +889,27 @@ void verificaConexo() {
  * Informa a sequência de graus do grafo
  */
 void sequenciaGraus(){
+    string msg = "Sequência de Graus do Grafo: <";
     multiset<long, greater<long> > sequencia = grafo.sequenciaGraus();  //ordenação decrescente
     auto setIni = sequencia.begin();
     auto setFim = sequencia.end();
 
-    outputFile << "Sequência de Graus do Grafo: <";
-
     while(setIni != setFim){
-        outputFile << *setIni;
+        msg += to_string(*setIni);
+        //outputFile << *setIni;
         setIni++;
 
         if(setIni != setFim){
-            outputFile << ", ";
+            msg += ", ";
+            //outputFile << ", ";
         }else{
-            outputFile << ">\n";
+            msg += ">\n";
+            //outputFile << ">\n";
         }
+    }
+    cout << msg << endl;
+
+    if(imprimirEmArquivo){
+        imprimeMensagem(msg);
     }
 }
