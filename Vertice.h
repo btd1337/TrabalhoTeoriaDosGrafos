@@ -26,6 +26,7 @@ private:
     long tamTabHashAdjacentes;
     Coloracao corVisita;
     long pi;
+    bool disponivel;
 public:
     long getPi() const;
     void mostraIdAdjacentes();
@@ -52,6 +53,8 @@ public:
     long getGrau() const;
     void reduzGrau();
     bool verificaAdjacencia(long _idAdjacente);
+    bool getDisponivel();
+    void setDisponivel(bool _d);
 };
 
 

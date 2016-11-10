@@ -37,7 +37,7 @@ private:
     void auxFechoIntransitivo(Grafo *grafoAux, long _idVertice, set<int> *percorridos);
     void atualizaIDs(int _idVerticeRemovido);
     long calculaIndiceTabela(long _idVertice);
-
+    void auxNumComponentesConexas(long _idVertice);
 public:
     Grafo(long _ordemGrafo, long _numArestas);
     virtual ~Grafo();
@@ -55,7 +55,7 @@ public:
     bool buscaProfundidade(long _idVerticeOrigem, long _idVerticeDestino);
     bool verificaVerticesComponentesConexa(long _idVertice1, long _idVertice2);
     bool auxVVCC(list<Vertice>::iterator _vertice1, long _idVertice2);
-
+    long numComponentesConexas();
     void setTamTabHashAdjacentes(long _tam);
     list<Vertice>::iterator getVertice(long _idVertice);
     void imprimeVertices();
@@ -72,7 +72,7 @@ public:
     long getTamTabHashVertices();
     long getTamTabHashAdj();
     list<Vertice>::iterator itUltimaPosicao(long _idVertice);
-
+    long getNumArestas();
 };
 
 

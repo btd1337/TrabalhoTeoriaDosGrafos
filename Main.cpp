@@ -41,7 +41,7 @@ void verificaGrafoCompleto();
 
 void verificaConexo();
 
-//verificaBipartido
+Grafo copiarGrafo(Grafo _g);
 
 void chamaFuncaoEscolhida(int opMenu);
 
@@ -546,8 +546,9 @@ void removeVertice() {
     long idVertice;
     cout << "Qual vértice remover? ";
     cin >> idVertice;
-    grafo.removeVertice(idVertice);
-    cout << endl;
+    if(grafo.removeVertice(idVertice)){
+        cout << "Vértice removido com sucesso.\n" <<endl;
+    }
 }
 
 void removeAresta() {
@@ -563,11 +564,108 @@ void removeAresta() {
     cout << endl;
 }
 
+/**
+ * Verifica se uma aresta é ponte
+ * @return valor lógico
+ */
 bool isArestaPonte() {
+    string msg;
+    int op;
+    long idVertice1, idVertice2, numCompConexasInicio, numCompConexasFim;
+    do {
+        cout << "Informe o id das duas extremidades da aresta: ";
+        cin >> idVertice1 >> idVertice2;
+        msg = "A aresta (" + to_string(idVertice1) + "," + to_string(idVertice2) + ") ";
+        cout << "Verificando..." << endl;
+        numCompConexasInicio = grafo.numComponentesConexas();
+        //cria grafo auxiliar e remove a aresta dele para fazer a verificação
+        Grafo auxGrafo = copiarGrafo(grafo);
+        auxGrafo.removeVerticeAdjacente(idVertice1, idVertice2);
+        numCompConexasFim = auxGrafo.numComponentesConexas();
 
+        cout << "Ok" << endl;
+        msg += (numCompConexasInicio < numCompConexasFim ? "é ponte." : "não é ponte.");
+
+        cout << msg << endl;
+
+        if (imprimirEmArquivo) {
+            imprimeMensagem(msg);
+        }
+        cout << "0-Sair\t 1-Verificar Novamente" << endl;
+        cin >> op;
+
+    }while(op==1);
 }
 
+
+/*
+ * Verifica se um vértice é de articulação
+ * @return valor lógico
+
 bool isVerticeArticulacao() {
+    string msg;
+    long idVertice, numCompConexasInicio, numCompConexasFim;
+    int op;
+    //do {
+        cout << "Informe o id do vértice que deseja testar: ";
+        cin >> idVertice;
+        msg = "O vértice " + to_string(idVertice) + " ";
+        cout << "Verificando..." << endl;
+        numCompConexasInicio = grafo.numComponentesConexas(); //Verifica o num de componentes conexas inicialmente
+
+        //Cria grafo auxiliar e remove o vértice dele para fazer a verificação
+        Grafo aux = grafo;
+        aux.removeVertice(idVertice);
+        numCompConexasFim = aux.numComponentesConexas();
+
+        cout << "Ok" << endl;
+        msg += (numCompConexasInicio < numCompConexasFim ? "é de articulação." : "não é de articulação.");
+
+        cout << msg << endl;
+
+        if (imprimirEmArquivo) {
+            imprimeMensagem(msg);
+        }
+
+      //  cout << "0-Sair\t 1-Verificar Novamente" << endl;
+        //cin >> op;
+
+    //}while(op == 1);
+
+}
+*/
+
+bool isVerticeArticulacao() {
+    string msg;
+    long idVertice, numCompConexasInicio, numCompConexasFim;
+    int op;
+    do {
+    cout << "Informe o id do vértice que deseja testar: ";
+    cin >> idVertice;
+    msg = "O vértice " + to_string(idVertice) + " ";
+    cout << "Verificando..." << endl;
+    numCompConexasInicio = grafo.numComponentesConexas(); //Verifica o num de componentes conexas inicialmente
+
+    //cria grafo auxiliar pra realizar operações
+    Grafo auxGrafo = copiarGrafo(grafo);
+    auxGrafo.removeVertice(idVertice);
+
+    //verifica o num de componentes conexas depois de remover o vértice
+    numCompConexasFim = auxGrafo.numComponentesConexas();
+
+    cout << "Ok" << endl;
+    msg += (numCompConexasInicio < numCompConexasFim ? "é de articulação." : "não é de articulação.");
+
+    cout << msg << endl;
+
+    if (imprimirEmArquivo) {
+        imprimeMensagem(msg);
+    }
+
+    cout << "0-Sair\t 1-Verificar Novamente" << endl;
+    cin >> op;
+
+    }while(op == 1);
 
 }
 
@@ -912,4 +1010,34 @@ void sequenciaGraus(){
     if(imprimirEmArquivo){
         imprimeMensagem(msg);
     }
+}
+
+
+/**
+ * Cria cópia de um grafo
+ * @param _g
+ * @return
+ */
+Grafo copiarGrafo(Grafo _g) {
+    Grafo auxG(_g.getOrdemGrafo(),_g.getNumArestas());
+
+    //cria os vértices
+    for(int i=0; i<_g.getTamTabHashVertices(); i++){
+        for(auto it = _g.getVertices()[i].begin(); it != _g.getVertices()[i].end(); it++){
+            auxG.addVertice(it->getIdVertice());
+        }
+    }
+
+    //cria as arestas
+    for(int i=0; i<_g.getTamTabHashVertices(); i++){
+        for(auto it = _g.getVertices()[i].begin(); it != _g.getVertices()[i].end(); it++){
+            for(int j=0; j<_g.getTamTabHashAdj(); j++){
+                for(auto it2 = it->getVerticesAdjacentes()[j].begin(); it2 != it->getVerticesAdjacentes()[j].end(); it2++){
+                    auxG.addVerticeAdjacente(it->getIdVertice(),it2->getIdVertice(),0);
+                }
+            }
+        }
+    }
+
+    return auxG;
 }

@@ -34,7 +34,6 @@ Grafo::Grafo(long _ordemGrafo, long _numArestas) {
 }
 
 Grafo::~Grafo() {
-
 }
 
 /**
@@ -129,7 +128,7 @@ long Grafo::addVerticeAdjacente(long _verticeOrigem, long _verticeDestino, float
                     getVertice(_verticeDestino)->addVerticeAdjacente(_verticeOrigem, _pesoAresta);
                 }
             }else{
-                cout << "A aresta já existe! \n" << endl;
+                //cout << "A aresta já existe! \n" << endl;
             }
         }
     }
@@ -238,7 +237,9 @@ bool Grafo::isCompleto(){
 bool Grafo::removeVertice(long _idVertice) {
 
     //it recebe o iterador da posição onde está o vértice ou nullptr
-    list<Vertice>::iterator it = isContainVertice(_idVertice);
+    auto it = isContainVertice(_idVertice);
+    list<long> verticesAdj;
+    verticesAdj.clear();    //certifica de zerar a lista aux
 
     if(it == itUltimaPosicao(_idVertice)){  //caso o método isContainVertice não encontrar o vértice
         cout << "Erro: Não existe vértice com este id no Grafo.\n" << endl;
@@ -246,14 +247,20 @@ bool Grafo::removeVertice(long _idVertice) {
 
     }else{
         //Remove as arestas do vértice
-        list<Adjacente> *adjacentes = it->getVerticesAdjacentes();
+        //Remover diretamente está com erro, por isso está sendo criada lista auxiliar
+        auto adjacentes = it->getVerticesAdjacentes();
+        for(int j=0; j<tamTabHashAdjacentes; j++) {
+            for (auto adj = adjacentes[j].begin(); adj != adjacentes[j].end(); adj++) {
+                verticesAdj.push_back(adj->getIdVertice());
+            }
+        }
 
-        for(auto adj = adjacentes->begin(); adj != adjacentes->end(); adj++){
-            removeVerticeAdjacente(it->getIdVertice(), adj->getIdVertice());
+        for(int i=0; i<verticesAdj.size(); i++){
+            removeVerticeAdjacente(_idVertice,*verticesAdj.begin());
+            verticesAdj.erase(verticesAdj.begin());
         }
         long indice = calculaIndiceTabela(_idVertice);
         vertices[indice].erase(it);
-        cout << "Vértice removido com sucesso.\n" <<endl;
         ordemGrafo--;
     }
     return true;
@@ -589,6 +596,60 @@ bool Grafo::verificaVerticesComponentesConexa(long _idVertice1, long _idVertice2
 bool Grafo::buscaProfundidade(long _idVerticeOrigem, long _idVerticeDestino) {
     return false;
 }
+
+/**
+ * @return número de componentes conexas do grafo
+ */
+long Grafo::numComponentesConexas() {
+
+    long numComponentesConexas = 0;
+    for(int i=0; i<tamTabHashVertices; i++){
+        for(auto it=vertices[i].begin(); it != vertices[i].end(); it++){
+            it->setCorVisita(Coloracao::BRANCO);
+        }
+    }
+
+    for(int i=0; i<tamTabHashVertices; i++){
+        for(auto it=vertices[i].begin(); it!=vertices[i].end(); it++){
+            //verifica se o vértice não foi percorrido e se ele está disponível
+            if(it->getColoracao() == Coloracao::BRANCO){
+                numComponentesConexas++;
+                auxNumComponentesConexas(it->getIdVertice());
+            }
+        }
+    }
+
+    return numComponentesConexas;
+}
+
+void Grafo::auxNumComponentesConexas(long _idVertice) {
+    auto vertice = getVertice(_idVertice);
+    list<Vertice>::iterator adjAtual;
+    vertice->setCorVisita(Coloracao::CINZA);
+
+    for(int j=0; j<tamTabHashAdjacentes; j++){
+        for(auto itAux = vertice->getVerticesAdjacentes()[j].begin(); itAux != vertice->getVerticesAdjacentes()[j].end(); itAux ++){
+            adjAtual = getVertice(itAux->getIdVertice());
+            //Verifica se o adj atual não foi visitado
+            if(adjAtual->getColoracao() == Coloracao::BRANCO){
+                auxNumComponentesConexas(adjAtual->getIdVertice());
+            }
+        }
+    }
+
+    vertice->setCorVisita(Coloracao::PRETO);
+}
+
+long Grafo::getNumArestas() {
+    return numArestas;
+}
+
+/**
+ * Verifica se um vértice é de articulação
+ * @param _idVertice
+ * @return
+ */
+
 
 
 

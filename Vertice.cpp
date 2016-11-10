@@ -12,6 +12,7 @@ Vertice::Vertice(long _tamTabHashAdjacentes, long _idVertice) {
     corVisita = Coloracao::SEMCOR;  //inicia o vértice sem cor
     grau = 0;
     peso = 1 + idVertice * 2;
+    disponivel = true;
 
     //Limpa as listas de adjacentes
     for(int i=0; i< _tamTabHashAdjacentes; i++){
@@ -139,4 +140,12 @@ void Vertice::mostraIdAdjacentes() {
         }
     }
     cout << "\n" << endl;
+}
+
+bool Vertice::getDisponivel() {
+    return disponivel;
+}
+
+void Vertice::setDisponivel(bool _d) {
+    disponivel = _d;
 }

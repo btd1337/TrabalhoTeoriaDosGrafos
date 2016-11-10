@@ -8,5 +8,7 @@ Matrícula: 201465555A
 Número de Vértices: 6
 Número de Arestas: 6
 
-Grafo K-Regular? SIM, Grafo 2-Regular
-
+A aresta (4,5) é ponte.
+A aresta (1,2) não é ponte.
+A aresta (1,2) não é ponte.
+A aresta (4,5) é ponte.
