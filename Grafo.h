@@ -69,10 +69,12 @@ public:
     long getOrdemGrafo();
     list<Vertice> *getVertices();
     list<Vertice>::iterator isContainVertice(long _idVertice);
+    bool isVerticePresente(long _idVertice);
     long getTamTabHashVertices();
     long getTamTabHashAdj();
     list<Vertice>::iterator itUltimaPosicao(long _idVertice);
     long getNumArestas();
+    list<long> getVizinhaAberta(long _idVertice);
 };
 
 

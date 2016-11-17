@@ -43,6 +43,8 @@ void verificaConexo();
 
 Grafo copiarGrafo(Grafo _g);
 
+Grafo copiarGrafoArcosInvertidos(Grafo _g);
+
 void chamaFuncaoEscolhida(int opMenu);
 
 
@@ -56,7 +58,7 @@ void removeAresta();
 
 void removeVertice();
 
-void verificaFechoTransitivo();
+void fechamentoTransitivoDireto();
 
 void verificaFechoIntransitivo();
 
@@ -73,6 +75,8 @@ void verificaVerticesComponentesConexa();
 void imprimeMensagem(string msg);
 
 void mostraIdVerticesAdjacentes();
+
+void mostraVizinhanca();
 
 int main(int argc, char **argv) {
 
@@ -278,11 +282,11 @@ void chamaFuncaoEscolhida(int opMenu) {
             break;
         }
         case 16: {
-            //mostraVizinhanca();
+            mostraVizinhanca();
             break;
         }
         case 17: {
-            verificaFechoTransitivo();
+            fechamentoTransitivoDireto();
             break;
         }
         case 18: {
@@ -360,6 +364,31 @@ void chamaFuncaoEscolhida(int opMenu) {
             cout << "ERRO: Opção Inválida!" << endl;
         }
     }
+}
+
+void mostraVizinhanca() {
+    long idVertice;
+    int op;
+    list<long> vizinhancaAberta;
+    do{
+        cout << "Informe o id do vértice que deseja consultar a vizinhança: ";
+        cin >> idVertice;
+        vizinhancaAberta = grafo.getVizinhaAberta(idVertice);
+
+        cout << "\nVizinhança Aberta: ";
+        for(long it : vizinhancaAberta){
+            cout << it << " " ;
+        }
+        cout << "\nVizinhança Fechada: " << idVertice << " ";
+        for(long it : vizinhancaAberta){
+            cout << it << " ";
+        }
+
+        cout << "\n0-Sair\t 1-Verificar Novamente" << endl;
+        cin >> op;
+
+    }while(op == 1);
+
 }
 
 void mostraIdVerticesAdjacentes() {
@@ -503,43 +532,57 @@ void coberturaDeVerticesGuloso() {
 
 }
 
-void verificaFechoTransitivo() {
+void fechamentoTransitivoDireto() {
 
     long idVertice;
-    string sFechoTransitivo;
+    int op;
+    string msg;
 
     do {
         cout << "Informe o id do Vértice que deseja visitar: ";
         cin >> idVertice;
 
-        if (idVertice < 0 || idVertice >= ordemGrafo) {
+        if (!grafo.isVerticePresente(idVertice)) {
             cout << "Vertice inválido!\n " << endl;
         } else {
-            sFechoTransitivo = grafo.fechoTransitivo(idVertice);
+            msg = "Fechamento Transitivo Direto do Vértice " + to_string(idVertice) + " -> ";
+            msg += grafo.fechoTransitivo(idVertice);
+            cout << msg << endl;
 
-            outputFile << "Fecho Transitivo do Vértice " << idVertice << " -> ";
-            outputFile << sFechoTransitivo << endl;
+            if(imprimirEmArquivo){
+                imprimeMensagem(msg);
+            }
         }
-    } while (idVertice < 0 || idVertice >= ordemGrafo);
+        cout << "\n0-Sair\t 1-Verificar Novamente" << endl;
+        cin >> op;
+    } while (op == 1);
 }
 
 void verificaFechoIntransitivo() {
     long idVertice;
-    string sFechoIntransitivo;
+    int op;
+    Grafo auxGrafo = copiarGrafoArcosInvertidos(grafo);
+
+    string msg;
 
     do {
         cout << "Informe o id do Vértice que deseja visitar: ";
         cin >> idVertice;
 
-        if (idVertice < 0 || idVertice >= ordemGrafo) {
+        if (!auxGrafo.isVerticePresente(idVertice)) {
             cout << "Vertice inválido!\n " << endl;
         } else {
-            sFechoIntransitivo = grafo.fechoIntransitivo(idVertice);
+            msg = "Fechamento Transitivo Indireto do Vértice " + to_string(idVertice) + " -> ";
+            msg += auxGrafo.fechoTransitivo(idVertice);
+            cout << msg << endl;
 
-            outputFile << "Fecho Intransitivo do Vértice " << idVertice << " -> ";
-            outputFile << sFechoIntransitivo << endl;
+            if(imprimirEmArquivo){
+                imprimeMensagem(msg);
+            }
         }
-    } while (idVertice < 0 || idVertice >= ordemGrafo);
+        cout << "\n0-Sair\t 1-Verificar Novamente" << endl;
+        cin >> op;
+    } while (op == 1);
 }
 
 void removeVertice() {
@@ -1034,6 +1077,35 @@ Grafo copiarGrafo(Grafo _g) {
             for(int j=0; j<_g.getTamTabHashAdj(); j++){
                 for(auto it2 = it->getVerticesAdjacentes()[j].begin(); it2 != it->getVerticesAdjacentes()[j].end(); it2++){
                     auxG.addVerticeAdjacente(it->getIdVertice(),it2->getIdVertice(),0);
+                }
+            }
+        }
+    }
+
+    return auxG;
+}
+
+/**
+ * Cria cópia de um grafo com os arcos invertidos: usado para fecho transitivo indireto
+ * @param _g
+ * @return
+ */
+Grafo copiarGrafoArcosInvertidos(Grafo _g) {
+    Grafo auxG(_g.getOrdemGrafo(),_g.getNumArestas());
+
+    //cria os vértices
+    for(int i=0; i<_g.getTamTabHashVertices(); i++){
+        for(auto it = _g.getVertices()[i].begin(); it != _g.getVertices()[i].end(); it++){
+            auxG.addVertice(it->getIdVertice());
+        }
+    }
+
+    //cria as arestas
+    for(int i=0; i<_g.getTamTabHashVertices(); i++){
+        for(auto it = _g.getVertices()[i].begin(); it != _g.getVertices()[i].end(); it++){
+            for(int j=0; j<_g.getTamTabHashAdj(); j++){
+                for(auto it2 = it->getVerticesAdjacentes()[j].begin(); it2 != it->getVerticesAdjacentes()[j].end(); it2++){
+                    auxG.addVerticeAdjacente(it2->getIdVertice(),it->getIdVertice(),0);
                 }
             }
         }

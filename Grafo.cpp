@@ -312,53 +312,43 @@ bool Grafo::removeVerticeAdjacente(int _idVerticeOrigem, int _idVerticeDestino) 
 
 
 void Grafo::auxFechoTransitivo(long _idVertice, set<int> *percorridos) {
-    /*
-    if(_idVertice<0 || _idVertice >= ordemGrafo){
-        cout << "Vertice inválido" << endl;
-    }
-    else {
-        //Percorre apenas se o vértice já não tiver sido verificado
 
-        percorridos->insert(_idVertice); //insere à lista de vértices percorridos
+    auto adjVerticeAtual = getVertice(_idVertice)->getVerticesAdjacentes();
+    //Percorre apenas se o vértice já não tiver sido verificado
+    percorridos->insert(_idVertice); //insere à lista de vértices percorridos
+    auto verticeAtual = getVertice(_idVertice); //define como visitado
+    verticeAtual->setCorVisita(Coloracao::CINZA); //define como visitado
 
-        getVertice(_idVertice)->setCorVisita(Coloracao::AZUL); //define como visitado
-
-
-        for(Adjacente it : getVertice(_idVertice)->getVerticesAdjacentes()){
-
-            long adj = it.getIdVertice();
-
-            if(getVertice(adj)->getColoracao() == Coloracao::SEMCOR) {
-
-                auxFechoTransitivo(adj, percorridos);  //chama recursivamente a função passando os vértices adjacentes
+    for(int i=0; i<tamTabHashAdjacentes; i++){
+        for(auto it = adjVerticeAtual[i].begin(); it != adjVerticeAtual[i].end(); it++){
+            if(getVertice(it->getIdVertice())->getColoracao() == Coloracao::BRANCO){
+                auxFechoTransitivo(it->getIdVertice(),percorridos);
             }
         }
     }
-    */
+
+    verticeAtual->setCorVisita(Coloracao::PRETO);
 }
 
 
 string Grafo::fechoTransitivo(long _idVertice) {
-    string sFechoTransitivo = "";
+    string sFechoTransitivo;
     set<int> verticesPercorridos;
 
     //Seta todos como não-visitados
-    for(int i=0; i<ordemGrafo;i++){
-        getVertice(i)->setCorVisita(Coloracao::SEMCOR);
+    for(int i=0; i<tamTabHashVertices;i++){
+        for(auto it = vertices[i].begin(); it != vertices[i].end(); it++) {
+            it->setCorVisita(Coloracao::BRANCO);
+        }
     }
 
     auxFechoTransitivo(_idVertice, &verticesPercorridos);
 
-    cout << _idVertice << "-> ";
     for(auto percorridoAtual : verticesPercorridos) {
-        if(percorridoAtual != _idVertice) {   //Não inclui o próprio vértice
-            cout << percorridoAtual << " ";
             sFechoTransitivo += to_string(percorridoAtual);
             sFechoTransitivo += " ";
-        }
     }
 
-    cout << "\n\n" << endl;
     return sFechoTransitivo;
 }
 
@@ -381,63 +371,6 @@ void Grafo::auxFechoIntransitivo(Grafo *grafoAux, long _idVertice, set<int> *per
         }
     }
      */
-}
-
-
-string Grafo::fechoIntransitivo(long _idVertice) {
-    string sFechoIntransitivo = "";
-    /*
-    set<int> verticesPercorridos;
-
-    //Seta todos como não-visitados
-    for(int i=0; i<ordemGrafo;i++){
-        getVertice(i)->setCorVisita(Coloracao::SEMCOR);
-    }
-
-
-    if(!isGrafoDirecionado) {   //Grafo não-direcionado o caminho de ida é o mesmo de volta
-        auxFechoTransitivo(_idVertice, &verticesPercorridos);
-    }else{
-        //Cria grafo auxiliar, invertendo o sentido de ligação das arestas
-        long i=1;
-        long tamanhoGrafo = ordemGrafo;
-
-        Grafo grafoAux(ordemGrafo);
-
-        //O primeiro vértice é criado automaticamente
-        grafoAux.getVertice(0)->setIdVertice(0);
-
-        while(i < tamanhoGrafo){
-            grafoAux.addVertice(i);
-            i++;
-        }
-        grafoAux.setIsGrafoDirecionado(true);
-
-        //Cria Arestas
-        for(i=0; i<tamanhoGrafo; i++){
-            for(Adjacente adj : getVertice(i)->getVerticesAdjacentes()){
-                grafoAux.getVertice(adj.getIdVertice())->addVerticeAdjacente(i,adj.getPesoDaAresta());
-            }
-        }
-
-        auxFechoIntransitivo(&grafoAux,_idVertice,&verticesPercorridos);
-
-    }
-
-
-    cout << _idVertice << "-> ";
-    for(auto percorridoAtual : verticesPercorridos) {
-        if(percorridoAtual != _idVertice) {   //Não inclui o próprio vértice
-            cout << percorridoAtual << " ";
-            sFechoIntransitivo += to_string(percorridoAtual);
-            sFechoIntransitivo += " ";
-        }
-    }
-
-    cout << "\n\n" << endl;
-     */
-    return sFechoIntransitivo;
-
 }
 
 long Grafo::getOrdemGrafo() {
@@ -477,6 +410,28 @@ list<Vertice>::iterator Grafo::isContainVertice(long _idVertice) {
     }
     //Se vértice não estiver presente, vai retornar it apontando pro end do último elemento do vetor
     return it;
+}
+
+/**
+ * Apenas informa se o vértice está presente ou não
+ * @param _idVertice
+ * @return
+ */
+bool Grafo::isVerticePresente(long _idVertice) {
+
+    //identifica em qual posição da tabela hash o vértice deveria estar
+    long posicao = calculaIndiceTabela(_idVertice);
+    long idVerticeAtual;
+    list<Vertice>::iterator it;
+
+    for(it = vertices[posicao].begin(); it != vertices[posicao].end(); it++){
+        //Se encontrar o vértice
+        idVerticeAtual = it->getIdVertice();
+        if(idVerticeAtual == _idVertice){
+            return true;
+        }
+    }
+    return false;
 }
 
 /**
@@ -645,10 +600,22 @@ long Grafo::getNumArestas() {
 }
 
 /**
- * Verifica se um vértice é de articulação
+ * Retorna lista com a vizinha aberta de um vértice
  * @param _idVertice
  * @return
  */
+list<long> Grafo::getVizinhaAberta(long _idVertice) {
+    list<long> vizinhos;
+
+    for(int i=0; i<tamTabHashAdjacentes; i++){
+        for(auto it = getVertice(_idVertice)->getVerticesAdjacentes()[i].begin(); it != getVertice(_idVertice)->getVerticesAdjacentes()[i].end(); it++){
+            vizinhos.push_back(it->getIdVertice());
+        }
+    }
+
+    return vizinhos;
+}
+
 
 
 

@@ -15,7 +15,7 @@ Trabalho da disciplina Teoria dos Grafos 2016.1 da Universidade Federal de Juiz 
  9. - [x] Verificar se dois nós estão em uma mesma componente conexa;
  10. - [x] Verificar se um dado nó é de articulação;
  11. - [x] Verificar se uma dada aresta é ponte;
- 12. - [ ] Retornar a vizinhança (aberta/fechada) de um dado nó;
+ 12. - [x] Retornar a vizinhança (aberta/fechada) de um dado nó;
  13. - [ ] Retornar o fechamento transitivo direto/indireto de um dado nó;
  14. - [ ] Retornar a ordenação topológica do DAG;
  15. - [ ] Determinar o caminho mínimo entre dois vértices usando algoritmo de Dijkstra;

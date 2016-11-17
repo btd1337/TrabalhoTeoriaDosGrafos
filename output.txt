@@ -5,10 +5,10 @@ Matrícula: 201465555A
 
 - Análise do Grafo -
 
-Número de Vértices: 6
-Número de Arestas: 6
+Número de Vértices: 7
+Número de Arestas: 9
 
-A aresta (4,5) é ponte.
-A aresta (1,2) não é ponte.
-A aresta (1,2) não é ponte.
-A aresta (4,5) é ponte.
+Fechamento Transitivo Direto do Vértice 5 -> 5 6 
+Fechamento Transitivo Direto do Vértice 6 -> 6 
+Fechamento Transitivo Indireto do Vértice 5 -> 5 6 
+Fechamento Transitivo Indireto do Vértice 6 -> 5 6 
