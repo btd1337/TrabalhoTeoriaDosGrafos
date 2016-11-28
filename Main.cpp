@@ -346,7 +346,7 @@ void chamaFuncaoEscolhida(int opMenu) {
             break;
         }
         case 32: {
-            //coberturaDeVerticesGuloso();
+            coberturaDeVerticesGuloso();
             break;
         }
         case 33: {
@@ -476,9 +476,9 @@ void adicionaVertice() {
 
 void coberturaDeVerticesGuloso() {
     vector<long> verticesUtilizados;
-
+    string msg="";
     Grafo grafoAux(ordemGrafo,numArestas);
-    grafoAux = grafo;
+    grafoAux = copiarGrafo(grafo);
     multiset<pair<double, int>> rankeamentoDeVertices;
     pair<double, int> infoRankeamento; //pesoParaRankeamento, idVertice
     double pesoParaRankeamento;
@@ -486,50 +486,54 @@ void coberturaDeVerticesGuloso() {
     long idVerticeMenorCusto;
 
     while (!coberto) {
-        for (int i = 0; i < grafoAux.getOrdemGrafo(); i++) {
-            if (grafoAux.getVertice(i)->getGrau() != 0) {
-                pesoParaRankeamento = grafoAux.getVertice(i)->getPeso() / (grafoAux.getVertice(i)->getGrau() * 1.0);
-                infoRankeamento = make_pair(pesoParaRankeamento, grafoAux.getVertice(i)->getIdVertice());
-                rankeamentoDeVertices.insert(infoRankeamento);
-            } else {
-                //Evita q peso 0 seja escolhido
-                pesoParaRankeamento = 999999;
-                infoRankeamento = make_pair(pesoParaRankeamento, grafo.getVertice(i)->getIdVertice());
+        for(int i=0; i< grafoAux.getTamTabHashVertices(); i++) {
+            for (auto it = grafoAux.getVertices()[i].begin(); it != grafoAux.getVertices()[i].end(); it++) {
+                if (it->getGrau() != 0) {
+                    pesoParaRankeamento = it->getPeso() / (it->getGrau() * 1.0);
+                    infoRankeamento = make_pair(pesoParaRankeamento, it->getIdVertice());
+                    rankeamentoDeVertices.insert(infoRankeamento);
+                } else {
+                    //Evita q peso 0 seja escolhido
+                    pesoParaRankeamento = 99999;    //verificar int_max do c++
+                    infoRankeamento = make_pair(pesoParaRankeamento, it->getIdVertice());
+                }
             }
         }
         idVerticeMenorCusto = rankeamentoDeVertices.begin()->second;
 
         verticesUtilizados.push_back(idVerticeMenorCusto);    //utiliza vértice de menor custo
-        long teste;
 
         //Remove as arestas que o vértice cobre
-        auto it = grafoAux.getVertice(idVerticeMenorCusto)->getVerticesAdjacentes();
-        for (int i=0; i< grafo.getTamTabHashAdj(); i++) {
-            for(auto adj = it[i].begin(); adj != it[i].end(); adj++) {
-                teste = adj->getIdVertice();
-                grafoAux.removeVerticeAdjacente(idVerticeMenorCusto, adj->getIdVertice());
-            }
-        }
+        grafoAux.removeVertice(idVerticeMenorCusto);
 
         //Verifica se a cobertura está completa
         coberto = true;
-        for (int i = 0; i < grafoAux.getOrdemGrafo(); i++) {
-            if (grafoAux.getVertice(i)->getGrau() > 0) {
-                coberto = false;
-                rankeamentoDeVertices.clear();  //limpa o vetor de rankeamento
+        for (int i = 0; i < grafoAux.getTamTabHashVertices(); i++) {
+            for(auto it = grafoAux.getVertices()[i].begin(); it != grafoAux.getVertices()[i].end(); it++) {
+                if (it->getGrau() > 0) {
+                    coberto = false;
+                    rankeamentoDeVertices.clear();  //limpa o vetor de rankeamento
+                    break;
+                }
+            }
+            if(!coberto){
                 break;
             }
         }
     }
-
-    outputFile << "\nCobertura Mínima: " << verticesUtilizados.size() << " vértice(s)" << endl;
+    msg = "Cobertura Mínima: " + to_string(verticesUtilizados.size()) + " vértice(s).\n";
     for (int i = 0; i < verticesUtilizados.size(); i++) {
-        outputFile << verticesUtilizados[i];
+        msg += to_string(verticesUtilizados[i]);
         if (i < verticesUtilizados.size() - 1) {
-            outputFile << ", ";
+            msg += ", ";
         }
     }
 
+    cout << msg << endl;
+
+    if(imprimirEmArquivo){
+        imprimeMensagem(msg);
+    }
 }
 
 void fechamentoTransitivoDireto() {

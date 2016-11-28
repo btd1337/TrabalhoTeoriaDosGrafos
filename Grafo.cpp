@@ -236,18 +236,17 @@ bool Grafo::isCompleto(){
 
 bool Grafo::removeVertice(long _idVertice) {
 
-    //it recebe o iterador da posição onde está o vértice ou nullptr
-    auto it = isContainVertice(_idVertice);
     list<long> verticesAdj;
     verticesAdj.clear();    //certifica de zerar a lista aux
 
-    if(it == itUltimaPosicao(_idVertice)){  //caso o método isContainVertice não encontrar o vértice
+    if(!isVerticePresente(_idVertice)){  //caso não tenha vértice com o id informado
         cout << "Erro: Não existe vértice com este id no Grafo.\n" << endl;
         return false;
 
     }else{
         //Remove as arestas do vértice
         //Remover diretamente está com erro, por isso está sendo criada lista auxiliar
+        auto it = getVertice(_idVertice);
         auto adjacentes = it->getVerticesAdjacentes();
         for(int j=0; j<tamTabHashAdjacentes; j++) {
             for (auto adj = adjacentes[j].begin(); adj != adjacentes[j].end(); adj++) {
@@ -284,12 +283,12 @@ bool Grafo::removeVerticeAdjacente(int _idVerticeOrigem, int _idVerticeDestino) 
     //verifica se os vértices são válidos
     auto it = isContainVertice(_idVerticeOrigem);
     if(it == itUltimaPosicao(_idVerticeOrigem)){
-        cout << "Erro: Não existe vértice com o id informado como Origem!\n" << endl;
+        cout << "Erro: Não existe vértice com o id informado como Origem:" << _idVerticeOrigem << "\n" << endl;
         return false;
     }
     it = isContainVertice(_idVerticeDestino);
     if(it == itUltimaPosicao(_idVerticeDestino)){
-        cout << "Erro: Não existe vértice com o id informado como Destino!\n" << endl;
+        cout << "Erro: Não existe vértice com o id informado como Destino:" << _idVerticeDestino << "\n" << endl;
         return false;
     }
 
