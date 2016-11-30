@@ -6,11 +6,9 @@ Matrícula: 201465555A
 - Análise do Grafo -
 
 Número de Vértices: 7
-Número de Arestas: 9
+Número de Arestas: 2
 
-Cobertura Mínima: 5 vértice(s).
-0, 1, 2, 4, 5
-Cobertura Mínima: 5 vértice(s).
-0, 1, 2, 4, 5
-Cobertura Mínima: 5 vértice(s).
-0, 1, 2, 4, 5
+Cobertura Mínima: 1 vértice(s).
+6
+Cobertura Mínima: 1 vértice(s).
+6

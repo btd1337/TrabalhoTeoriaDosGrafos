@@ -237,6 +237,7 @@ bool Grafo::isCompleto(){
 bool Grafo::removeVertice(long _idVertice) {
 
     list<long> verticesAdj;
+    long numVerticesAdj;
     verticesAdj.clear();    //certifica de zerar a lista aux
 
     if(!isVerticePresente(_idVertice)){  //caso não tenha vértice com o id informado
@@ -254,9 +255,12 @@ bool Grafo::removeVertice(long _idVertice) {
             }
         }
 
-        for(int i=0; i<verticesAdj.size(); i++){
+        //Obterm tamanho do vetor, usado porque o tamanho do vetor eh reduzido
+        numVerticesAdj = verticesAdj.size();
+
+        for(int i=0; i<numVerticesAdj; i++){
             removeVerticeAdjacente(_idVertice,*verticesAdj.begin());
-            verticesAdj.erase(verticesAdj.begin());
+            verticesAdj.pop_front();
         }
         long indice = calculaIndiceTabela(_idVertice);
         vertices[indice].erase(it);
@@ -281,13 +285,11 @@ bool Grafo::auxRemoveAresta(int _idVerticeOrigem, int _idVerticeDestino) {
 bool Grafo::removeVerticeAdjacente(int _idVerticeOrigem, int _idVerticeDestino) {
 
     //verifica se os vértices são válidos
-    auto it = isContainVertice(_idVerticeOrigem);
-    if(it == itUltimaPosicao(_idVerticeOrigem)){
+    if(!isVerticePresente(_idVerticeOrigem)){
         cout << "Erro: Não existe vértice com o id informado como Origem:" << _idVerticeOrigem << "\n" << endl;
         return false;
     }
-    it = isContainVertice(_idVerticeDestino);
-    if(it == itUltimaPosicao(_idVerticeDestino)){
+    if(!isVerticePresente(_idVerticeDestino)){
         cout << "Erro: Não existe vértice com o id informado como Destino:" << _idVerticeDestino << "\n" << endl;
         return false;
     }

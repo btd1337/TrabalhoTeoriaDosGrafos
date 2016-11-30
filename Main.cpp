@@ -511,6 +511,7 @@ void coberturaDeVerticesGuloso() {
         for (int i = 0; i < grafoAux.getTamTabHashVertices(); i++) {
             for(auto it = grafoAux.getVertices()[i].begin(); it != grafoAux.getVertices()[i].end(); it++) {
                 if (it->getGrau() > 0) {
+                    cout << "Vértice com Grau" << it->getIdVertice() << endl;
                     coberto = false;
                     rankeamentoDeVertices.clear();  //limpa o vetor de rankeamento
                     break;
@@ -845,18 +846,24 @@ void verificaAdjacenciaVertices() {
 
 void listaAdjacentesVertice() {//4- Lista os Adjacentes de um Vértice
     int idVertice, op;
+    string msg;
     do {
         cout << "Digite o id do Vértice que deseja consultar seus adjacentes: ";
         cin >> idVertice;
 
-        list<Vertice>::iterator it = grafo.isContainVertice(idVertice);
-
-        if (it == grafo.itUltimaPosicao(idVertice)) {
+        if (!grafo.isVerticePresente(idVertice)) {
             cout << "Erro: Vértice Inválido!\n" << endl;
         } else {
+            msg = "Vértices Adjacentes ao Vértice ";
             cout << "Verificando Vértices Adjacentes ao Vértice " << idVertice << "...\nOK\n" << endl;
-            outputFile << "Vértices Adjacentes ao Vértice " << idVertice << ":\n";
-            outputFile << idVertice << " -> " << grafo.getVertice(idVertice)->listarAdjacentes() << endl;
+            msg += (to_string(idVertice) + ":\n");
+            msg += (to_string(idVertice) + " -> " + grafo.getVertice(idVertice)->listarAdjacentes() + "\n");
+
+            cout << msg << endl;
+
+            if(imprimirEmArquivo){
+                imprimeMensagem(msg);
+            }
         }
         cout << "0- Encerrar Função    1-Escolher Outro Vértice" << endl;
         cin >> op;

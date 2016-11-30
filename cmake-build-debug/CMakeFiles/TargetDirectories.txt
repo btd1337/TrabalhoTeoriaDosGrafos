@@ -1,0 +1,3 @@
+/ice/Repositórios/TrabalhoTeoriaDosGrafos/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/ice/Repositórios/TrabalhoTeoriaDosGrafos/cmake-build-debug/CMakeFiles/edit_cache.dir
+/ice/Repositórios/TrabalhoTeoriaDosGrafos/cmake-build-debug/CMakeFiles/TrabalhoGrafos.dir

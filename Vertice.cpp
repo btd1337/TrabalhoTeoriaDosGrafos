@@ -11,7 +11,7 @@ Vertice::Vertice(long _tamTabHashAdjacentes, long _idVertice) {
     verticesAdjacentes = new list<Adjacente>((unsigned long) tamTabHashAdjacentes);
     corVisita = Coloracao::SEMCOR;  //inicia o vértice sem cor
     grau = 0;
-    peso = 1 + idVertice * 2;
+    peso = 1;
     disponivel = true;
 
     //Limpa as listas de adjacentes
