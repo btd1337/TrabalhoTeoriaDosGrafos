@@ -10,7 +10,7 @@ using namespace std;
 
 fstream inputFile, outputFile;
 long ordemGrafo = 1, kRegular, numArestas;
-bool isContainPesoAresta = true;
+bool isContainPesoAresta = false;   //Informa se o arquivo de leitura do grafo tem peso das arestas
 bool imprimirEmArquivo;
 Grafo grafo(1,1);    //cria grafo não direcionado
 
@@ -352,14 +352,17 @@ void chamaFuncaoEscolhida(int opMenu) {
             break;
         }
         case 32: {
+            cout << "Verificando, por favor aguarde...";
             coberturaDeVerticesGuloso();
             break;
         }
         case 33: {
+            cout << "Verificando, por favor aguarde...";
             coberturaDeVerticesGulosoRandomizado();
             break;
         }
         case 34: {
+            cout << "Verificando, por favor aguarde...";
             //coberturaDeVerticesGulosoRandomizadoReativo();
             break;
         }
@@ -517,7 +520,6 @@ void coberturaDeVerticesGuloso() {
         for (int i = 0; i < grafoAux.getTamTabHashVertices(); i++) {
             for(auto it = grafoAux.getVertices()[i].begin(); it != grafoAux.getVertices()[i].end(); it++) {
                 if (it->getGrau() > 0) {
-                    cout << "Vértice com Grau" << it->getIdVertice() << endl;
                     coberto = false;
                     rankeamentoDeVertices.clear();  //limpa o vetor de rankeamento
                     break;
@@ -528,7 +530,7 @@ void coberturaDeVerticesGuloso() {
             }
         }
     }
-    msg = "Cobertura Mínima: " + to_string(verticesUtilizados.size()) + " vértice(s).\n";
+    msg = "\n\nCobertura Mínima: " + to_string(verticesUtilizados.size()) + " vértice(s).\n";
     for (int i = 0; i < verticesUtilizados.size(); i++) {
         msg += to_string(verticesUtilizados[i]);
         if (i < verticesUtilizados.size() - 1) {
@@ -547,7 +549,7 @@ void coberturaDeVerticesGulosoRandomizado(){
     int op, numAlfas=3;
     bool imprime = false;   //verifica se os vértices da menor cobertura serão impressos
     string msg = "";
-    double alfa[numAlfas] = {0.10,0.20,0.30};
+    double alfa[numAlfas] = {0.1,0.2,0.3};
 
     double melhorAlfa;
 
@@ -578,14 +580,14 @@ void coberturaDeVerticesGulosoRandomizado(){
         }
     }
 
-    cout << "Deseja que os vértices da melhor cobertura sejam exibidos?" << endl;
+    cout << "\nDeseja que os vértices da melhor cobertura sejam exibidos?" << endl;
     cout << "1- Sim\t 0-Não" << endl;
     cin >> op;
     if(op==1){
         imprime = true;
     }
     cout << endl;
-    msg = "--- Descrição da Cobertura Mínimal em Custo de Vértices Ponderados ---\n";
+    msg = "\n--- Descrição da Cobertura Mínimal em Custo de Vértices Ponderados ---\n";
 
     cout << msg << endl;
 
@@ -663,6 +665,11 @@ int auxCVGR(double _alfa, bool imprime) {
 
         //Posiciona o iterador na posição do elemento escolhido
         itRakeamento = rankeamentoDeVertices.begin();
+
+        //Avança para a posiçao escolhida pela randomizaçao
+        for(int i=0; i<posicaoEscolhida; i++){
+            itRakeamento++;
+        }
 
         //idVerticeMenorCusto = rankeamentoDeVertices.begin()->second;
         idVerticeMenorCusto = itRakeamento->second;
@@ -887,10 +894,10 @@ void criarGrafo(long _ordemGrafo, long _numArestas) {
 
     grafo = grafoAux;
 
-    long i = 0;
+    long i = 1; //Caso onde instancia nao possui id=0
     int op;
 
-    while (i < _ordemGrafo) {
+    while (i <= _ordemGrafo) {
         grafo.addVertice(i);
         i++;
     }

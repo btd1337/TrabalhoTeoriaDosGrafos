@@ -85,9 +85,7 @@ list<Vertice>::iterator Grafo::getVertice(long _idVertice)
  */
 void Grafo::addVertice(long _idVertice)
 {
-    auto it = isContainVertice(_idVertice);
-    //Se não encontrar o vértice é porque ele não está presente e pode ser adicionado
-    if(it == itUltimaPosicao(_idVertice)){
+    if(!isVerticePresente(_idVertice)){
         long indice = calculaIndiceTabela(_idVertice);
         Vertice vertice(tamTabHashAdjacentes, _idVertice);
         vertices[indice].push_back(vertice);

@@ -8,7 +8,7 @@ Vertice::Vertice(long _tamTabHashAdjacentes, long _idVertice) {
     idVertice = _idVertice;
     tamTabHashAdjacentes = _tamTabHashAdjacentes;
     //cria tab hash na media numArestas/numVertices
-    verticesAdjacentes = new list<Adjacente>((unsigned long) tamTabHashAdjacentes);
+    verticesAdjacentes = new list<Adjacente>[tamTabHashAdjacentes];
     corVisita = Coloracao::SEMCOR;  //inicia o vértice sem cor
     grau = 0;
     peso = 1;
