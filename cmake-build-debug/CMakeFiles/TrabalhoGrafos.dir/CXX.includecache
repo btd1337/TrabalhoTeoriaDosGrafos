@@ -6,21 +6,21 @@
 
 #IncludeRegexTransform: 
 
-/ice/Repositórios/TrabalhoTeoriaDosGrafos/Adjacente.cpp
+/home/btd1337/Repositórios/TrabalhoTeoriaDosGrafos/Adjacente.cpp
 Adjacente.h
-/ice/Repositórios/TrabalhoTeoriaDosGrafos/Adjacente.h
+/home/btd1337/Repositórios/TrabalhoTeoriaDosGrafos/Adjacente.h
 
-/ice/Repositórios/TrabalhoTeoriaDosGrafos/Adjacente.h
+/home/btd1337/Repositórios/TrabalhoTeoriaDosGrafos/Adjacente.h
 Vertice.h
-/ice/Repositórios/TrabalhoTeoriaDosGrafos/Vertice.h
+/home/btd1337/Repositórios/TrabalhoTeoriaDosGrafos/Vertice.h
 
-/ice/Repositórios/TrabalhoTeoriaDosGrafos/Coloracao.h
+/home/btd1337/Repositórios/TrabalhoTeoriaDosGrafos/Coloracao.h
 
-/ice/Repositórios/TrabalhoTeoriaDosGrafos/Grafo.cpp
+/home/btd1337/Repositórios/TrabalhoTeoriaDosGrafos/Grafo.cpp
 Grafo.h
-/ice/Repositórios/TrabalhoTeoriaDosGrafos/Grafo.h
+/home/btd1337/Repositórios/TrabalhoTeoriaDosGrafos/Grafo.h
 
-/ice/Repositórios/TrabalhoTeoriaDosGrafos/Grafo.h
+/home/btd1337/Repositórios/TrabalhoTeoriaDosGrafos/Grafo.h
 vector
 -
 string
@@ -30,25 +30,29 @@ list
 set
 -
 Adjacente.h
-/ice/Repositórios/TrabalhoTeoriaDosGrafos/Adjacente.h
+/home/btd1337/Repositórios/TrabalhoTeoriaDosGrafos/Adjacente.h
 
-/ice/Repositórios/TrabalhoTeoriaDosGrafos/Main.cpp
+/home/btd1337/Repositórios/TrabalhoTeoriaDosGrafos/Main.cpp
 iostream
 -
 fstream
 -
 algorithm
 -
+cstdlib
+-
+stdlib.h
+-
 Adjacente.h
-/ice/Repositórios/TrabalhoTeoriaDosGrafos/Adjacente.h
+/home/btd1337/Repositórios/TrabalhoTeoriaDosGrafos/Adjacente.h
 Grafo.h
-/ice/Repositórios/TrabalhoTeoriaDosGrafos/Grafo.h
+/home/btd1337/Repositórios/TrabalhoTeoriaDosGrafos/Grafo.h
 
-/ice/Repositórios/TrabalhoTeoriaDosGrafos/Vertice.cpp
+/home/btd1337/Repositórios/TrabalhoTeoriaDosGrafos/Vertice.cpp
 Vertice.h
-/ice/Repositórios/TrabalhoTeoriaDosGrafos/Vertice.h
+/home/btd1337/Repositórios/TrabalhoTeoriaDosGrafos/Vertice.h
 
-/ice/Repositórios/TrabalhoTeoriaDosGrafos/Vertice.h
+/home/btd1337/Repositórios/TrabalhoTeoriaDosGrafos/Vertice.h
 iostream
 -
 string
@@ -56,7 +60,7 @@ string
 list
 -
 Adjacente.h
-/ice/Repositórios/TrabalhoTeoriaDosGrafos/Adjacente.h
+/home/btd1337/Repositórios/TrabalhoTeoriaDosGrafos/Adjacente.h
 Coloracao.h
-/ice/Repositórios/TrabalhoTeoriaDosGrafos/Coloracao.h
+/home/btd1337/Repositórios/TrabalhoTeoriaDosGrafos/Coloracao.h
 

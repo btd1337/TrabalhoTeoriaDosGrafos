@@ -5,10 +5,29 @@ Matrícula: 201465555A
 
 - Análise do Grafo -
 
-Número de Vértices: 7
+Número de Vértices: 4
 Número de Arestas: 2
 
-Cobertura Mínima: 1 vértice(s).
-6
-Cobertura Mínima: 1 vértice(s).
-6
+--- Descrição da Cobertura Mínimal em Custo de Vértices Ponderados ---
+
+Alfa: 0.100000
+Menor Cobertura: 1
+Melhor Semente: 1
+Vertices utilizados: 
+2
+
+
+Alfa: 0.200000
+Menor Cobertura: 1
+Melhor Semente: 1
+Vertices utilizados: 
+2
+
+
+Alfa: 0.300000
+Menor Cobertura: 1
+Melhor Semente: 1
+Vertices utilizados: 
+2
+
+

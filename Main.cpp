@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <cstdlib>
+#include <stdlib.h>
 #include "Adjacente.h"
 #include "Grafo.h"
 
@@ -63,6 +65,10 @@ void fechamentoTransitivoDireto();
 void verificaFechoIntransitivo();
 
 void coberturaDeVerticesGuloso();
+
+int auxCVGR(double _alfa, bool imprime);
+
+void coberturaDeVerticesGulosoRandomizado();
 
 void adicionaVertice();
 
@@ -350,7 +356,7 @@ void chamaFuncaoEscolhida(int opMenu) {
             break;
         }
         case 33: {
-            //coberturaDeVerticesGulosoRandomizado();
+            coberturaDeVerticesGulosoRandomizado();
             break;
         }
         case 34: {
@@ -479,8 +485,8 @@ void coberturaDeVerticesGuloso() {
     string msg="";
     Grafo grafoAux(ordemGrafo,numArestas);
     grafoAux = copiarGrafo(grafo);
-    multiset<pair<double, int>> rankeamentoDeVertices;
     pair<double, int> infoRankeamento; //pesoParaRankeamento, idVertice
+    multiset<pair<double, int>> rankeamentoDeVertices;
     double pesoParaRankeamento;
     bool coberto = false;   //setar para true quando todas as arestas forem cobertas
     long idVerticeMenorCusto;
@@ -536,6 +542,165 @@ void coberturaDeVerticesGuloso() {
         imprimeMensagem(msg);
     }
 }
+
+void coberturaDeVerticesGulosoRandomizado(){
+    int op, numAlfas=3;
+    bool imprime = false;   //verifica se os vértices da menor cobertura serão impressos
+    string msg = "";
+    double alfa[numAlfas] = {0.10,0.20,0.30};
+
+    double melhorAlfa;
+
+    int semente;
+    //define a primeira semente como melhor
+    int melhorSementeAlfa[numAlfas] = {1,1,1};
+
+    srand(1);   //obtem a cobertura de cada alfa usando a semente 1
+    long minCobertura[numAlfas];
+    for(int i=0; i<numAlfas; i++){
+        minCobertura[i] = auxCVGR(alfa[i],false);
+    }
+
+    int auxMinCobertura;
+
+
+    for(semente=2; semente<=30; semente++){
+
+        // inicializa o gerador de números randômicos
+        srand(semente); //semente varia de 1 a 30
+
+        for(int i=0; i<numAlfas; i++){
+            auxMinCobertura = auxCVGR(alfa[i],false);
+            if(auxMinCobertura < minCobertura[i]){
+                minCobertura[i] = auxMinCobertura;
+                melhorSementeAlfa[i] = semente;
+            }
+        }
+    }
+
+    cout << "Deseja que os vértices da melhor cobertura sejam exibidos?" << endl;
+    cout << "1- Sim\t 0-Não" << endl;
+    cin >> op;
+    if(op==1){
+        imprime = true;
+    }
+    cout << endl;
+    msg = "--- Descrição da Cobertura Mínimal em Custo de Vértices Ponderados ---\n";
+
+    cout << msg << endl;
+
+    if(imprimirEmArquivo){
+        imprimeMensagem(msg);
+    }
+
+    for(int i=0; i < numAlfas; i++){
+        msg = "";   //Reseta a msg
+        msg += "Alfa: " + to_string(alfa[i]) + "\n";
+        msg += "Menor Cobertura: " + to_string(minCobertura[i]) + "\n";
+        msg += "Melhor Semente: " + to_string(melhorSementeAlfa[i]) + "\n" ;
+        msg += "Vertices utilizados: ";
+        cout << msg << endl;
+
+        if(imprimirEmArquivo){
+            imprimeMensagem(msg);
+        }
+
+        if(imprime){
+            srand(melhorSementeAlfa[i]);
+            auxCVGR(alfa[i], true);
+        }
+    }
+}
+
+/**
+ * Algoritmo auxiliar do metodo Construtivo Guloso Randomizado
+ * @param _alfa
+ * @param imprime - informar se deve ser impresso os vertices que fazem parte da cobertura
+ * @return numero de vertices utilizados
+ */
+
+int auxCVGR(double _alfa, bool imprime) {
+    long posicaoEscolhida;
+    vector<long> verticesUtilizados;
+    Grafo grafoAux = copiarGrafo(grafo);
+    multiset< pair<double,int>> rankeamentoDeVertices;
+    multiset< pair<double,int>>::iterator itRakeamento;
+    pair<double,int> infoRankeamento; //pesoParaRankeamento, idVertice
+    double pesoParaRankeamento;
+    bool coberto = false;   //setar para true quando todas as arestas forem cobertas
+    long idVerticeMenorCusto;
+    long rangeMax;  //Vértice escolhido deve ser aleatório no intervalo de 0 a RageMax
+    int valRandomico;
+    int numVerticesGrauZero;
+    string msg = "";
+
+    while(!coberto){
+
+        //Encontrar qual vai ser o vértice escolhido
+        rangeMax = grafoAux.getOrdemGrafo() * _alfa;
+        if(rangeMax>0){ //evitar divisão por zero
+            valRandomico = rand();
+            posicaoEscolhida = valRandomico % rangeMax;
+        }
+        else{
+            posicaoEscolhida = 0;
+        }
+
+        for(int i=0; i<grafoAux.getTamTabHashVertices();i++){
+            for(auto it = grafoAux.getVertices()[i].begin(); it!= grafoAux.getVertices()[i].end(); it++) {
+                if (it->getGrau() != 0) {
+                    pesoParaRankeamento = it->getPeso() / (it->getGrau() * 1.0);
+                    infoRankeamento = make_pair(pesoParaRankeamento, it->getIdVertice());
+                    rankeamentoDeVertices.insert(infoRankeamento);
+                } else {
+                    //Evita q peso 0 seja escolhido
+                    pesoParaRankeamento = 999999;
+                    infoRankeamento = make_pair(pesoParaRankeamento, it->getIdVertice());
+                    rankeamentoDeVertices.insert(infoRankeamento);
+                }
+            }
+        }
+
+        //Posiciona o iterador na posição do elemento escolhido
+        itRakeamento = rankeamentoDeVertices.begin();
+
+        //idVerticeMenorCusto = rankeamentoDeVertices.begin()->second;
+        idVerticeMenorCusto = itRakeamento->second;
+        verticesUtilizados.push_back(idVerticeMenorCusto);    //utiliza vértice de menor custo
+
+        grafoAux.removeVertice(idVerticeMenorCusto);
+
+        //Verifica se a cobertura está completa
+        coberto = true;
+        for(int i=0;i<grafoAux.getTamTabHashVertices();i++){
+            for(auto it = grafoAux.getVertices()[i].begin(); it != grafoAux.getVertices()[i].end(); it++) {
+                if (it->getGrau() > 0) {
+                    coberto = false;
+                    rankeamentoDeVertices.clear();  //limpa o vetor de rankeamento
+                    break;
+                }
+            }
+        }
+    }
+
+    if(imprime) {
+        for (int i = 0; i < verticesUtilizados.size(); i++) {
+            msg += to_string(verticesUtilizados[i]);
+            if (i < verticesUtilizados.size() - 1) {
+                msg += ", ";
+            }
+        }
+        msg += "\n\n";
+        cout << msg << endl;
+
+        if(imprimirEmArquivo){
+            imprimeMensagem(msg);
+        }
+    }
+
+    return verticesUtilizados.size();
+}
+
 
 void fechamentoTransitivoDireto() {
 
