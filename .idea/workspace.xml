@@ -12,24 +12,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="998a094e-5df7-4d1a-9f88-247ca89f68b0" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Instâncias/frb30-15-3.mis" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Instâncias/frb30-15-4.mis" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Instâncias/frb35-17-2.mis" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Instâncias/frb40-19-3.mis" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Instâncias/frb45-21-1.mis" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Instâncias/frb45-21-4.mis" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Instâncias/frb50-23-5.mis" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Instâncias/frb53-24-1.mis" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Instâncias/frb56-25-2.mis" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Instâncias/frb59-26-3.mis" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/input1.txt" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoGrafos.dir/Main.cpp.o" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoGrafos.dir/Main.cpp.o" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoGrafos.dir/Main.cpp.o" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.6.2/CMakeDetermineCompilerABI_C.bin" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.6.2/CMakeDetermineCompilerABI_C.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.6.2/CMakeDetermineCompilerABI_CXX.bin" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.6.2/CMakeDetermineCompilerABI_CXX.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.6.2/CompilerIdC/a.out" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.6.2/CompilerIdC/a.out" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.6.2/CompilerIdCXX/a.out" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.6.2/CompilerIdCXX/a.out" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoGrafos.dir/Adjacente.cpp.o" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoGrafos.dir/Adjacente.cpp.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoGrafos.dir/Grafo.cpp.o" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoGrafos.dir/Grafo.cpp.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoGrafos.dir/Vertice.cpp.o" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoGrafos.dir/Vertice.cpp.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/TrabalhoGrafos" afterPath="$PROJECT_DIR$/cmake-build-debug/TrabalhoGrafos" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Grafo.cpp" afterPath="$PROJECT_DIR$/Grafo.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main.cpp" afterPath="$PROJECT_DIR$/Main.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Vertice.cpp" afterPath="$PROJECT_DIR$/Vertice.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/input.txt" afterPath="$PROJECT_DIR$/input.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.6.2/CMakeCCompiler.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.6.2/CMakeCCompiler.cmake" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.6.2/CMakeCXXCompiler.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.6.2/CMakeCXXCompiler.cmake" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.6.2/CMakeSystem.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.6.2/CMakeSystem.cmake" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoGrafos.dir/CXX.includecache" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoGrafos.dir/CXX.includecache" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoGrafos.dir/DependInfo.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoGrafos.dir/DependInfo.cmake" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoGrafos.dir/build.make" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoGrafos.dir/build.make" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoGrafos.dir/depend.internal" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoGrafos.dir/depend.internal" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/TrabalhoGrafos.cbp" afterPath="$PROJECT_DIR$/cmake-build-debug/TrabalhoGrafos.cbp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output.txt" afterPath="$PROJECT_DIR$/output.txt" />
     </list>
     <ignored path="TrabalhoGrafos.iws" />
@@ -53,9 +65,11 @@
       <file leaf-file-name="Grafo.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Grafo.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1295">
-              <caret line="81" column="0" lean-forward="false" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="1018">
+              <caret line="68" column="17" lean-forward="false" selection-start-line="68" selection-start-column="17" selection-end-line="68" selection-end-column="17" />
+              <folding>
+                <element signature="e#138#155#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -63,8 +77,80 @@
       <file leaf-file-name="Grafo.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Grafo.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="106">
-              <caret line="385" column="4" lean-forward="true" selection-start-line="385" selection-start-column="4" selection-end-line="385" selection-end-column="4" />
+            <state relative-caret-position="15">
+              <caret line="374" column="12" lean-forward="false" selection-start-line="374" selection-start-column="12" selection-end-line="374" selection-end-column="12" />
+              <folding>
+                <element signature="e#0#2#0" expanded="false" />
+                <element signature="e#84#890#0" expanded="false" />
+                <element signature="e#892#911#0" expanded="false" />
+                <element signature="e#913#1086#0" expanded="false" />
+                <element signature="e#913#1185#0" expanded="false" />
+                <element signature="e#1187#1226#0" expanded="false" />
+                <element signature="e#1187#1432#0" expanded="false" />
+                <element signature="e#1434#1740#0" expanded="false" />
+                <element signature="e#1434#2044#0" expanded="false" />
+                <element signature="e#2046#2141#0" expanded="false" />
+                <element signature="e#2046#2514#0" expanded="false" />
+                <element signature="e#2516#2705#0" expanded="false" />
+                <element signature="e#2516#3757#0" expanded="false" />
+                <element signature="e#3759#3872#0" expanded="false" />
+                <element signature="e#3759#4453#0" expanded="false" />
+                <element signature="e#4455#4552#0" expanded="false" />
+                <element signature="e#4455#5057#0" expanded="false" />
+                <element signature="e#5059#5140#0" expanded="false" />
+                <element signature="e#5059#5656#0" expanded="false" />
+                <element signature="e#5658#5784#0" expanded="false" />
+                <element signature="e#5658#5947#0" expanded="false" />
+                <element signature="e#5949#6095#0" expanded="false" />
+                <element signature="e#5949#6420#0" expanded="false" />
+                <element signature="e#6422#6501#0" expanded="false" />
+                <element signature="e#6422#6697#0" expanded="false" />
+                <element signature="e#6700#7927#0" expanded="false" />
+                <element signature="e#7930#8316#0" expanded="false" />
+                <element signature="e#8319#9378#0" expanded="false" />
+                <element signature="e#9381#10189#0" expanded="false" />
+                <element signature="e#10192#10774#0" expanded="false" />
+                <element signature="e#10777#11466#0" expanded="false" />
+                <element signature="e#10873#11464#0" expanded="false" />
+                <element signature="e#11524#11669#0" expanded="false" />
+                <element signature="e#11524#11767#0" expanded="false" />
+                <element signature="e#11769#11997#0" expanded="false" />
+                <element signature="e#11769#12603#0" expanded="false" />
+                <element signature="e#12605#12696#0" expanded="false" />
+                <element signature="e#12605#13187#0" expanded="false" />
+                <element signature="e#13189#13280#0" expanded="false" />
+                <element signature="e#13189#13351#0" expanded="false" />
+                <element signature="e#13353#13414#0" expanded="false" />
+                <element signature="e#13416#13584#0" expanded="false" />
+                <element signature="e#13416#13741#0" expanded="false" />
+                <element signature="e#13743#13800#0" expanded="false" />
+                <element signature="e#13743#13863#0" expanded="false" />
+                <element signature="e#13865#13958#0" expanded="false" />
+                <element signature="e#13960#14272#0" expanded="false" />
+                <element signature="e#14274#14357#0" expanded="false" />
+                <element signature="e#14359#14429#0" expanded="false" />
+                <element signature="e#14359#14497#0" expanded="false" />
+                <element signature="e#14499#14645#0" expanded="false" />
+                <element signature="e#14499#15707#0" expanded="false" />
+                <element signature="e#15709#16206#0" expanded="false" />
+                <element signature="e#16208#16392#0" expanded="false" />
+                <element signature="e#16208#16491#0" expanded="false" />
+                <element signature="e#16493#16550#0" expanded="false" />
+                <element signature="e#16493#17232#0" expanded="false" />
+                <element signature="e#17234#17918#0" expanded="false" />
+                <element signature="e#17920#17974#0" expanded="false" />
+                <element signature="e#17976#18067#0" expanded="false" />
+                <element signature="e#17976#18439#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Coloracao.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Coloracao.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="15" column="13" lean-forward="false" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -73,8 +159,8 @@
       <file leaf-file-name="Vertice.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Vertice.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="11" column="62" lean-forward="true" selection-start-line="11" selection-start-column="62" selection-end-line="11" selection-end-column="62" />
+            <state relative-caret-position="15">
+              <caret line="11" column="62" lean-forward="false" selection-start-line="11" selection-start-column="62" selection-end-line="11" selection-end-column="62" />
               <folding />
             </state>
           </provider>
@@ -83,8 +169,8 @@
       <file leaf-file-name="Main.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="386">
-              <caret line="665" column="41" lean-forward="false" selection-start-line="665" selection-start-column="41" selection-end-line="665" selection-end-column="41" />
+            <state relative-caret-position="300">
+              <caret line="1324" column="25" lean-forward="true" selection-start-line="1324" selection-start-column="25" selection-end-line="1324" selection-end-column="25" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -95,7 +181,7 @@
       <file leaf-file-name="input.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/input.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2264364">
+            <state relative-caret-position="322">
               <caret line="126083" column="0" lean-forward="false" selection-start-line="126083" selection-start-column="0" selection-end-line="126083" selection-end-column="0" />
               <folding />
             </state>
@@ -107,6 +193,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>guloso</find>
+      <find>multiset</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -133,9 +220,9 @@
         <option value="$PROJECT_DIR$/Vertice.h" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/Grafo.h" />
-        <option value="$PROJECT_DIR$/Grafo.cpp" />
         <option value="$PROJECT_DIR$/input.txt" />
         <option value="$PROJECT_DIR$/Vertice.cpp" />
+        <option value="$PROJECT_DIR$/Grafo.cpp" />
         <option value="$PROJECT_DIR$/Main.cpp" />
       </list>
     </option>
@@ -148,9 +235,9 @@
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds">
-    <option name="y" value="32" />
+    <option name="y" value="30" />
     <option name="width" value="1366" />
-    <option name="height" value="736" />
+    <option name="height" value="738" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -204,9 +291,8 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="Errors" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.notifications" />
     <property name="last_opened_file_path" value="$USER_HOME$/Downloads/scantailor-master" />
-    <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="full.screen.before.presentation.mode" value="false" />
     <property name="js-jscs-nodeInterpreter" value="/usr/bin/node" />
     <property name="nodejs_interpreter_path" value="/usr/bin/node" />
@@ -471,6 +557,10 @@
       <workItem from="1480605957890" duration="148000" />
       <workItem from="1480606129612" duration="6106000" />
       <workItem from="1480619030535" duration="4793000" />
+      <workItem from="1481290056994" duration="2039000" />
+      <workItem from="1481305108986" duration="1490000" />
+      <workItem from="1481314423466" duration="5935000" />
+      <workItem from="1481323350135" duration="8307000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;TG 2.0 Beta&#10;Iniciada refatoração para tabela hash&quot;">
       <created>1477061235496</created>
@@ -518,29 +608,38 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="222656000" />
+    <option name="totallyTimeSpent" value="240427000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="32" width="1366" height="736" extended-state="6" />
+    <frame x="0" y="30" width="1366" height="738" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13543192" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3127962" sideWeight="0.4670571" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3109375" sideWeight="0.4670571" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32786885" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4084084" sideWeight="0.5329429" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32882884" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.90679306" sideWeight="0.4670571" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18887262" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.0703125" sideWeight="0.4670571" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18887262" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32786885" sideWeight="0.49733028" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44865718" sideWeight="0.4956076" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4484375" sideWeight="0.4956076" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283582" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.328125" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -575,13 +674,17 @@
           <line>332</line>
           <option name="timeStamp" value="95" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/Main.cpp</url>
+          <line>487</line>
+          <option name="timeStamp" value="109" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="109" />
+      <option name="time" value="110" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/README.md" />
     <entry file="file://$PROJECT_DIR$/Adjacente.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
@@ -764,13 +867,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Coloracao.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="15" column="13" lean-forward="false" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/include/c++/6.2.1/bits/stl_list.h" />
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider editor-type-id="text-editor">
@@ -800,55 +896,143 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/include/c++/6.2.1/bits/list.tcc">
+    <entry file="file:///usr/include/c++/6.2.1/bits/list.tcc" />
+    <entry file="file://$PROJECT_DIR$/Coloracao.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="106">
-          <caret line="72" column="0" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+        <state relative-caret-position="225">
+          <caret line="15" column="13" lean-forward="false" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/input.txt">
+    <entry file="file:///usr/include/c++/5/bits/random.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2264364">
-          <caret line="126083" column="0" lean-forward="false" selection-start-line="126083" selection-start-column="0" selection-end-line="126083" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Grafo.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1295">
-          <caret line="81" column="0" lean-forward="false" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Grafo.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="106">
-          <caret line="385" column="4" lean-forward="true" selection-start-line="385" selection-start-column="4" selection-end-line="385" selection-end-column="4" />
+        <state relative-caret-position="15">
+          <caret line="5076" column="0" lean-forward="true" selection-start-line="5076" selection-start-column="0" selection-end-line="5076" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Vertice.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="11" column="62" lean-forward="true" selection-start-line="11" selection-start-column="62" selection-end-line="11" selection-end-column="62" />
+        <state relative-caret-position="15">
+          <caret line="11" column="62" lean-forward="false" selection-start-line="11" selection-start-column="62" selection-end-line="11" selection-end-column="62" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/input.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="126083" column="0" lean-forward="false" selection-start-line="126083" selection-start-column="0" selection-end-line="126083" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Grafo.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="374" column="12" lean-forward="false" selection-start-line="374" selection-start-column="12" selection-end-line="374" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#2#0" expanded="false" />
+            <element signature="e#84#890#0" expanded="false" />
+            <element signature="e#892#911#0" expanded="false" />
+            <element signature="e#913#1086#0" expanded="false" />
+            <element signature="e#913#1185#0" expanded="false" />
+            <element signature="e#1187#1226#0" expanded="false" />
+            <element signature="e#1187#1432#0" expanded="false" />
+            <element signature="e#1434#1740#0" expanded="false" />
+            <element signature="e#1434#2044#0" expanded="false" />
+            <element signature="e#2046#2141#0" expanded="false" />
+            <element signature="e#2046#2514#0" expanded="false" />
+            <element signature="e#2516#2705#0" expanded="false" />
+            <element signature="e#2516#3757#0" expanded="false" />
+            <element signature="e#3759#3872#0" expanded="false" />
+            <element signature="e#3759#4453#0" expanded="false" />
+            <element signature="e#4455#4552#0" expanded="false" />
+            <element signature="e#4455#5057#0" expanded="false" />
+            <element signature="e#5059#5140#0" expanded="false" />
+            <element signature="e#5059#5656#0" expanded="false" />
+            <element signature="e#5658#5784#0" expanded="false" />
+            <element signature="e#5658#5947#0" expanded="false" />
+            <element signature="e#5949#6095#0" expanded="false" />
+            <element signature="e#5949#6420#0" expanded="false" />
+            <element signature="e#6422#6501#0" expanded="false" />
+            <element signature="e#6422#6697#0" expanded="false" />
+            <element signature="e#6700#7927#0" expanded="false" />
+            <element signature="e#7930#8316#0" expanded="false" />
+            <element signature="e#8319#9378#0" expanded="false" />
+            <element signature="e#9381#10189#0" expanded="false" />
+            <element signature="e#10192#10774#0" expanded="false" />
+            <element signature="e#10777#11466#0" expanded="false" />
+            <element signature="e#10873#11464#0" expanded="false" />
+            <element signature="e#11524#11669#0" expanded="false" />
+            <element signature="e#11524#11767#0" expanded="false" />
+            <element signature="e#11769#11997#0" expanded="false" />
+            <element signature="e#11769#12603#0" expanded="false" />
+            <element signature="e#12605#12696#0" expanded="false" />
+            <element signature="e#12605#13187#0" expanded="false" />
+            <element signature="e#13189#13280#0" expanded="false" />
+            <element signature="e#13189#13351#0" expanded="false" />
+            <element signature="e#13353#13414#0" expanded="false" />
+            <element signature="e#13416#13584#0" expanded="false" />
+            <element signature="e#13416#13741#0" expanded="false" />
+            <element signature="e#13743#13800#0" expanded="false" />
+            <element signature="e#13743#13863#0" expanded="false" />
+            <element signature="e#13865#13958#0" expanded="false" />
+            <element signature="e#13960#14272#0" expanded="false" />
+            <element signature="e#14274#14357#0" expanded="false" />
+            <element signature="e#14359#14429#0" expanded="false" />
+            <element signature="e#14359#14497#0" expanded="false" />
+            <element signature="e#14499#14645#0" expanded="false" />
+            <element signature="e#14499#15707#0" expanded="false" />
+            <element signature="e#15709#16206#0" expanded="false" />
+            <element signature="e#16208#16392#0" expanded="false" />
+            <element signature="e#16208#16491#0" expanded="false" />
+            <element signature="e#16493#16550#0" expanded="false" />
+            <element signature="e#16493#17232#0" expanded="false" />
+            <element signature="e#17234#17918#0" expanded="false" />
+            <element signature="e#17920#17974#0" expanded="false" />
+            <element signature="e#17976#18067#0" expanded="false" />
+            <element signature="e#17976#18439#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Grafo.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1018">
+          <caret line="68" column="17" lean-forward="false" selection-start-line="68" selection-start-column="17" selection-end-line="68" selection-end-column="17" />
+          <folding>
+            <element signature="e#138#155#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="386">
-          <caret line="665" column="41" lean-forward="false" selection-start-line="665" selection-start-column="41" selection-end-line="665" selection-end-column="41" />
+        <state relative-caret-position="300">
+          <caret line="1324" column="25" lean-forward="true" selection-start-line="1324" selection-start-column="25" selection-end-line="1324" selection-end-column="25" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>

@@ -70,6 +70,8 @@ int auxCVGR(double _alfa, bool imprime);
 
 void coberturaDeVerticesGulosoRandomizado();
 
+void coberturaDeVerticesGraspReativo();
+
 void adicionaVertice();
 
 void adicionaAresta();
@@ -549,7 +551,7 @@ void coberturaDeVerticesGulosoRandomizado(){
     int op, numAlfas=3;
     bool imprime = false;   //verifica se os vértices da menor cobertura serão impressos
     string msg = "";
-    double alfa[numAlfas] = {0.1,0.2,0.3};
+    double alfa[numAlfas] = {0.15,0.25,0.35};
 
     double melhorAlfa;
 
@@ -704,6 +706,9 @@ int auxCVGR(double _alfa, bool imprime) {
             imprimeMensagem(msg);
         }
     }
+
+    // TODO : Retornar somatorio dos pesos
+
 
     return verticesUtilizados.size();
 }
@@ -1295,4 +1300,82 @@ Grafo copiarGrafoArcosInvertidos(Grafo _g) {
     }
 
     return auxG;
+}
+
+void coberturaDeVerticesGraspReativo() {
+    int numAlfas = 10;
+    int alfaAtual;
+    double alfas[numAlfas] = {0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50};
+    int max_interacoes = 100;   //escolhe alfa
+    int bloco_iteracoes = 10;   //num de iteraçoes para atualizar probabilidades
+    double q_i[numAlfas];
+    long soma_i[numAlfas];    //soma dos resultados obtidos com alphai
+    long qtdeUso_i[numAlfas];   //qtde de vezes que cada alfa foi executado
+    long A_i;     //media soma_i/qtdeUso_i
+    long melhorSolucao = HUGE_VAL;  //F(S*)
+    double delta = 1.0; // quanto o melhor resultado influencia  a novas probabilidades
+    double p_i[numAlfas];   //probabilidade de escolher alfai
+    double valorDaSolucaoAtual;
+    int melhorAlfa;
+    int melhorSemente;
+
+    //inicializa
+    for(int i=0; i<numAlfas; i++){
+        soma_i[i] = 0;
+        qtdeUso_i[i] = 0;
+        q_i[i] = 0;
+        p_i[i] = 1/numAlfas;
+    }
+
+    discrete_distribution<int> distribuicao(p_i, p_i+ numAlfas);    //cria variavel de escolher indice aleatorio
+    default_random_engine gerador;  //gerador num aleatorios
+
+    for(int i=0; i<max_interacoes; i++){
+
+
+        //escolhe alfa aleatoriamente atraves da distribuiçao de probabilidades
+        alfaAtual = distribuicao(gerador);
+
+        valorDaSolucaoAtual = auxCVGR(alfaAtual,false);
+        soma_i[alfaAtual] += valorDaSolucaoAtual;   //soma dos resultados obtidos com esse alfa
+        qtdeUso_i[alfaAtual] += 1;  //num execuçao este alfa
+
+        //atualiza valores da melhor soluçao
+        if(valorDaSolucaoAtual < melhorSolucao){
+            melhorSolucao = valorDaSolucaoAtual;
+            melhorAlfa = alfaAtual;
+        }
+
+
+        //Reativo
+
+        //dar opçao para todos alfas rodarem pelo menos x vezes antes de atualizar probabilidades
+        if((i+1) % bloco_iteracoes == 0){
+            double soma_qi = 0;
+            A_i = 0;
+
+            for(int j=0; j<numAlfas; j++){
+                //caso o alfa tenha sido utilizado
+                if(qtdeUso_i[j] > 0){
+                    A_i = soma_i[j] / qtdeUso_i[j]; //media dos resultados para alfa
+                    //p10 qi
+                    q_i[j] = pow(melhorSolucao / A_i, delta);
+                    soma_qi += q_i[j];
+                }
+            }
+
+            double auxNovaDistribuicao[numAlfas];
+            for(int j=0; j < bloco_iteracoes; j++){
+                auxNovaDistribuicao[j] = q_i[j] / soma_qi;
+            }
+
+            //atualiza distribuiçao
+            discrete_distribution<int> novaDistribuicao(auxNovaDistribuicao, auxNovaDistribuicao+numAlfas);
+            distribuicao = novaDistribuicao;
+        }
+
+    }
+
+    return melhorSolucao;
+
 }
