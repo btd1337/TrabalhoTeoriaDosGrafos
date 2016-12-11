@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include "Adjacente.h"
 #include "Grafo.h"
+#include <ctime>
 
 using namespace std;
 
@@ -365,7 +366,7 @@ void chamaFuncaoEscolhida(int opMenu) {
         }
         case 34: {
             cout << "Verificando, por favor aguarde...";
-            //coberturaDeVerticesGulosoRandomizadoReativo();
+            coberturaDeVerticesGraspReativo();
             break;
         }
         case 35: {
@@ -487,7 +488,7 @@ void adicionaVertice() {
 
 void coberturaDeVerticesGuloso() {
     vector<long> verticesUtilizados;
-    string msg="";
+    string msg = "";
     Grafo grafoAux(ordemGrafo,numArestas);
     grafoAux = copiarGrafo(grafo);
     pair<double, int> infoRankeamento; //pesoParaRankeamento, idVertice
@@ -495,6 +496,7 @@ void coberturaDeVerticesGuloso() {
     double pesoParaRankeamento;
     bool coberto = false;   //setar para true quando todas as arestas forem cobertas
     long idVerticeMenorCusto;
+    long somatorioPesos = 0;
 
     while (!coberto) {
         for(int i=0; i< grafoAux.getTamTabHashVertices(); i++) {
@@ -505,7 +507,7 @@ void coberturaDeVerticesGuloso() {
                     rankeamentoDeVertices.insert(infoRankeamento);
                 } else {
                     //Evita q peso 0 seja escolhido
-                    pesoParaRankeamento = 99999;    //verificar int_max do c++
+                    pesoParaRankeamento = INFINITY;    //verificar int_max do c++
                     infoRankeamento = make_pair(pesoParaRankeamento, it->getIdVertice());
                 }
             }
@@ -513,6 +515,7 @@ void coberturaDeVerticesGuloso() {
         idVerticeMenorCusto = rankeamentoDeVertices.begin()->second;
 
         verticesUtilizados.push_back(idVerticeMenorCusto);    //utiliza vértice de menor custo
+        somatorioPesos += grafo.getVertice(idVerticeMenorCusto)->getPeso();
 
         //Remove as arestas que o vértice cobre
         grafoAux.removeVertice(idVerticeMenorCusto);
@@ -532,7 +535,9 @@ void coberturaDeVerticesGuloso() {
             }
         }
     }
-    msg = "\n\nCobertura Mínima: " + to_string(verticesUtilizados.size()) + " vértice(s).\n";
+    msg = "\n\nAlgoritmo Construtivo Guloso\n";
+    msg += "Cobertura de Menor Custo: " + to_string(somatorioPesos) + "\n";
+    msg += "Vertices Utilizados: \n";
     for (int i = 0; i < verticesUtilizados.size(); i++) {
         msg += to_string(verticesUtilizados[i]);
         if (i < verticesUtilizados.size() - 1) {
@@ -589,7 +594,8 @@ void coberturaDeVerticesGulosoRandomizado(){
         imprime = true;
     }
     cout << endl;
-    msg = "\n--- Descrição da Cobertura Mínimal em Custo de Vértices Ponderados ---\n";
+    msg = "\nAlgoritmo Construtivo Guloso Randomizado";
+    msg += "\n--- Descrição da Cobertura Mínimal em Custo de Vértices Ponderados ---\n";
 
     cout << msg << endl;
 
@@ -600,7 +606,7 @@ void coberturaDeVerticesGulosoRandomizado(){
     for(int i=0; i < numAlfas; i++){
         msg = "";   //Reseta a msg
         msg += "Alfa: " + to_string(alfa[i]) + "\n";
-        msg += "Menor Cobertura: " + to_string(minCobertura[i]) + "\n";
+        msg += "Cobertura de Menor Custo: " + to_string(minCobertura[i]) + "\n";
         msg += "Melhor Semente: " + to_string(melhorSementeAlfa[i]) + "\n" ;
         msg += "Vertices utilizados: ";
         cout << msg << endl;
@@ -635,7 +641,7 @@ int auxCVGR(double _alfa, bool imprime) {
     long idVerticeMenorCusto;
     long rangeMax;  //Vértice escolhido deve ser aleatório no intervalo de 0 a RageMax
     int valRandomico;
-    int numVerticesGrauZero;
+    long somatorioPesos = 0;
     string msg = "";
 
     while(!coberto){
@@ -658,7 +664,7 @@ int auxCVGR(double _alfa, bool imprime) {
                     rankeamentoDeVertices.insert(infoRankeamento);
                 } else {
                     //Evita q peso 0 seja escolhido
-                    pesoParaRankeamento = 999999;
+                    pesoParaRankeamento = INFINITY;
                     infoRankeamento = make_pair(pesoParaRankeamento, it->getIdVertice());
                     rankeamentoDeVertices.insert(infoRankeamento);
                 }
@@ -676,6 +682,7 @@ int auxCVGR(double _alfa, bool imprime) {
         //idVerticeMenorCusto = rankeamentoDeVertices.begin()->second;
         idVerticeMenorCusto = itRakeamento->second;
         verticesUtilizados.push_back(idVerticeMenorCusto);    //utiliza vértice de menor custo
+        somatorioPesos += grafo.getVertice(idVerticeMenorCusto)->getPeso();
 
         grafoAux.removeVertice(idVerticeMenorCusto);
 
@@ -707,10 +714,7 @@ int auxCVGR(double _alfa, bool imprime) {
         }
     }
 
-    // TODO : Retornar somatorio dos pesos
-
-
-    return verticesUtilizados.size();
+    return somatorioPesos;
 }
 
 
@@ -1303,8 +1307,7 @@ Grafo copiarGrafoArcosInvertidos(Grafo _g) {
 }
 
 void coberturaDeVerticesGraspReativo() {
-    int numAlfas = 10;
-    int alfaAtual;
+    int numAlfas = 10, indiceAlfaAtual,op;
     double alfas[numAlfas] = {0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50};
     int max_interacoes = 100;   //escolhe alfa
     int bloco_iteracoes = 10;   //num de iteraçoes para atualizar probabilidades
@@ -1312,12 +1315,14 @@ void coberturaDeVerticesGraspReativo() {
     long soma_i[numAlfas];    //soma dos resultados obtidos com alphai
     long qtdeUso_i[numAlfas];   //qtde de vezes que cada alfa foi executado
     long A_i;     //media soma_i/qtdeUso_i
-    long melhorSolucao = HUGE_VAL;  //F(S*)
+    long melhorSolucao = INFINITY;  //F(S*)
     double delta = 1.0; // quanto o melhor resultado influencia  a novas probabilidades
     double p_i[numAlfas];   //probabilidade de escolher alfai
     double valorDaSolucaoAtual;
-    int melhorAlfa;
+    double melhorAlfa;
     int melhorSemente;
+    string msg = "Algoritmo Construtivo Guloso Randomizado Reativo\n";
+    bool imprime = false;
 
     //inicializa
     for(int i=0; i<numAlfas; i++){
@@ -1334,16 +1339,16 @@ void coberturaDeVerticesGraspReativo() {
 
 
         //escolhe alfa aleatoriamente atraves da distribuiçao de probabilidades
-        alfaAtual = distribuicao(gerador);
+        indiceAlfaAtual = distribuicao(gerador);
 
-        valorDaSolucaoAtual = auxCVGR(alfaAtual,false);
-        soma_i[alfaAtual] += valorDaSolucaoAtual;   //soma dos resultados obtidos com esse alfa
-        qtdeUso_i[alfaAtual] += 1;  //num execuçao este alfa
+        valorDaSolucaoAtual = auxCVGR(indiceAlfaAtual,false);
+        soma_i[indiceAlfaAtual] += valorDaSolucaoAtual;   //soma dos resultados obtidos com esse alfa
+        qtdeUso_i[indiceAlfaAtual] += 1;  //num execuçao este alfa
 
         //atualiza valores da melhor soluçao
         if(valorDaSolucaoAtual < melhorSolucao){
             melhorSolucao = valorDaSolucaoAtual;
-            melhorAlfa = alfaAtual;
+            melhorAlfa = alfas[indiceAlfaAtual];
         }
 
 
@@ -1376,6 +1381,34 @@ void coberturaDeVerticesGraspReativo() {
 
     }
 
-    return melhorSolucao;
+    cout << "\nDeseja que os vértices da melhor cobertura sejam exibidos?" << endl;
+    cout << "1- Sim\t 0-Não" << endl;
+    cin >> op;
+    if(op==1){
+        imprime = true;
+    }
+    cout << endl;
+    msg += "--- Descrição da Cobertura Mínimal em Custo de Vértices Ponderados ---\n";
 
+    cout << msg << endl;
+
+    if(imprimirEmArquivo){
+        imprimeMensagem(msg);
+    }
+
+
+    msg = "";   //Reseta a msg
+    msg += "Alfa: " + to_string(melhorAlfa) + "\n";
+    msg += "Cobertura de Menor Custo: " + to_string(melhorSolucao) + "\n";
+    msg += "Vertices utilizados: ";
+    cout << msg << endl;
+
+    if(imprimirEmArquivo){
+        imprimeMensagem(msg);
+    }
+
+    if(imprime){
+        srand(melhorSolucao);
+        auxCVGR(melhorAlfa, true);
+    }
 }
