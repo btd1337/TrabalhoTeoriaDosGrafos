@@ -2,7 +2,6 @@
 #include <fstream>
 #include <algorithm>
 #include <cstdlib>
-#include <stdlib.h>
 #include "Adjacente.h"
 #include "Grafo.h"
 #include <ctime>
@@ -96,18 +95,18 @@ int main(int argc, char **argv) {
     apresentacaoTrabalho();
 
     //Usado 4 para rodar com o Cmake, atualizar para 3 quando for rodar no terminal
-    if (argc == 4) {
-        inputFile.open(argv[2], ios::in);   //Mudar para 1 quando for rodar no terminal
-        outputFile.open(argv[3], ios::out); //Mudar para 2 quando for rodar no terminal
+    if (argc == 3) {
+        inputFile.open(argv[1], ios::in);   //Mudar para 1 quando for rodar no terminal
+        outputFile.open(argv[2], ios::out); //Mudar para 2 quando for rodar no terminal
         //Verificar se arquivo de entrada foi aberto
         if (!inputFile) {
-            cerr << "ERRO: Arquivo " << argv[2] << " não foi encontrado!"
+            cerr << "ERRO: Arquivo " << argv[1] << " não foi encontrado!"
                  << endl; //voltar para 1 quando executar no terminal
             return -1;
         }
         //Verificar se arquivo de saída foi criado
         if (!outputFile) {
-            cerr << "ERRO: Arquivo " << argv[3] << " não pode ser criado!"
+            cerr << "ERRO: Arquivo " << argv[2] << " não pode ser criado!"
                  << endl; //voltar para 2 quando executar no terminal
             return -1;
         }
@@ -1340,15 +1339,15 @@ void coberturaDeVerticesGraspReativo(bool _imprimeVertices) {
     double alfas[numAlfas] = {0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50};
     int max_interacoes = 210;   //escolhe alfa
     int bloco_iteracoes = 15;   //num de iteraçoes para atualizar probabilidades
-    double q_i[numAlfas];
+    float q_i[numAlfas];
     long soma_i[numAlfas];    //soma dos resultados obtidos com alphai
     long qtdeUso_i[numAlfas];   //qtde de vezes que cada alfa foi executado
-    long A_i;     //media soma_i/qtdeUso_i
+    float A_i;     //media soma_i/qtdeUso_i
     long melhorSolucao = INFINITY;  //F(S*)
-    double delta = 1.0; // quanto o melhor resultado influencia  a novas probabilidades
+    float delta = 1.0; // quanto o melhor resultado influencia  a novas probabilidades
     vector<float> p_i;   //probabilidade de escolher alfai
-    double valorDaSolucaoAtual;
-    double melhorAlfa;
+    long valorDaSolucaoAtual;
+    float melhorAlfa;
     string msg = "Algoritmo Construtivo Guloso Randomizado Reativo\n";
     bool imprime = _imprimeVertices;
 
@@ -1357,18 +1356,16 @@ void coberturaDeVerticesGraspReativo(bool _imprimeVertices) {
         soma_i[i] = 0;
         qtdeUso_i[i] = 0;
         q_i[i] = 0;
-        p_i.push_back(1/numAlfas);
+        p_i.push_back(1.0/numAlfas);
     }
     discrete_distribution<> distribuicao (p_i.begin(), p_i.end());   //cria variavel de escolher indice aleatorio
-    default_random_engine gerador;  //gerador num aleatorios
-
+    default_random_engine gerador(time(NULL));  //gerador num aleatorios
     for(int i=0; i<max_interacoes; i++){
 
         //escolhe alfa aleatoriamente atraves da distribuiçao de probabilidades
         indiceAlfaAtual = distribuicao(gerador);
-        cout << "Indice atual: " << indiceAlfaAtual << endl;
         srand(i);
-        valorDaSolucaoAtual = auxCVGR(indiceAlfaAtual,false);
+        valorDaSolucaoAtual = auxCVGR(alfas[indiceAlfaAtual],false);
         soma_i[indiceAlfaAtual] += valorDaSolucaoAtual;   //soma dos resultados obtidos com esse alfa
         qtdeUso_i[indiceAlfaAtual] += 1;  //num execuçao este alfa
 
@@ -1380,10 +1377,8 @@ void coberturaDeVerticesGraspReativo(bool _imprimeVertices) {
 
 
         //Reativo
-
-        //dar opçao para todos alfas rodarem pelo menos x vezes antes de atualizar probabilidades
         if((i+1) % bloco_iteracoes == 0){
-            double soma_qi = 0;
+            float soma_qi = 0;
             A_i = 0;
 
             for(int j=0; j<numAlfas; j++){
@@ -1398,7 +1393,7 @@ void coberturaDeVerticesGraspReativo(bool _imprimeVertices) {
 
             vector<float> auxNovaDistribuicao;
             for(int j=0; j < numAlfas; j++){
-                auxNovaDistribuicao.push_back(q_i[j] / soma_qi);
+                auxNovaDistribuicao.push_back(1.0 * q_i[j] / soma_qi);  //1.0 necessario pra converter
             }
 
             //atualiza distribuiçao

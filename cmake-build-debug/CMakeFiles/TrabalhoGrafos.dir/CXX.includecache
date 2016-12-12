@@ -41,8 +41,6 @@ algorithm
 -
 cstdlib
 -
-stdlib.h
--
 Adjacente.h
 /home/helder/Repositórios/TrabalhoTeoriaDosGrafos/Adjacente.h
 Grafo.h
