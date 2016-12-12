@@ -1344,7 +1344,6 @@ void coberturaDeVerticesGraspReativo(bool _imprimeVertices) {
     long qtdeUso_i[numAlfas];   //qtde de vezes que cada alfa foi executado
     float A_i;     //media soma_i/qtdeUso_i
     long melhorSolucao = INFINITY;  //F(S*)
-    int melhorSemente;
     float delta = 1.0; // quanto o melhor resultado influencia  a novas probabilidades
     vector<float> p_i;   //probabilidade de escolher alfai
     long valorDaSolucaoAtual;
@@ -1374,7 +1373,6 @@ void coberturaDeVerticesGraspReativo(bool _imprimeVertices) {
         if(valorDaSolucaoAtual < melhorSolucao){
             melhorSolucao = valorDaSolucaoAtual;
             melhorAlfa = alfas[indiceAlfaAtual];
-            melhorSemente = i;
         }
 
 
@@ -1426,7 +1424,7 @@ void coberturaDeVerticesGraspReativo(bool _imprimeVertices) {
     }
 
     if(imprime){
-        srand(melhorSemente);
+        srand(melhorSolucao);
         auxCVGR(melhorAlfa, true);
     }
 }
