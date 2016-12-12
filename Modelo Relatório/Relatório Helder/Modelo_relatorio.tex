@@ -1,0 +1,233 @@
+\documentclass[12pt,fleqn]{article}
+%\usepackage {psfig,epsfig} % para incluir figuras em PostScript
+\usepackage{amsfonts,amsthm,amsopn,amssymb,latexsym}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+%\usepackage{geometry}
+\usepackage[latin1]{inputenc}
+\usepackage[intlimits]{amsmath}
+%\usepackage[ruled,vlined]{algorithm2e}
+\usepackage[portuguese,ruled,lined]{algorithm2e}
+\usepackage{algorithmic}
+\usepackage{hyperref} 
+
+%alguns macros
+% \newcommand{\R}{\ensuremath{\mathbb{R}}}
+% \newcommand{\Rn}{{\ensuremath{\mathbb{R}}}^{n}}
+% \newcommand{\Rm}{{\ensuremath{\mathbb{R}}}^{m}}
+% \newcommand{\Rmn}{{\ensuremath{\mathbb{R}}}^{{m}\times{n}}}
+% \newcommand{\contcaption}[1]{\vspace*{-0.6\baselineskip}\begin{center}#1\end{center}\vspace*{-0.6\baselineskip}}
+%=======================================================================
+% Dimensões da página
+\usepackage{a4}                       % tamanho da página
+\setlength{\textwidth}{16.0cm}        % largura do texto
+\setlength{\textheight}{9.0in}        % tamanho do texto (sem head, etc)
+\renewcommand{\baselinestretch}{1.15} % espaçamento entre linhas
+\addtolength{\topmargin}{-1cm}        % espaço entre o head e a margem
+\setlength{\oddsidemargin}{-0.1cm}    % espaço entre o texto e a margem
+       
+% Ser indulgente no preenchimento das linhas
+\sloppy
+ %Renomeando alguns comandos para algoritmos
+ \SetKwInput{Dados}{Dados}
+ \SetKwInput{Resultado}{Resultado}
+ \SetKwFor{Enquanto}{Enquanto}{faca}{fim-enquanto}
+ \SetKwIF{Se}{Senao Se}{Senao}{Se}{Entao}{Senao}{fim-se}
+
+\begin{document}
+
+
+\pagestyle {empty}
+
+% Páginas iniciais
+\include {capa}           % capa ilustrativa
+
+
+
+\pagestyle {empty}
+\abstract{ O Problema da Cobertura de Vértices Ponderado (PCVP) é um problema NP-Difícil com grande interesse prático. Muitos problema reais podem ser relacionados ao PCVP, por exemplo, instalação de equipamentos para monitoramento de vias e posicionamento de replicadores para distribuição de sinais digitais. Este trabalho busca tratar do problema utilizando de 3 abordagens heurísticas: Algoritmo Construtivo Guloso, Algoritmo Construtivo Guloso Randomizado e Algoritmo Construtivo Guloso Randomizado e Reativo. Ao final realizar uma análise dos resultados obtidos com os resultados encontrados na literatura, encontrados na biblioteca BHOSLIB.}
+
+\newpage
+
+%\tableofcontents
+
+
+% Numeração em romanos para páginas iniciais (sumários, listas, etc)
+%\pagenumbering {roman}
+\pagestyle {plain}
+
+
+
+\setcounter{page}{0} \pagenumbering{arabic}
+ 
+\setlength{\parindent}{0in}  %espaco entre paragrafo e margem 
+% Espaçamento entre parágrafos
+\parskip 5pt  
+
+\section{Introdução}
+
+%comando cria itens
+\begin{itemize}
+	\item Dados um grafo G e uma função de ponderação dos vértices de G, o problema de cobertura com vértices ponderados ou capacitados em G consiste em encontrar um subconjunto de vértices de G que constituam uma cobertura de vértices em G e, para todos os vértices da cobertura, a soma de seus pesos seja mínima.
+\end{itemize}
+
+
+
+\section{Metodologia utilizada}
+  \begin{itemize}
+    \item Dado que o problema encontra-se na categoria NP-Difícil, foi necessária a utilização de heurísticas construtivas gulosas para a solução do mesmo. Para aperfeiçoar a abordagem gulosa, foi desenvolvido dois algoritmos derivados: Construtivo Guloso Randomizado e Construtivo Guloso Randomizado Reativo.
+  \end{itemize}
+
+\subsection{Estruturas de dados utilizadas}	Para o desenvolvimento do algoritmo foram utilizadas as seguintes Estruturas de Dados implementadas em C++ 11:
+	\begin{itemize}
+		\item Tabela Hash
+		\item Vector
+		\item List
+		\item MultiSet
+		\item Pair
+	\end{itemize}
+	
+
+\subsection{Abordagens algorítmicas usadas na solução}
+
+\subsubsection{Algoritmo Construtivo Guloso}
+Para a abordagem construtiva gulosa, a heurística ordena em ordem crescente os vértices de acordo com a função critério: Peso do Vértice dividido pelo seu Grau. Após a ordenação, utiliza sempre o vértice de menor custo, até que todas as arestas estejam cobertas.
+
+
+
+\begin{algorithm}[H]
+	\Entrada{uma instância do problema; }
+	\Saida{uma solução sub-ótima;  }
+	\Inicio{
+		\Enquanto{todas arestas não estiverem cobertas}{
+			ordene vértices segundo função critério\;
+			adicione primeiro vértice ao conjunto solução do problema\;
+		}
+		
+	}
+	\caption{Algoritmo Construtivo Guloso}
+\end{algorithm}
+
+\subsubsection{Algoritmo Construtivo Guloso Randomizado}
+
+No algoritmo construtivo guloso randomizado, a heurística ordena em ordem crescente os vértices de acordo com a função critério: Peso do Vértice dividido pelo seu Grau. Após a ordenação, seleciona aleatoriamente um vértice dentro da faixa de menor custo limitada pelo alfa utilizado. Repetindo o processo até que todas as arestas estejam cobertas.
+
+\begin{algorithm}[H]
+	\Entrada{uma instância do problema, um valor de alfa; }
+	\Saida{uma solução sub-ótima;  }
+	\Inicio{
+		\Enquanto{todas arestas não estiverem cobertas}{
+			LC $\leftarrow$ ordene vértices segundo função critério\; 
+			N $\leftarrow$ $\alpha$ * Grau do Grafo\;
+			selecione aleatoriamente um vértice dentro das N primeiras posições de LC
+			adicione o vértice ao conjunto solução do problema\;
+		}
+		
+	}
+	\caption{Algoritmo Construtivo Guloso Randomizado}
+\end{algorithm}
+
+\subsubsection{Algoritmo Construtivo Guloso Randomizado Reativo}
+A abordagem reativa se baseia 
+
+
+\section{Experimentos computacionais}
+	Dados para os experimentos:\;
+	\item Notebook Acer
+	\item Processador: Intel Core I3 de 1.7 GHz
+	\item Memória RAM: 4 Gb 
+	\item Sistema Operacional: Elementary OS Loki 64 bits.
+	\item Compilador: GCC 5.4
+	\item Linguagem: C++ 11
+
+\subsection{Instâncias}
+
+Foram utilizadas as seguintes instâncias, obtidas do site \href{https://turing.cs.hbg.psu.edu/txn131/vertex_cover.html}{turing.cs.hbg.psu.edu}. A literatura disponibiliza resultados apenas para o problema da cobertura de vértices não ponderados.
+
+
+\begin{table}[h]
+	\centering
+	\caption{Instâncias}
+	\label{my-label}
+	\begin{tabular}{lll}
+		Instâncias & Nº de Vértices & Nº de Arestas \\
+		Frb30-15-1 & 450            & 17827         \\
+		Frb30-15-2 & 450            & 17874         \\
+		Frb35-17-1 & 595            & 27856         \\
+		Frb35-17-2 & 595            & 27847         \\
+		Frb40-19-1 & 760            & 41314         \\
+		Frb45-21-1 & 945            & 59186         \\
+		Frb50-23-1 & 1150           & 80072         \\
+		Frb53-24-1 & 1272           & 94227         \\
+		Frb56-25-1 & 1400           & 109676        \\
+		Frb59-26-1 & 1534           & 126555       
+	\end{tabular}
+\end{table}
+
+\subsection{Experimento 1}
+
+No primeiro experimento com as instâncias foi executado teste sobre as instâncias utilizando o Algoritmo Construtivo Guloso e o resultado obtido pode ser observado a seguir:
+
+
+\begin{table}[h]
+	\centering
+	\caption{Resultados: Algoritmo Construtivo Guloso}
+	\label{my-label}
+	\begin{tabular}{llll}
+		Instâncias & Nº de Vértices & Nº de Arestas & Cobertura de Menor Custo \\
+		Frb30-15-1 & 450            & 17827         & 434                      \\
+		Frb30-15-2 & 450            & 17874         & 436                      \\
+		Frb35-17-1 & 595            & 27856         & 581                      \\
+		Frb35-17-2 & 595            & 27847         & 579                      \\
+		Frb40-19-1 & 760            & 41314         & 741                      \\
+		Frb45-21-1 & 945            & 59186         & 925                      \\
+		Frb50-23-1 & 1150           & 80072         & 1127                     \\
+		Frb53-24-1 & 1272           & 94227         & 1249                     \\
+		Frb56-25-1 & 1400           & 109676        & 1372                     \\
+		Frb59-26-1 & 1534           & 126555        & 1507                    
+	\end{tabular}
+\end{table}
+
+
+\subsection{Experimento 2}
+
+Para o segundo experimento as instâncias foram submetidas a testes utilizando o Algoritmo Construtivo Guloso Randomizado, com sementes aleatórias variando entre 1 e 30 e utilizando 3 valores para Alfa (0.1, 0.2 e 0.3). Os resultados podem ser observados na tabela abaixo.
+
+
+\begin{table}[h]
+	\centering
+	\caption{Resultados: Algoritmo Construtivo Guloso Randomizado}
+	\label{my-label}
+	\begin{tabular}{llllll}
+		Instâncias & Nº de Vértices & Nº de Arestas & Cobertura de Menor Custo & Alfa & Semente \\
+		Frb30-15-1 & 450            & 17827         & 432                      & 0.2  & 27      \\
+		Frb30-15-2 & 450            & 17874         & 434                      & 0.1  & 11      \\
+		Frb35-17-1 & 595            & 27856         & 578                      & 0.1  & 11      \\
+		Frb35-17-2 & 595            & 27847         & 576                      & 0.1  & 22      \\
+		Frb40-19-1 & 760            & 41314         & 739                      & 0.3  & 3       \\
+		Frb45-21-1 & 945            & 59186         & 923                      & 0.1  & 3       \\
+		Frb50-23-1 & 1150           & 80072         & 1126                     & 0.2  & 29      \\
+		Frb53-24-1 & 1272           & 94227         & 1247                     & 0.1  & 5       \\
+		Frb56-25-1 & 1400           & 109676        & 1371                     & 0.1  & 8       \\
+		Frb59-26-1 & 1534           & 126555        & 1504                     & 0.1  & 23     
+	\end{tabular}
+\end{table}
+
+
+\section{Conclusões}
+Pode ser observado que o Algoritmo Construtivo Guloso obtém um resultado de cobertura de menor custo aproximado e satisfatório, porém o Algoritmo Construtivo Guloso Randomizado é capaz de obter soluções melhores, embora este exija mais tempo para ser processado.
+
+%Incluindo referências bibliográficas
+\bibliographystyle{plain} %define o estilo         
+\bibliography{bibliografia} %busca o arquivo
+
+%inserindo anexos
+\appendix
+
+\section{Referências}
+\href{https://pt.wikipedia.org/wiki/Cobertura_de_v%C3%A9rtices_(teoria_dos_grafos)}{Wikipedia-Cobertura de Vértices}, acesso em 24 de Julho de 2016
+	
+\href{https://turing.cs.hbg.psu.edu/txn131/vertex_cover.html}{turing.cs.hbg.psu.edu}, acesso em 26 de Julho de 2016
+
+\end{document} %finaliza o documento
