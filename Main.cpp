@@ -6,6 +6,7 @@
 #include "Adjacente.h"
 #include "Grafo.h"
 #include <ctime>
+#include <random>
 
 using namespace std;
 
@@ -69,9 +70,9 @@ void coberturaDeVerticesGuloso();
 
 int auxCVGR(double _alfa, bool imprime);
 
-void coberturaDeVerticesGulosoRandomizado();
+void coberturaDeVerticesGulosoRandomizado(bool _imprimeVertices);
 
-void coberturaDeVerticesGraspReativo();
+void coberturaDeVerticesGraspReativo(bool _imprimeVertices);
 
 void adicionaVertice();
 
@@ -355,18 +356,52 @@ void chamaFuncaoEscolhida(int opMenu) {
             break;
         }
         case 32: {
+            clock_t inicio = clock();
             cout << "Verificando, por favor aguarde...";
             coberturaDeVerticesGuloso();
+            clock_t fim = clock();
+            double tempoDecorrido = double(fim - inicio) / CLOCKS_PER_SEC;
+            string msg = "Tempo de Execuçao: " + to_string(tempoDecorrido) + " s\n";
+            cout << msg;
+            if(imprimirEmArquivo){
+                imprimeMensagem(msg);
+            }
             break;
         }
         case 33: {
+            int op;
+            cout << "\nDeseja que os vértices da melhor cobertura sejam exibidos?" << endl;
+            cout << "1- Sim\t 0-Não" << endl;
+            cin >> op;
+
+            clock_t inicio = clock();
             cout << "Verificando, por favor aguarde...";
-            coberturaDeVerticesGulosoRandomizado();
+            op == 1 ? coberturaDeVerticesGulosoRandomizado(true) : coberturaDeVerticesGulosoRandomizado(false);
+            clock_t fim = clock();
+            double tempoDecorrido = double(fim - inicio) / CLOCKS_PER_SEC;
+            string msg = "Tempo de Execuçao: " + to_string(tempoDecorrido) + " s\n";
+            cout << msg;
+            if(imprimirEmArquivo){
+                imprimeMensagem(msg);
+            }
             break;
         }
         case 34: {
+            int op;
+            cout << "\nDeseja que os vértices da melhor cobertura sejam exibidos?" << endl;
+            cout << "1- Sim\t 0-Não" << endl;
+            cin >> op;
+
+            clock_t inicio = clock();
             cout << "Verificando, por favor aguarde...";
-            coberturaDeVerticesGraspReativo();
+            op == 1 ? coberturaDeVerticesGraspReativo(true) : coberturaDeVerticesGraspReativo(false);
+            clock_t fim = clock();
+            double tempoDecorrido = double(fim - inicio) / CLOCKS_PER_SEC;
+            string msg = "Tempo de Execuçao: " + to_string(tempoDecorrido) + " s\n";
+            cout << msg;
+            if(imprimirEmArquivo){
+                imprimeMensagem(msg);
+            }
             break;
         }
         case 35: {
@@ -552,9 +587,9 @@ void coberturaDeVerticesGuloso() {
     }
 }
 
-void coberturaDeVerticesGulosoRandomizado(){
+void coberturaDeVerticesGulosoRandomizado(bool _imprimeVertices) {
     int op, numAlfas=3;
-    bool imprime = false;   //verifica se os vértices da menor cobertura serão impressos
+    bool imprime = _imprimeVertices;   //verifica se os vértices da menor cobertura serão impressos
     string msg = "";
     double alfa[numAlfas] = {0.15,0.25,0.35};
 
@@ -587,12 +622,6 @@ void coberturaDeVerticesGulosoRandomizado(){
         }
     }
 
-    cout << "\nDeseja que os vértices da melhor cobertura sejam exibidos?" << endl;
-    cout << "1- Sim\t 0-Não" << endl;
-    cin >> op;
-    if(op==1){
-        imprime = true;
-    }
     cout << endl;
     msg = "\nAlgoritmo Construtivo Guloso Randomizado";
     msg += "\n--- Descrição da Cobertura Mínimal em Custo de Vértices Ponderados ---\n";
@@ -1306,41 +1335,39 @@ Grafo copiarGrafoArcosInvertidos(Grafo _g) {
     return auxG;
 }
 
-void coberturaDeVerticesGraspReativo() {
+void coberturaDeVerticesGraspReativo(bool _imprimeVertices) {
     int numAlfas = 10, indiceAlfaAtual,op;
     double alfas[numAlfas] = {0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50};
-    int max_interacoes = 100;   //escolhe alfa
-    int bloco_iteracoes = 10;   //num de iteraçoes para atualizar probabilidades
+    int max_interacoes = 210;   //escolhe alfa
+    int bloco_iteracoes = 15;   //num de iteraçoes para atualizar probabilidades
     double q_i[numAlfas];
     long soma_i[numAlfas];    //soma dos resultados obtidos com alphai
     long qtdeUso_i[numAlfas];   //qtde de vezes que cada alfa foi executado
     long A_i;     //media soma_i/qtdeUso_i
     long melhorSolucao = INFINITY;  //F(S*)
     double delta = 1.0; // quanto o melhor resultado influencia  a novas probabilidades
-    double p_i[numAlfas];   //probabilidade de escolher alfai
+    vector<float> p_i;   //probabilidade de escolher alfai
     double valorDaSolucaoAtual;
     double melhorAlfa;
-    int melhorSemente;
     string msg = "Algoritmo Construtivo Guloso Randomizado Reativo\n";
-    bool imprime = false;
+    bool imprime = _imprimeVertices;
 
     //inicializa
     for(int i=0; i<numAlfas; i++){
         soma_i[i] = 0;
         qtdeUso_i[i] = 0;
         q_i[i] = 0;
-        p_i[i] = 1/numAlfas;
+        p_i.push_back(1/numAlfas);
     }
-
-    discrete_distribution<int> distribuicao(p_i, p_i+ numAlfas);    //cria variavel de escolher indice aleatorio
+    discrete_distribution<> distribuicao (p_i.begin(), p_i.end());   //cria variavel de escolher indice aleatorio
     default_random_engine gerador;  //gerador num aleatorios
 
     for(int i=0; i<max_interacoes; i++){
 
-
         //escolhe alfa aleatoriamente atraves da distribuiçao de probabilidades
         indiceAlfaAtual = distribuicao(gerador);
-
+        cout << "Indice atual: " << indiceAlfaAtual << endl;
+        srand(i);
         valorDaSolucaoAtual = auxCVGR(indiceAlfaAtual,false);
         soma_i[indiceAlfaAtual] += valorDaSolucaoAtual;   //soma dos resultados obtidos com esse alfa
         qtdeUso_i[indiceAlfaAtual] += 1;  //num execuçao este alfa
@@ -1369,24 +1396,18 @@ void coberturaDeVerticesGraspReativo() {
                 }
             }
 
-            double auxNovaDistribuicao[numAlfas];
-            for(int j=0; j < bloco_iteracoes; j++){
-                auxNovaDistribuicao[j] = q_i[j] / soma_qi;
+            vector<float> auxNovaDistribuicao;
+            for(int j=0; j < numAlfas; j++){
+                auxNovaDistribuicao.push_back(q_i[j] / soma_qi);
             }
 
             //atualiza distribuiçao
-            discrete_distribution<int> novaDistribuicao(auxNovaDistribuicao, auxNovaDistribuicao+numAlfas);
+            discrete_distribution<> novaDistribuicao(auxNovaDistribuicao.begin(), auxNovaDistribuicao.end());
             distribuicao = novaDistribuicao;
         }
 
     }
 
-    cout << "\nDeseja que os vértices da melhor cobertura sejam exibidos?" << endl;
-    cout << "1- Sim\t 0-Não" << endl;
-    cin >> op;
-    if(op==1){
-        imprime = true;
-    }
     cout << endl;
     msg += "--- Descrição da Cobertura Mínimal em Custo de Vértices Ponderados ---\n";
 
