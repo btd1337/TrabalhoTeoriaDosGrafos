@@ -520,6 +520,10 @@ void adicionaVertice() {
 
 }
 
+/**
+ * Algoritmo construtivo Guloso para a soluçao do problema de Cobertura de Vertices Ponderado
+ * Exibe a soluçao gulosa para o problema
+ */
 void coberturaDeVerticesGuloso() {
     vector<long> verticesUtilizados;
     string msg = "";
@@ -586,6 +590,11 @@ void coberturaDeVerticesGuloso() {
     }
 }
 
+
+/**
+ * Algoritmo Construtivo Guloso Randomizado para a resoluçao do problema da cobertura de vertices
+ * @param _imprimeVertices informa se devera ser exibidos os vertices da melhor soluçao encontrada
+ */
 void coberturaDeVerticesGulosoRandomizado(bool _imprimeVertices) {
     int op, numAlfas=3;
     bool imprime = _imprimeVertices;   //verifica se os vértices da menor cobertura serão impressos
@@ -745,7 +754,9 @@ int auxCVGR(double _alfa, bool imprime) {
     return somatorioPesos;
 }
 
-
+/**
+ * Gera o fechamento transitivo direto de um grafo
+ */
 void fechamentoTransitivoDireto() {
 
     long idVertice;
@@ -772,6 +783,9 @@ void fechamentoTransitivoDireto() {
     } while (op == 1);
 }
 
+/**
+ * Gera o fechamento transitivo indireto de um grafo
+ */
 void verificaFechoIntransitivo() {
     long idVertice;
     int op;
@@ -892,6 +906,10 @@ bool isVerticeArticulacao() {
 }
 */
 
+/**
+ * Verifica se um vertice e de articulaçao
+ * @return valor logica da funçao
+ */
 bool isVerticeArticulacao() {
     string msg;
     long idVertice, numCompConexasInicio, numCompConexasFim;
@@ -926,6 +944,11 @@ bool isVerticeArticulacao() {
 
 }
 
+/**
+ * Cria um grafo
+ * @param _ordemGrafo
+ * @param _numArestas
+ */
 void criarGrafo(long _ordemGrafo, long _numArestas) {
     Grafo grafoAux(_ordemGrafo,_numArestas);   //cria grafo auxiliar
 
@@ -1229,6 +1252,9 @@ void verificaGrafoCompleto() {
     }
 }
 
+/**
+ * Verifica se um grafo eh conexo
+ */
 void verificaConexo() {
     bool conexo;
     string msg;
@@ -1334,6 +1360,10 @@ Grafo copiarGrafoArcosInvertidos(Grafo _g) {
     return auxG;
 }
 
+/**
+ * Heuristica GRASP Reativa para o problema da cobertura de vertices ponderados
+ * @param _imprimeVertices informa se serao impressos os vertices da melhor soluçao
+ */
 void coberturaDeVerticesGraspReativo(bool _imprimeVertices) {
     int numAlfas = 10, indiceAlfaAtual,op;
     double alfas[numAlfas] = {0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50};
