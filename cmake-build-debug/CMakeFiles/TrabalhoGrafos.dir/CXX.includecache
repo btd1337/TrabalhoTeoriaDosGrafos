@@ -17,6 +17,12 @@ Vertice.h
 /home/helder/Repositórios/TrabalhoTeoriaDosGrafos/Coloracao.h
 
 /home/helder/Repositórios/TrabalhoTeoriaDosGrafos/Grafo.cpp
+climits
+-
+queue
+-
+algorithm
+-
 Grafo.h
 /home/helder/Repositórios/TrabalhoTeoriaDosGrafos/Grafo.h
 
@@ -48,6 +54,10 @@ Grafo.h
 ctime
 -
 random
+-
+cfloat
+-
+climits
 -
 
 /home/helder/Repositórios/TrabalhoTeoriaDosGrafos/Vertice.cpp

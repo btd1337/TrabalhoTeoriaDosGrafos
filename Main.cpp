@@ -6,6 +6,10 @@
 #include "Grafo.h"
 #include <ctime>
 #include <random>
+#include <cfloat>
+#include <climits>
+
+#define INFINITO LONG_MAX
 
 using namespace std;
 
@@ -87,6 +91,12 @@ void mostraIdVerticesAdjacentes();
 
 void mostraVizinhanca();
 
+void realizaBuscaLargura();
+
+void realizaBuscaProfundidade();
+
+void caminhoMinimoDijkstra();
+
 int main(int argc, char **argv) {
 
     int opMenu;
@@ -95,9 +105,9 @@ int main(int argc, char **argv) {
     apresentacaoTrabalho();
 
     //Usado 4 para rodar com o Cmake, atualizar para 3 quando for rodar no terminal
-    if (argc == 3) {
-        inputFile.open(argv[1], ios::in);   //Mudar para 1 quando for rodar no terminal
-        outputFile.open(argv[2], ios::out); //Mudar para 2 quando for rodar no terminal
+    if (argc == 4) {
+        inputFile.open(argv[2], ios::in);   //Mudar para 1 quando for rodar no terminal
+        outputFile.open(argv[3], ios::out); //Mudar para 2 quando for rodar no terminal
         //Verificar se arquivo de entrada foi aberto
         if (!inputFile) {
             cerr << "ERRO: Arquivo " << argv[1] << " não foi encontrado!"
@@ -193,17 +203,17 @@ int exibeMenu() {
     cout << " 7- Verificar se o Grafo é K-Regular" << endl;
     cout << " 8- Verificar se o Grafo é Completo" << endl;
     cout << " 9- Verificar adjacência entre vértices" << endl;
-    cout << "10*- Realizar busca em largura" << endl;
-    cout << "11*- Realizar busca em profundidade" << endl;
+    cout << "10- Realizar busca em largura" << endl;
+    cout << "11- Realizar busca em profundidade" << endl;
     cout << "12- Verificar se o Grafo é conexo" << endl;
     cout << "13- Verificar se vértices estão na mesma componente conexa" << endl;
     cout << "14- Verificar se um dado Vértice é de Articulação" << endl;
     cout << "15- Verificar se uma dada Aresta é Ponte" << endl;
-    cout << "16*- Verificar vizinhança de um vértice" << endl;
+    cout << "16- Verificar vizinhança de um vértice" << endl;
     cout << "17- Fecho Transitivo" << endl;
     cout << "18- Fecho Intransitivo" << endl;
-    cout << "19- Ordenação Topológica do DAG" << endl;
-    cout << "20*- Caminho Mínimo Dijkstra" << endl;
+    cout << "19*- Ordenação Topológica do DAG" << endl;
+    cout << "20- Caminho Mínimo Dijkstra" << endl;
     cout << "21*- Caminho Mínimo Floyd" << endl;
     cout << "22- Verificar o subgrafo induzido por um dado subconjunto de vértices" << endl;
     cout << "23*- Verificar Componentes Conexas" << endl;
@@ -268,11 +278,12 @@ void chamaFuncaoEscolhida(int opMenu) {
             break;
         }
         case 10: {
-            //realizaBuscaLargura();
+            realizaBuscaLargura();
             break;
         }
         case 11: {
-            //realizaBuscaProfundidade();
+            realizaBuscaProfundidade();
+            break;
         }
         case 12: {
             verificaConexo();
@@ -307,7 +318,7 @@ void chamaFuncaoEscolhida(int opMenu) {
             break;
         }
         case 20: {
-            //caminhoMinimoDijkstra();
+            caminhoMinimoDijkstra();
             break;
         }
         case 21: {
@@ -412,7 +423,35 @@ void chamaFuncaoEscolhida(int opMenu) {
     }
 }
 
+
+void realizaBuscaLargura() {
+    long id;
+    string msg;
+    cout << "Id do vertice raiz: ";
+    cin >> id;
+    msg = grafo.buscaLargura(id);
+    cout << msg << endl;
+
+    if(imprimirEmArquivo){
+        imprimeMensagem(msg);
+    }
+}
+
+void realizaBuscaProfundidade() {
+    long id;
+    string msg;
+    cout << "Id do vertice raiz: ";
+    cin >> id;
+    msg = grafo.buscaProfundidade(id);
+    cout << msg << endl;
+
+    if(imprimirEmArquivo){
+        imprimeMensagem(msg);
+    }
+}
+
 void mostraVizinhanca() {
+    string msg;
     long idVertice;
     int op;
     list<long> vizinhancaAberta;
@@ -421,13 +460,19 @@ void mostraVizinhanca() {
         cin >> idVertice;
         vizinhancaAberta = grafo.getVizinhaAberta(idVertice);
 
-        cout << "\nVizinhança Aberta: ";
+        msg = "\nVizinhança Aberta: ";
         for(long it : vizinhancaAberta){
-            cout << it << " " ;
+            msg += to_string(it) + " " ;
         }
-        cout << "\nVizinhança Fechada: " << idVertice << " ";
+        msg += "\nVizinhança Fechada: " + to_string(idVertice) +  " ";
         for(long it : vizinhancaAberta){
-            cout << it << " ";
+            msg += to_string(it) + " " ;
+        }
+
+        cout << msg << endl;
+
+        if(imprimirEmArquivo){
+            imprimeMensagem(msg);
         }
 
         cout << "\n0-Sair\t 1-Verificar Novamente" << endl;
@@ -545,7 +590,7 @@ void coberturaDeVerticesGuloso() {
                     rankeamentoDeVertices.insert(infoRankeamento);
                 } else {
                     //Evita q peso 0 seja escolhido
-                    pesoParaRankeamento = INFINITY;    //verificar int_max do c++
+                    pesoParaRankeamento = DBL_MAX;    //verificar int_max do c++
                     infoRankeamento = make_pair(pesoParaRankeamento, it->getIdVertice());
                 }
             }
@@ -701,7 +746,7 @@ int auxCVGR(double _alfa, bool imprime) {
                     rankeamentoDeVertices.insert(infoRankeamento);
                 } else {
                     //Evita q peso 0 seja escolhido
-                    pesoParaRankeamento = INFINITY;
+                    pesoParaRankeamento = DBL_MAX;
                     infoRankeamento = make_pair(pesoParaRankeamento, it->getIdVertice());
                     rankeamentoDeVertices.insert(infoRankeamento);
                 }
@@ -992,7 +1037,7 @@ void lerAdjacencias(bool isContainPeso) {
             verticeOrigem = stol(sVerticeOrigem);
             verticeDestino = stol(sVerticeDestino);
 
-            grafo.addVerticeAdjacente(verticeOrigem, verticeDestino, 0.0);
+            grafo.addVerticeAdjacente(verticeOrigem, verticeDestino, 1.0);
         }
     } else {
         char cPesoAresta[15];
@@ -1373,7 +1418,7 @@ void coberturaDeVerticesGraspReativo(bool _imprimeVertices) {
     long soma_i[numAlfas];    //soma dos resultados obtidos com alphai
     long qtdeUso_i[numAlfas];   //qtde de vezes que cada alfa foi executado
     float A_i;     //media soma_i/qtdeUso_i
-    long melhorSolucao = INFINITY;  //F(S*)
+    long melhorSolucao = INFINITO;  //F(S*)
     int melhorSemente;
     float delta = 1.0; // quanto o melhor resultado influencia  a novas probabilidades
     vector<float> p_i;   //probabilidade de escolher alfai
@@ -1458,5 +1503,27 @@ void coberturaDeVerticesGraspReativo(bool _imprimeVertices) {
     if(imprime){
         srand(melhorSemente);
         auxCVGR(melhorAlfa, true);
+    }
+}
+
+void caminhoMinimoDijkstra() {
+    long origem, destino,dist;
+    string msg = "Caminho Minimo Dijstra:\n";
+    cout << "Vertice Origem: ";
+    cin >> origem;
+    cout << "Vertice Destino: ";
+    cin >> destino;
+    msg += to_string(origem) + " -> " + to_string(destino) + ": ";
+    dist = grafo.caminhoMinimoDijkstra(origem,destino);
+    if(dist == INFINITO){
+        msg += "INFINITO\n";
+    }else{
+        msg += to_string(dist) + "\n";
+    }
+
+    cout << msg << endl;
+
+    if(imprimirEmArquivo){
+        imprimeMensagem(msg);
     }
 }

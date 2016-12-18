@@ -2,7 +2,12 @@
 // Created by helder on 27/04/16.
 //
 
+#include <climits>
+#include <queue>
+#include <algorithm>
 #include "Grafo.h"
+
+#define INFINITO LONG_MAX
 
 
 using namespace std;
@@ -133,37 +138,27 @@ long Grafo::addVerticeAdjacente(long _verticeOrigem, long _verticeDestino, float
 }
 
 /**
- * Método auxiliar ao método isConexo.
- * @param _vertice: id do vértice onde vai ser feita a verificação
- */
-void Grafo::auxIsConexo(long _vertice){
-    //Seta vértice atual como visitado
-    getVertice(_vertice)->setCorVisita(Coloracao::AZUL);
-
-    list<Adjacente> *verticesAdjacentes = getVertice(_vertice)->getVerticesAdjacentes();
-
-    for(int i=0; i<tamTabHashAdjacentes; i++){
-        for (auto it = verticesAdjacentes[i].begin(); it != verticesAdjacentes[i].end() ; it++) {
-            //verifica se o vértice ainda não foi corVisita
-            if(getVertice(it->getIdVertice())->getColoracao() == Coloracao::SEMCOR);
-            auxIsConexo(it->getIdVertice());
-        }
-    }
-
-}
-
-/**
  * Verifica se o grafo é conexo
  * @return valor lógico que informa se é o grafo é conexo
  */
 bool Grafo::isConexo(){
-    //função marca inicialmente os vértices de bco e finaliza pintando de pto
-    //-1 -> id que não existe, pra não parar a função
-    bool aux = verificaVerticesComponentesConexa(0,-1);
+
+    long idPrimeiroVertice=-1;
+    //função marca inicialmente todos os vertices de branco
 
     for(int i=0; i<tamTabHashVertices ;i++){
         for(auto it = vertices[i].begin(); it != vertices[i].end(); it++){
-            if(it->getColoracao() == Coloracao::BRANCO){    //branco = vértice não visitado
+            it->setCor(Coloracao::BRANCO);
+            if(idPrimeiroVertice == -1){
+                idPrimeiroVertice = it->getIdVertice(); //evita passar um valor padrao que pode nao existir no grafo
+            }
+        }
+    }
+    buscaProfundidade(idPrimeiroVertice);
+
+    for(int i=0; i<tamTabHashVertices; i++){
+        for(auto it = vertices[i].begin(); it != vertices[i].end(); it++){
+            if(it->getColoracao() == Coloracao::BRANCO){
                 return false;
             }
         }
@@ -316,7 +311,7 @@ void Grafo::auxFechoTransitivo(long _idVertice, set<int> *percorridos) {
     //Percorre apenas se o vértice já não tiver sido verificado
     percorridos->insert(_idVertice); //insere à lista de vértices percorridos
     auto verticeAtual = getVertice(_idVertice); //define como visitado
-    verticeAtual->setCorVisita(Coloracao::CINZA); //define como visitado
+    verticeAtual->setCor(Coloracao::CINZA); //define como visitado
 
     for(int i=0; i<tamTabHashAdjacentes; i++){
         for(auto it = adjVerticeAtual[i].begin(); it != adjVerticeAtual[i].end(); it++){
@@ -326,7 +321,7 @@ void Grafo::auxFechoTransitivo(long _idVertice, set<int> *percorridos) {
         }
     }
 
-    verticeAtual->setCorVisita(Coloracao::PRETO);
+    verticeAtual->setCor(Coloracao::PRETO);
 }
 
 
@@ -337,7 +332,7 @@ string Grafo::fechoTransitivo(long _idVertice) {
     //Seta todos como não-visitados
     for(int i=0; i<tamTabHashVertices;i++){
         for(auto it = vertices[i].begin(); it != vertices[i].end(); it++) {
-            it->setCorVisita(Coloracao::BRANCO);
+            it->setCor(Coloracao::BRANCO);
         }
     }
 
@@ -358,7 +353,7 @@ void Grafo::auxFechoIntransitivo(Grafo *grafoAux, long _idVertice, set<int> *per
 
     percorridos->insert(_idVertice); //insere à lista de vértices percorridos
 
-    grafoAux->getVertice(_idVertice)->setCorVisita(Coloracao::AZUL); //define como visitado
+    grafoAux->getVertice(_idVertice)->setCor(Coloracao::AZUL); //define como visitado
 
     for(Adjacente it : grafoAux->getVertice(_idVertice)->getVerticesAdjacentes()){
 
@@ -499,7 +494,7 @@ long Grafo::getTamTabHashAdj() {
 
 bool Grafo::auxVVCC(list<Vertice>::iterator _vertice1, long _idVertice2) {
     list<Vertice>::iterator adjAtual;
-    _vertice1->setCorVisita(Coloracao::CINZA);
+    _vertice1->setCor(Coloracao::CINZA);
     auto verticesAdj = _vertice1->getVerticesAdjacentes();
     long idVerticeAtual;
 
@@ -519,7 +514,7 @@ bool Grafo::auxVVCC(list<Vertice>::iterator _vertice1, long _idVertice2) {
         }
     }
 
-    _vertice1->setCorVisita(Coloracao::PRETO);
+    _vertice1->setCor(Coloracao::PRETO);
     return false;   //Verificar este retorno;
 }
 
@@ -530,7 +525,7 @@ bool Grafo::verificaVerticesComponentesConexa(long _idVertice1, long _idVertice2
     //Inicializa todos os vértices com cor branca
     for(int i=0; i<tamTabHashVertices; i++){
         for(auto it=vertices[i].begin(); it!= vertices[i].end(); it++){
-            it->setCorVisita(Coloracao::BRANCO);
+            it->setCor(Coloracao::BRANCO);
         }
     }
 
@@ -547,9 +542,6 @@ bool Grafo::verificaVerticesComponentesConexa(long _idVertice1, long _idVertice2
  * @param _idVerticeDestino
  * @return valor lógico
  */
-bool Grafo::buscaProfundidade(long _idVerticeOrigem, long _idVerticeDestino) {
-    return false;
-}
 
 /**
  * @return número de componentes conexas do grafo
@@ -559,7 +551,7 @@ long Grafo::numComponentesConexas() {
     long numComponentesConexas = 0;
     for(int i=0; i<tamTabHashVertices; i++){
         for(auto it=vertices[i].begin(); it != vertices[i].end(); it++){
-            it->setCorVisita(Coloracao::BRANCO);
+            it->setCor(Coloracao::BRANCO);
         }
     }
 
@@ -579,7 +571,7 @@ long Grafo::numComponentesConexas() {
 void Grafo::auxNumComponentesConexas(long _idVertice) {
     auto vertice = getVertice(_idVertice);
     list<Vertice>::iterator adjAtual;
-    vertice->setCorVisita(Coloracao::CINZA);
+    vertice->setCor(Coloracao::CINZA);
 
     for(int j=0; j<tamTabHashAdjacentes; j++){
         for(auto itAux = vertice->getVerticesAdjacentes()[j].begin(); itAux != vertice->getVerticesAdjacentes()[j].end(); itAux ++){
@@ -591,7 +583,7 @@ void Grafo::auxNumComponentesConexas(long _idVertice) {
         }
     }
 
-    vertice->setCorVisita(Coloracao::PRETO);
+    vertice->setCor(Coloracao::PRETO);
 }
 
 long Grafo::getNumArestas() {
@@ -615,10 +607,133 @@ list<long> Grafo::getVizinhaAberta(long _idVertice) {
     return vizinhos;
 }
 
+string Grafo::buscaLargura(long _idVerticeOrigem) {
+    string msg = "Busca em Largura:\n";
+    int nivelAtual = -1;
+    queue<long> visitados;
+    long idVerticeAtual;
+    list<Adjacente> *adjacentes;
+    list<Vertice>::iterator itAdjacenteAtual;
+    //inicializa todos os vertices
+    for(int i=0; i< tamTabHashVertices; i++){
+        for(auto it=vertices[i].begin(); it != vertices[i].end(); it++){
+            it->setCor(Coloracao::BRANCO);
+            it->setDistancia(LONG_MAX);
+            it->setPi(NULL);
+        }
+    }
+    //Inicializa o vertice de origem
+    auto origem = getVertice(_idVerticeOrigem);
+    origem->setCor(Coloracao::CINZA);
+    origem->setDistancia(0);
+    origem->setPi(NULL);
+    visitados.push(_idVerticeOrigem);
+    while(visitados.size()>0){
+        idVerticeAtual = visitados.front();
+        if(getVertice(idVerticeAtual)->getDistancia()>nivelAtual){
+            nivelAtual = getVertice(idVerticeAtual)->getDistancia();
+            msg += "\n" + to_string(getVertice(idVerticeAtual)->getDistancia()) + "-> ";
+        }
+        msg += to_string(idVerticeAtual) + ", ";
+        visitados.pop();
+        adjacentes = getVertice(idVerticeAtual)->getVerticesAdjacentes();
+        for(int i=0; i<tamTabHashAdjacentes; i++){
+            for(auto it = adjacentes[i].begin(); it!= adjacentes[i].end(); it++){
+                //Verifica se o adjacente nao foi visitado
+                itAdjacenteAtual = getVertice(it->getIdVertice());
+                if(itAdjacenteAtual->getColoracao() == Coloracao::BRANCO){
+                    itAdjacenteAtual->setCor(Coloracao::CINZA);
+                    itAdjacenteAtual->setDistancia(getVertice(idVerticeAtual)->getDistancia() + 1);
+                    itAdjacenteAtual->setPi(idVerticeAtual);
+                    visitados.push(itAdjacenteAtual->getIdVertice());
+                }
+            }
+        }
+        getVertice(idVerticeAtual)->setCor(Coloracao::PRETO);
+    }
+    return msg;
+}
 
+string Grafo::buscaProfundidade(long _idVerticeOrigem) {
+    string msg = "Busca em Profundidade: \n";
+    int tempo;
+    auto vertices = getVertices();
 
+    for(int i=0; i<tamTabHashVertices; i++){
+        for(auto it = vertices[i].begin(); it != vertices[i].end(); it++){
+            it->setCor(Coloracao::BRANCO);
+            it->setPi(NULL);
+        }
+    }
+    tempo=0;
+    msg += buscaProfundidadeAux(_idVerticeOrigem, tempo);
+    return msg;
+}
 
+string Grafo::buscaProfundidadeAux(long _idVertice, long _tempo) {
+    long tempo = _tempo+1;
+    auto vtcAtual = getVertice(_idVertice);
+    vtcAtual->setDistancia(tempo);
+    vtcAtual->setCor(Coloracao::CINZA);
+    string msg = to_string(vtcAtual->getIdVertice()) + ", ";
+    auto vtcAdjacentes = vtcAtual->getVerticesAdjacentes();
+    list<Vertice>::iterator adjAtual;
+    for(int i=0; i<tamTabHashAdjacentes;i++){
+        for(auto it = vtcAdjacentes[i].begin(); it != vtcAdjacentes[i].end(); it++){
+            adjAtual = getVertice(it->getIdVertice());
+            if(adjAtual->getColoracao() == Coloracao::BRANCO){
+                adjAtual->setPi(vtcAtual->getIdVertice());
+                msg += buscaProfundidadeAux(adjAtual->getIdVertice(), tempo);
+            }
+        }
+    }
+    vtcAtual->setCor(Coloracao::PRETO);
+    return msg;
+}
 
+long Grafo::caminhoMinimoDijkstra(long _idVerticeOrigem, long _idVerticeDestino) {
+    pair<long,long> aux;
+    vector<pair<long,long>> abertos;
+    vector<long> fechados;
+    list<Vertice>::iterator vtcAtual;
+    long distanciaIntermediaria;
+
+    getVertice(_idVerticeOrigem)->setDistancia(0);
+    getVertice(_idVerticeOrigem)->setAntecessor(_idVerticeOrigem);
+    aux = make_pair(0,_idVerticeOrigem);
+    abertos.push_back(aux);
+
+    //inicializaçao
+    for(int i=0; i<tamTabHashVertices;i++){
+        for(auto it=vertices[i].begin(); it!= vertices[i].end(); it++){
+            if(it->getIdVertice() != _idVerticeOrigem) {
+                it->setDistancia(INFINITO);
+                it->setAntecessor(0);
+                aux = make_pair(INFINITO,it->getIdVertice());
+                abertos.push_back(aux);    //insere os vertices a lista de vertices abertos
+            }
+        }
+    }
+
+    while(fechados.size() != ordemGrafo){
+
+        sort(abertos.begin(), abertos.end());       //ordena por distancia
+        vtcAtual = getVertice(abertos[0].second);   //recebe o de menor
+        abertos.erase(abertos.begin());
+        for(int i=0; i<tamTabHashAdjacentes; i++){
+            for(auto it = vtcAtual->getVerticesAdjacentes()[i].begin(); it!= vtcAtual->getVerticesAdjacentes()[i].end(); it++){
+                //se distancia conhecida for maior que a distancia ate o vertice, passando pelo atual, atualizar.
+                distanciaIntermediaria = vtcAtual->getDistancia() + it->getPesoDaAresta();
+                if(getVertice(it->getIdVertice())->getDistancia() > distanciaIntermediaria) {
+                    getVertice(it->getIdVertice())->setDistancia(distanciaIntermediaria);
+                }
+            }
+        }
+        fechados.push_back(vtcAtual->getIdVertice());
+    }
+
+    return getVertice(_idVerticeDestino)->getDistancia();
+}
 
 
 

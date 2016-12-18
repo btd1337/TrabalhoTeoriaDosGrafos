@@ -9,7 +9,7 @@ Vertice::Vertice(long _tamTabHashAdjacentes, long _idVertice) {
     tamTabHashAdjacentes = _tamTabHashAdjacentes;
     //cria tab hash na media numArestas/numVertices
     verticesAdjacentes = new list<Adjacente>[tamTabHashAdjacentes];
-    corVisita = Coloracao::SEMCOR;  //inicia o vértice sem cor
+    cor = Coloracao::SEMCOR;  //inicia o vértice sem cor
     grau = 0;
     peso = 1;
     disponivel = true;
@@ -77,11 +77,11 @@ string Vertice::listarAdjacentes()
 }
 
 Coloracao Vertice::getColoracao(){
-    return corVisita;
+    return cor;
 }
 
-void Vertice::setCorVisita(Coloracao _corVisita) {
-    corVisita = _corVisita;
+void Vertice::setCor(Coloracao _cor) {
+    cor = _cor;
 }
 
 long Vertice::getGrau() const {
@@ -148,4 +148,20 @@ bool Vertice::getDisponivel() {
 
 void Vertice::setDisponivel(bool _d) {
     disponivel = _d;
+}
+
+long Vertice::getDistancia() const {
+    return distancia;
+}
+
+void Vertice::setDistancia(long _distancia) {
+    distancia = _distancia;
+}
+
+long Vertice::getAntecessor() const {
+    return antecessor;
+}
+
+void Vertice::setAntecessor(long _antecessor) {
+    antecessor = _antecessor;
 }

@@ -38,6 +38,7 @@ private:
     void atualizaIDs(int _idVerticeRemovido);
     long calculaIndiceTabela(long _idVertice);
     void auxNumComponentesConexas(long _idVertice);
+    string buscaProfundidadeAux(long _idVertice, long _tempo);
 public:
     Grafo(long _ordemGrafo, long _numArestas);
     virtual ~Grafo();
@@ -51,8 +52,8 @@ public:
     bool verificaKRegular(long *kRegular);
     bool isCompleto();
     bool verificaAdjacencia(long _idVerticeOrigem, long _idVerticeDestino);
-    bool buscaProfundidade(long _idVerticeOrigem);
-    bool buscaProfundidade(long _idVerticeOrigem, long _idVerticeDestino);
+    string buscaProfundidade(long _idVerticeOrigem);
+    string buscaLargura(long _idVerticeOrigem);
     bool verificaVerticesComponentesConexa(long _idVertice1, long _idVertice2);
     bool auxVVCC(list<Vertice>::iterator _vertice1, long _idVertice2);
     long numComponentesConexas();
@@ -60,7 +61,6 @@ public:
     list<Vertice>::iterator getVertice(long _idVertice);
     void imprimeVertices();
     void setIsGrafoDirecionado(bool _isDirecionado);
-    void auxIsConexo(long _vertice);
     bool isConexo();
     bool isDirecionado();
     long verificaGrauGrafo();
@@ -75,6 +75,7 @@ public:
     list<Vertice>::iterator itUltimaPosicao(long _idVertice);
     long getNumArestas();
     list<long> getVizinhaAberta(long _idVertice);
+    long caminhoMinimoDijkstra(long _idVerticeOrigem, long _idVerticeDestino);
 };
 
 

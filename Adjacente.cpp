@@ -8,12 +8,12 @@ using namespace std;
 
 Adjacente::Adjacente(){
     //Construtor usado pra iterar em laços for each
-    pesoAresta = 0.0;
+    pesoAresta = 1.0;
     idVertice = -1;
 }
 
 Adjacente::Adjacente(long _idVerticeAdjacente) {
-    pesoAresta = 0.0;
+    pesoAresta = 1.0;
     idVertice = _idVerticeAdjacente;
 }
 

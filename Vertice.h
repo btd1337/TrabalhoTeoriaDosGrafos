@@ -24,9 +24,11 @@ private:
     double peso;
     list<Adjacente> *verticesAdjacentes;
     long tamTabHashAdjacentes;
-    Coloracao corVisita;
-    long pi;
+    Coloracao cor;
+    long pi;    //predecessor do vertice
     bool disponivel;
+    long distancia;     //usado nas buscas
+    long antecessor;    //usado nas buscas
 public:
     long getPi() const;
     void mostraIdAdjacentes();
@@ -47,7 +49,7 @@ public:
     bool removeVerticeAdjacente(long _idVertice);
     string listarAdjacentes();
     Coloracao getColoracao();
-    void setCorVisita(Coloracao _corVisita);
+    void setCor(Coloracao _cor);
     double getPeso() const;
     void setPeso(double peso);
     long getGrau() const;
@@ -55,6 +57,13 @@ public:
     bool verificaAdjacencia(long _idAdjacente);
     bool getDisponivel();
     void setDisponivel(bool _d);
+
+    long getDistancia() const;
+    void setDistancia(long _distancia);
+
+    long getAntecessor() const;
+
+    void setAntecessor(long antecessor);
 };
 
 
