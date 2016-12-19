@@ -33,7 +33,7 @@ private:
     long numArestas;
     bool isVerticesVisitados();
     bool auxRemoveAresta(int _idVerticeOrigem, int _idVerticeDestino);
-    void auxFechoTransitivo(long _idVertice, set<int> *percorridos);
+    void auxFechoTransitivo(long _idVertice, set<long> *percorridos);
     void auxFechoIntransitivo(Grafo *grafoAux, long _idVertice, set<int> *percorridos);
     void atualizaIDs(int _idVerticeRemovido);
     long calculaIndiceTabela(long _idVertice);
@@ -76,6 +76,7 @@ public:
     long getNumArestas();
     list<long> getVizinhaAberta(long _idVertice);
     long caminhoMinimoDijkstra(long _idVerticeOrigem, long _idVerticeDestino);
+    long caminhoMinimoFloyd(long _idVerticeOrigem, long _idVerticeDestino);
 };
 
 

@@ -305,7 +305,7 @@ bool Grafo::removeVerticeAdjacente(int _idVerticeOrigem, int _idVerticeDestino) 
 }
 
 
-void Grafo::auxFechoTransitivo(long _idVertice, set<int> *percorridos) {
+void Grafo::auxFechoTransitivo(long _idVertice, set<long> *percorridos) {
 
     auto adjVerticeAtual = getVertice(_idVertice)->getVerticesAdjacentes();
     //Percorre apenas se o vértice já não tiver sido verificado
@@ -327,7 +327,7 @@ void Grafo::auxFechoTransitivo(long _idVertice, set<int> *percorridos) {
 
 string Grafo::fechoTransitivo(long _idVertice) {
     string sFechoTransitivo;
-    set<int> verticesPercorridos;
+    set<long> verticesPercorridos;
 
     //Seta todos como não-visitados
     for(int i=0; i<tamTabHashVertices;i++){
@@ -736,4 +736,54 @@ long Grafo::caminhoMinimoDijkstra(long _idVerticeOrigem, long _idVerticeDestino)
 }
 
 
+/**
+ * Algoritmo de caminho minimo: Floyd (Necessita que os vertices estejam sequenciados de 1 a Ordem do Grafo
+ * @param _idVerticeOrigem
+ * @param _idVerticeDestino
+ * @return distancia minima entre os 2 vertices passados por parametro
+ */
+long Grafo::caminhoMinimoFloyd(long _idVerticeOrigem, long _idVerticeDestino) {
+
+    long distancias[ordemGrafo][ordemGrafo];
+    list<Vertice>::iterator vtcAtual;
+
+    //inicializaçao
+    for(int i=0; i<ordemGrafo; i++){
+        for(int j=0; j<ordemGrafo; j++){
+            if(i==j){
+                distancias[i][j]=0;
+            }
+            else{
+                distancias[i][j]=INFINITO;
+            }
+        }
+    }
+
+    //Preenche as adjacencias
+    for(int i=0; i<tamTabHashVertices; i++){
+        for(auto it = vertices[i].begin(); it!= vertices[i].end(); it++){
+            vtcAtual = getVertice(it->getIdVertice());
+            for(int j=0; j<tamTabHashAdjacentes; j++){
+                for(auto itAdj = vtcAtual->getVerticesAdjacentes()[j].begin(); itAdj != vtcAtual->getVerticesAdjacentes()[j].end(); itAdj++){
+                    distancias[(vtcAtual->getIdVertice())-1][(itAdj->getIdVertice())-1] = itAdj->getPesoDaAresta();
+                }
+            }
+
+        }
+    }
+
+    for(int k=0; k<ordemGrafo; k++){
+        for(int i=0; i<ordemGrafo; i++){
+            for(int j=0; j<ordemGrafo; j++){
+                if(i!=j && i!=k && j!=k && distancias[i][k] < INFINITO && distancias[k][j] < INFINITO) {
+                    if (distancias[i][j] > distancias[i][k] + distancias[k][j]){
+                        distancias[i][j] = distancias[i][k] + distancias[k][j];
+                    }
+                }
+            }
+        }
+    }
+
+    return distancias[_idVerticeOrigem-1][_idVerticeDestino-1];
+}
 

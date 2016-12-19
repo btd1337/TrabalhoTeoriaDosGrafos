@@ -97,6 +97,8 @@ void realizaBuscaProfundidade();
 
 void caminhoMinimoDijkstra();
 
+void caminhoMinimoFloyd();
+
 int main(int argc, char **argv) {
 
     int opMenu;
@@ -214,21 +216,20 @@ int exibeMenu() {
     cout << "18- Fecho Intransitivo" << endl;
     cout << "19*- Ordenação Topológica do DAG" << endl;
     cout << "20- Caminho Mínimo Dijkstra" << endl;
-    cout << "21*- Caminho Mínimo Floyd" << endl;
+    cout << "21- Caminho Mínimo Floyd" << endl;
     cout << "22- Verificar o subgrafo induzido por um dado subconjunto de vértices" << endl;
     cout << "23*- Verificar Componentes Conexas" << endl;
-    cout << "24*- Verificar o grafo gerado pelo produto cartesiano entre o grafo e outro grafo" << endl;
     cout << "24*- Árvore Geradora Mínima - Prim" << endl;
     cout << "25*- Árvore Geradora Mínima - Kruskal" << endl;
     cout << "26*- Verificar Grafo K-Conexo" << endl;
-    cout << "28*- Verificar se grafo é Euleriano" << endl;
-    cout << "29- Verificar o Grau de G" << endl;
-    cout << "30- Listar os adjacentes de um vértice" << endl;
-    cout << "31- Retornar o Grafo Complementar G" << endl;
-    cout << "32- Cobertura de Vértices Guloso" << endl;
-    cout << "33- Cobertura de Vértices Guloso Randomizado" << endl;
-    cout << "34- Cobertura de Vértices Guloso Randomizado Reativo" << endl;
-    cout << "35- Informar adjacentes de um vértice" << endl;
+    cout << "27*- Verificar se grafo é Euleriano" << endl;
+    cout << "28- Verificar o Grau de G" << endl;
+    cout << "29- Listar os adjacentes de um vértice" << endl;
+    cout << "30- Retornar o Grafo Complementar G" << endl;
+    cout << "31- Cobertura de Vértices Guloso" << endl;
+    cout << "32- Cobertura de Vértices Guloso Randomizado" << endl;
+    cout << "33- Cobertura de Vértices Guloso Randomizado Reativo" << endl;
+    cout << "34- Informar adjacentes de um vértice" << endl;
     cout << " 0- Sair" << endl;
     cout << "\nOpção: ";
     cin >> opMenu;
@@ -322,7 +323,7 @@ void chamaFuncaoEscolhida(int opMenu) {
             break;
         }
         case 21: {
-            //caminhoMinimoFloyd();
+            caminhoMinimoFloyd();
             break;
         }
         case 22: {
@@ -334,38 +335,34 @@ void chamaFuncaoEscolhida(int opMenu) {
             break;
         }
         case 24: {
-            //produtoCartesianoGrafos();
-            break;
-        }
-        case 25: {
             //arvoreGeradoraMinimaPrim();
             break;
         }
-        case 26: {
+        case 25: {
             //arvoreGeradoraMinimaKruskal();
             break;
         }
-        case 27: {
+        case 26: {
             //verificaGrafoKConexo();
             break;
         }
-        case 28: {
+        case 27: {
             //verificaGrafoEuleriano();
             break;
         }
-        case 29: {
+        case 28: {
             verificaGrauGrafo();
             break;
         }
-        case 30: {
+        case 29: {
             listaAdjacentesVertice();
             break;
         }
-        case 31: {
+        case 30: {
             geraGrafoComplemetar();
             break;
         }
-        case 32: {
+        case 31: {
             clock_t inicio = clock();
             cout << "Verificando, por favor aguarde...";
             coberturaDeVerticesGuloso();
@@ -378,7 +375,7 @@ void chamaFuncaoEscolhida(int opMenu) {
             }
             break;
         }
-        case 33: {
+        case 32: {
             int op;
             cout << "\nDeseja que os vértices da melhor cobertura sejam exibidos?" << endl;
             cout << "1- Sim\t 0-Não" << endl;
@@ -396,7 +393,7 @@ void chamaFuncaoEscolhida(int opMenu) {
             }
             break;
         }
-        case 34: {
+        case 33: {
             int op;
             cout << "\nDeseja que os vértices da melhor cobertura sejam exibidos?" << endl;
             cout << "1- Sim\t 0-Não" << endl;
@@ -414,7 +411,7 @@ void chamaFuncaoEscolhida(int opMenu) {
             }
             break;
         }
-        case 35: {
+        case 34: {
             mostraIdVerticesAdjacentes();
         }
         default: {
@@ -1515,6 +1512,28 @@ void caminhoMinimoDijkstra() {
     cin >> destino;
     msg += to_string(origem) + " -> " + to_string(destino) + ": ";
     dist = grafo.caminhoMinimoDijkstra(origem,destino);
+    if(dist == INFINITO){
+        msg += "INFINITO\n";
+    }else{
+        msg += to_string(dist) + "\n";
+    }
+
+    cout << msg << endl;
+
+    if(imprimirEmArquivo){
+        imprimeMensagem(msg);
+    }
+}
+
+void caminhoMinimoFloyd() {
+    long origem, destino,dist;
+    string msg = "Caminho Minimo Floyd:\n";
+    cout << "Vertice Origem: ";
+    cin >> origem;
+    cout << "Vertice Destino: ";
+    cin >> destino;
+    msg += to_string(origem) + " -> " + to_string(destino) + ": ";
+    dist = grafo.caminhoMinimoFloyd(origem,destino);
     if(dist == INFINITO){
         msg += "INFINITO\n";
     }else{

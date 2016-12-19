@@ -8,12 +8,9 @@ Matrícula: 201465555A
 Número de Vértices: 6
 Número de Arestas: 5
 
-Caminho Minimo Dijstra:
+Caminho Minimo Floyd:
 1 -> 6: INFINITO
 
-Caminho Minimo Dijstra:
-1 -> 3: 2
-
-Caminho Minimo Dijstra:
+Caminho Minimo Floyd:
 1 -> 4: 2
 
