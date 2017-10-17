@@ -99,6 +99,8 @@ void caminhoMinimoDijkstra();
 
 void caminhoMinimoFloyd();
 
+void arvoreGeradoraMinimaPrim();
+
 int main(int argc, char **argv) {
 
     int opMenu;
@@ -107,9 +109,9 @@ int main(int argc, char **argv) {
     apresentacaoTrabalho();
 
     //Usado 4 para rodar com o Cmake, atualizar para 3 quando for rodar no terminal
-    if (argc == 4) {
-        inputFile.open(argv[2], ios::in);   //Mudar para 1 quando for rodar no terminal
-        outputFile.open(argv[3], ios::out); //Mudar para 2 quando for rodar no terminal
+    if (argc == 3) {
+        inputFile.open(argv[1], ios::in);   //Mudar para 1 quando for rodar no terminal
+        outputFile.open(argv[2], ios::out); //Mudar para 2 quando for rodar no terminal
         //Verificar se arquivo de entrada foi aberto
         if (!inputFile) {
             cerr << "ERRO: Arquivo " << argv[1] << " não foi encontrado!"
@@ -214,15 +216,15 @@ int exibeMenu() {
     cout << "16- Verificar vizinhança de um vértice" << endl;
     cout << "17- Fecho Transitivo" << endl;
     cout << "18- Fecho Intransitivo" << endl;
-    cout << "19*- Ordenação Topológica do DAG" << endl;
+    cout << "19- Ordenação Topológica do DAG" << endl;
     cout << "20- Caminho Mínimo Dijkstra" << endl;
     cout << "21- Caminho Mínimo Floyd" << endl;
     cout << "22- Verificar o subgrafo induzido por um dado subconjunto de vértices" << endl;
-    cout << "23*- Verificar Componentes Conexas" << endl;
-    cout << "24*- Árvore Geradora Mínima - Prim" << endl;
-    cout << "25*- Árvore Geradora Mínima - Kruskal" << endl;
-    cout << "26*- Verificar Grafo K-Conexo" << endl;
-    cout << "27*- Verificar se grafo é Euleriano" << endl;
+    cout << "23- Verificar Componentes Conexas" << endl;
+    cout << "24- Árvore Geradora Mínima - Prim" << endl;
+    cout << "25- Árvore Geradora Mínima - Kruskal" << endl;
+    cout << "26- Verificar Grafo K-Conexo" << endl;
+    cout << "27- Verificar se grafo é Euleriano" << endl;
     cout << "28- Verificar o Grau de G" << endl;
     cout << "29- Listar os adjacentes de um vértice" << endl;
     cout << "30- Retornar o Grafo Complementar G" << endl;
@@ -335,11 +337,11 @@ void chamaFuncaoEscolhida(int opMenu) {
             break;
         }
         case 24: {
-            //arvoreGeradoraMinimaPrim();
+            arvoreGeradoraMinimaPrim();
             break;
         }
         case 25: {
-            //arvoreGeradoraMinimaKruskal();
+            arvoreGeradoraMinimaPrim();
             break;
         }
         case 26: {
@@ -1539,6 +1541,22 @@ void caminhoMinimoFloyd() {
     }else{
         msg += to_string(dist) + "\n";
     }
+
+    cout << msg << endl;
+
+    if(imprimirEmArquivo){
+        imprimeMensagem(msg);
+    }
+}
+
+void arvoreGeradoraMinimaPrim(){
+    long origem;
+    string msg;
+
+    cout << "Vertice Inicial: ";
+    cin >> origem;
+
+    msg = grafo.agmPrim(origem);
 
     cout << msg << endl;
 

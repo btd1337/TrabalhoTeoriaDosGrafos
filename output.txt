@@ -5,12 +5,9 @@ Matrícula: 201465555A
 
 - Análise do Grafo -
 
-Número de Vértices: 6
+Número de Vértices: 5
 Número de Arestas: 5
 
-Caminho Minimo Floyd:
-1 -> 6: INFINITO
-
-Caminho Minimo Floyd:
-1 -> 4: 2
+AGM Prim
+1-2,1-5,2-3,3-4
 

@@ -77,6 +77,7 @@ public:
     list<long> getVizinhaAberta(long _idVertice);
     long caminhoMinimoDijkstra(long _idVerticeOrigem, long _idVerticeDestino);
     long caminhoMinimoFloyd(long _idVerticeOrigem, long _idVerticeDestino);
+    string agmPrim(long _idVerticeInicial);
 };
 
 

@@ -748,8 +748,8 @@ long Grafo::caminhoMinimoFloyd(long _idVerticeOrigem, long _idVerticeDestino) {
     list<Vertice>::iterator vtcAtual;
 
     //inicializaçao
-    for(int i=0; i<ordemGrafo; i++){
-        for(int j=0; j<ordemGrafo; j++){
+    for(int i=0; i < this->ordemGrafo; i++){
+        for(int j=0; j < this->ordemGrafo; j++){
             if(i==j){
                 distancias[i][j]=0;
             }
@@ -760,10 +760,10 @@ long Grafo::caminhoMinimoFloyd(long _idVerticeOrigem, long _idVerticeDestino) {
     }
 
     //Preenche as adjacencias
-    for(int i=0; i<tamTabHashVertices; i++){
-        for(auto it = vertices[i].begin(); it!= vertices[i].end(); it++){
+    for(int i=0; i < this->tamTabHashVertices; i++){
+        for(auto it = this->vertices[i].begin(); it != this->vertices[i].end(); it++){
             vtcAtual = getVertice(it->getIdVertice());
-            for(int j=0; j<tamTabHashAdjacentes; j++){
+            for(int j=0; j < this->tamTabHashAdjacentes; j++){
                 for(auto itAdj = vtcAtual->getVerticesAdjacentes()[j].begin(); itAdj != vtcAtual->getVerticesAdjacentes()[j].end(); itAdj++){
                     distancias[(vtcAtual->getIdVertice())-1][(itAdj->getIdVertice())-1] = itAdj->getPesoDaAresta();
                 }
@@ -787,3 +787,74 @@ long Grafo::caminhoMinimoFloyd(long _idVerticeOrigem, long _idVerticeDestino) {
     return distancias[_idVerticeOrigem-1][_idVerticeDestino-1];
 }
 
+
+/**
+ * Algoritmo de Prim para encontrar a arvore geradora minima
+ * @param _idVerticeInicial
+ * @return agm
+ */
+string Grafo::agmPrim(long _idVerticeInicial) {
+    long idInicio, idFim, menorPeso;
+    long distancias[ordemGrafo][ordemGrafo];
+    vector<long> vtcUtilizados;
+    vector<pair<long,long> > arestasUtilizadas;
+    list<Vertice>::iterator vtcAtual;
+    string msg = "AGM Prim\n";
+
+    //inicializaçao
+    for(int i=0; i < this->ordemGrafo; i++){
+        for(int j=0; j < this->ordemGrafo; j++){
+            if(i==j){
+                distancias[i][j]=0;
+            }
+            else{
+                distancias[i][j]=INFINITO;
+            }
+        }
+    }
+
+    //Preenche as adjacencias
+    for(int i=0; i < this->tamTabHashVertices; i++){
+        for(auto it = this->vertices[i].begin(); it != this->vertices[i].end(); it++){
+            vtcAtual = getVertice(it->getIdVertice());
+            for(int j=0; j < this->tamTabHashAdjacentes; j++){
+                for(auto itAdj = vtcAtual->getVerticesAdjacentes()[j].begin(); itAdj != vtcAtual->getVerticesAdjacentes()[j].end(); itAdj++){
+                    distancias[(vtcAtual->getIdVertice())-1][(itAdj->getIdVertice())-1] = itAdj->getPesoDaAresta();
+                }
+            }
+
+        }
+    }
+
+    vtcUtilizados.push_back(_idVerticeInicial);
+
+    while(vtcUtilizados.size() < ordemGrafo){
+        menorPeso = INFINITO;
+
+        for(long i=0; i<ordemGrafo; i++){
+            for(long j=0; j<ordemGrafo; j++){
+                //verifica somente os vertices que ja estao no conjunto soluçao e so adiciona caso o outro vertice nao esteja
+                if (i!=j && find(vtcUtilizados.begin(), vtcUtilizados.end(), i+1) != vtcUtilizados.end() &&
+                    find(vtcUtilizados.begin(), vtcUtilizados.end(), j+1) == vtcUtilizados.end()) {
+                    if (distancias[i][j] < menorPeso) {
+                        menorPeso = distancias[i][j];
+                        idInicio = i+1;
+                        idFim = j+1;
+                    }
+                }
+            }
+        }
+        arestasUtilizadas.push_back(make_pair(idInicio, idFim));
+        vtcUtilizados.push_back(idFim);
+    }
+
+    for(int i=0; i<ordemGrafo-1; i++){
+        msg += to_string(arestasUtilizadas[i].first) + "-" + to_string(arestasUtilizadas[i].second);
+        if(i<ordemGrafo-2){
+            msg+= ",";
+        }else{
+            msg+= "\n";
+        }
+    }
+    return msg;
+}
