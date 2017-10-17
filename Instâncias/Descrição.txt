@@ -1,8 +1,0 @@
-frb30-15.txt:   450 vertices, MVC =   420
-frb35-17.txt:	595 vertices, MVC =   560
-frb40-19.txt:   760 vertices, MVC =   720
-frb45-21.txt:   945 vertices, MVC =   900
-frb50-23.txt:  1150 vertices, MVC =  1100
-frb53-24.txt:  1272 vertices, MVC =  1219
-frb56-25.txt:  1400 vertices, MVC =  1344
-frb59-26.txt:  1534 vertices, MVC =  1475

@@ -1,1 +1,0 @@
-/usr/bin/c++    -std=c++11 -g   CMakeFiles/TrabalhoGrafos.dir/Main.cpp.o CMakeFiles/TrabalhoGrafos.dir/Adjacente.cpp.o CMakeFiles/TrabalhoGrafos.dir/Grafo.cpp.o CMakeFiles/TrabalhoGrafos.dir/Vertice.cpp.o  -o TrabalhoGrafos 
